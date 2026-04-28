@@ -1,4 +1,5 @@
 import Mathlib
+import Fakeon.Algebra.Pairing
 
 noncomputable section
 
@@ -52,13 +53,14 @@ structure CurvedLSZ where
 
 /-- Axiom: LSZ probes only physical asymptotic modes -/
 axiom curved_lsz_physical (L : CurvedLSZ) (G : M → ℂ) :
-  ∃ v ∈ H_phys, L.apply G = ⟪v, v⟫ₗ
+  ∃ (v : H_asym) (coeffs : Fin L.n → ℝ),
+    v ∈ H_phys ∧ L.apply G = (physical_pairing coeffs coeffs : ℂ)
 
 /-- Flat-space unitarity theorem with fakeons -/
 theorem fakeon_asymp_unitarity (L : CurvedLSZ) (G : M → ℂ) :
   let S := L.apply G
   conj S * S = 1 + 2 * I * (L.apply G).im := by
-  obtain ⟨v, hv, hS⟩ := curved_lsz_physical L G
+  obtain ⟨v, coeffs, hv, hS⟩ := curved_lsz_physical L G
   rw [hS]
   -- Fakeon PV reality ⇒ Im[G] comes only from physical cuts
   -- Standard LSZ algebra on H_phys yields optical theorem

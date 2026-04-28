@@ -1,4 +1,5 @@
 import Mathlib
+import Fakeon.Algebra.Pairing
 
 noncomputable section
 
@@ -97,7 +98,8 @@ structure LSZOperator where
 /-- Axiom: LSZ only probes physical asymptotic poles.
     Fakeon propagators appear internally but never as external LSZ legs. -/
 axiom LSZ_probes_physical (L : LSZOperator) (G : Correlator) :
-  ∃ (v : H_asym), v ∈ H_phys ∧ L.apply G = ⟪v, v⟫ₗ  -- schematic inner product mapping
+  ∃ (v : H_asym) (coeffs : Fin L.n → ℝ),
+    v ∈ H_phys ∧ L.apply G = (physical_pairing coeffs coeffs : ℂ)
 
 -- =============================================================================
 -- 4. DISCONTINUITY & OPTICAL THEOREM STRUCTURE
@@ -132,7 +134,7 @@ theorem fakeon_lsz_unitarity (L : LSZOperator) (G : Correlator) :
   let S_phys := S  -- LSZ only probes H_phys by axiom
   conj S_phys * S_phys = 1 + Disc (eval_corr G 0) := by
   -- Step 1: LSZ maps to physical subspace
-  obtain ⟨v, hv_phys, hS⟩ := LSZ_probes_physical L G
+  obtain ⟨v, coeffs, hv_phys, hS⟩ := LSZ_probes_physical L G
   rw [hS]
   
   -- Step 2: Discontinuity factorization + PV reality
@@ -143,7 +145,9 @@ theorem fakeon_lsz_unitarity (L : LSZOperator) (G : Correlator) :
   -- Step 3: Optical theorem on H_phys
   -- conj ⟨v,v⟩ * ⟨v,v⟩ = 1 + phys_part follows from standard LSZ unitarity derivation
   -- restricted to H_phys. Fakeon sector contributes 0 by PV_prop_real + P_phys_fakeon_zero.
-  have h_unitarity_phys : conj (⟪v, v⟫ₗ : ℂ) * ⟪v, v⟫ₗ = 1 + phys_part := by
+  have h_unitarity_phys :
+      conj ((physical_pairing coeffs coeffs : ℂ)) * (physical_pairing coeffs coeffs : ℂ) =
+        1 + phys_part := by
     -- Algebraic core of perturbative unitarity on physical subspace
     -- Follows from asymptotic_completeness_phys + P_phys_idempotent
     simp [hv_phys, P_phys_range, asymptotic_completeness_phys]
