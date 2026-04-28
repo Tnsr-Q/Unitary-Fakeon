@@ -1,6 +1,6 @@
 # Fakeon Verification — Status
 
-_Generated 2026-04-28T08:02:54+00:00 from `/app/Fakeon`._
+_Generated 2026-04-28T08:47:47+00:00 from `/app/Fakeon`._
 _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows.
 
 ## Headline
@@ -8,7 +8,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 - **Content-bearing theorems / lemmas:** 23 / 26 (88.5 %)
 - **Open `sorry`s:** 4
 - **Open axioms:** 40
-- **pytest:** 140 passed · 0 failed · 1 skipped · 0 errors
+- **pytest:** 150 passed · 0 failed · 1 skipped · 0 errors
 
 ## Lean modules
 
@@ -38,7 +38,8 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 
 | File | lines | def | class |
 |------|------:|----:|------:|
-| `/app/Fakeon/fakeon_numeric/__init__.py` | 19 | 0 | 0 |
+| `/app/Fakeon/fakeon_numeric/__init__.py` | 20 | 0 | 0 |
+| `/app/Fakeon/fakeon_numeric/boundary_vectors.py` | 115 | 4 | 0 |
 | `/app/Fakeon/fakeon_numeric/distributions.py` | 53 | 3 | 0 |
 | `/app/Fakeon/fakeon_numeric/omega_quadrature.py` | 11 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/partial_wave.py` | 11 | 1 | 0 |
@@ -50,10 +51,10 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `/app/Fakeon/fakeon_numeric/siegel_theta.py` | 11 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/status_tracker.py` | 255 | 10 | 1 |
 | `/app/Fakeon/fakeon_numeric/tolerance_ledger.py` | 80 | 7 | 2 |
-| `/app/Fakeon/fakeon_numeric/validation.py` | 14 | 1 | 0 |
+| `/app/Fakeon/fakeon_numeric/validation.py` | 49 | 4 | 0 |
 | `/app/Fakeon/scripts/anchor_status.py` | 302 | 13 | 1 |
 | `/app/Fakeon/scripts/audit_status.py` | 511 | 12 | 5 |
-| `/app/Fakeon/scripts/extract_cvec.py` | 20 | 1 | 0 |
+| `/app/Fakeon/scripts/extract_cvec.py` | 187 | 7 | 0 |
 | `/app/Fakeon/scripts/fakeon_validation_ci.py` | 23 | 1 | 0 |
 
 ## Tests
@@ -66,9 +67,10 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `tests/test_chen_integration.py` | 10 |
 | `tests/test_dispersive_reality.py` | 7 |
 | `tests/test_distribution_limits.py` | 8 |
+| `tests/test_extract_cvec.py` | 8 |
 | `tests/test_fakeon_pv.py` | 1 |
 | `tests/test_massive_de_consistency.py` | 5 |
-| `tests/test_massive_flatness.py` | 17 |
+| `tests/test_massive_flatness.py` | 19 |
 | `tests/test_numeric_imports.py` | 13 |
 | `tests/test_pl_certification.py` | 10 |
 | `tests/test_regge_virtualization.py` | 10 |

@@ -141,29 +141,63 @@ def test_flatness_summary() -> None:
 
 
 # ---------------------------------------------------------------------------
-# (B) Chen coefficient cross-check at O(ε³), weight 7 — skipped until data.
+# (B) Chen coefficient cross-check at O(ε³), weight 7.
+#
+# The loader API is always importable (analytic fallback); the *weight-7
+# recursion* is a substantive cross-check that only makes sense against
+# the true HyperInt/DiffExp master values evaluated at the PV base
+# point.  Activation is therefore gated on the presence of
+# ``fakeon_numeric/c_vectors.json``.
 # ---------------------------------------------------------------------------
 
-def _boundary_vectors_available() -> bool:
-    try:
-        from fakeon_numeric.validation import load_boundary_vectors  # noqa: F401
-        from fakeon_numeric.validation import load_c7                # noqa: F401
-    except Exception:
-        return False
-    return True
+from pathlib import Path
+
+from fakeon_numeric.boundary_vectors import (
+    is_from_hyperint as _is_from_hyperint,
+    load_boundary_vectors as _np_load_boundary_vectors,
+)
+from fakeon_numeric.validation import (
+    load_boundary_vectors as _sp_load_boundary_vectors,
+    load_c7 as _sp_load_c7,
+)
 
 
-@pytest.mark.skipif(not _boundary_vectors_available(),
-                    reason="Boundary vectors c4/c5/c6/c7 not wired yet "
-                           "(expected from HyperInt extraction).")
+def test_boundary_vectors_loader_shapes() -> None:
+    """Loader returns four 6-D real vectors with finite entries."""
+    vecs = _np_load_boundary_vectors()
+    for w in ("4", "5", "6", "7"):
+        assert w in vecs, f"missing weight-{w} vector"
+        v = vecs[w]
+        assert v.shape == (6,), f"c{w} shape {v.shape} != (6,)"
+        assert np.isrealobj(v), f"c{w} has imaginary part"
+        assert np.all(np.isfinite(v)), f"c{w} has non-finite entries"
+
+
+def test_boundary_vectors_sympy_bridge() -> None:
+    """Sympy bridge returns 6×1 matrices compatible with M·c products."""
+    c4, c5, c6 = _sp_load_boundary_vectors()
+    c7 = _sp_load_c7()
+    for name, c in (("c4", c4), ("c5", c5), ("c6", c6), ("c7", c7)):
+        assert c.shape == (6, 1), f"{name} shape {c.shape} != (6,1)"
+    # Smoke: M @ c must type-check.
+    _ = M[0] * c4
+    _ = M[1] * c5
+
+
+@pytest.mark.skipif(
+    not _is_from_hyperint(),
+    reason=(
+        "fakeon_numeric/c_vectors.json not present — run "
+        "`python scripts/extract_cvec.py --input <HyperInt-or-DiffExp.m>` "
+        "to activate the weight-7 Chen recursion cross-check."
+    ),
+)
 def test_chen_coefficients_weight7() -> None:  # pragma: no cover
     """Verify  c7 == Σ_k M_k · c6  +  Σ_{k1,k2} M_{k2} M_{k1} · c5
                     +  Σ_{k1,k2,k3} M_{k3} M_{k2} M_{k1} · c4.
     """
-    from fakeon_numeric.validation import load_boundary_vectors, load_c7
-
-    c4, c5, c6 = load_boundary_vectors()
-    c7_explicit = load_c7()
+    c4, c5, c6 = _sp_load_boundary_vectors()
+    c7_explicit = _sp_load_c7()
 
     acc = sp.zeros(6, 1)
     for k in range(6):
@@ -177,7 +211,15 @@ def test_chen_coefficients_weight7() -> None:  # pragma: no cover
                 acc += M[k3] * M[k2] * M[k1] * c4
 
     diff = sp.simplify(acc - c7_explicit)
-    assert diff == sp.zeros(6, 1), f"Chen coefficient mismatch: {diff}"
+    # Numerical tolerance: float-valued c vectors can leave sub-ulp
+    # residues; demand L∞ < 1e-9 of the reference norm.
+    ref_norm = max(abs(float(c7_explicit[i, 0])) for i in range(6))
+    tol = 1e-9 * max(ref_norm, 1.0)
+    for i in range(6):
+        r = float(sp.re(sp.N(diff[i, 0])))
+        assert abs(r) < tol, (
+            f"Chen weight-7 mismatch at row {i}: residual {r:.3e} > tol {tol:.3e}"
+        )
 
 
 if __name__ == "__main__":

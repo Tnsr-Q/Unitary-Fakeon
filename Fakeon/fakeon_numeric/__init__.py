@@ -13,6 +13,7 @@ __all__ = [
     "status_tracker",
     "regge_solver",
     "pl_certification",
+    "boundary_vectors",
 ]
 
 __version__ = "0.0.1"
