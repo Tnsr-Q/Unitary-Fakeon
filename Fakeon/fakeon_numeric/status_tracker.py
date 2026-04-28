@@ -101,16 +101,20 @@ def _verify_proved(meta: dict[str, Any], repo_root: Path) -> tuple[bool, str]:
 
 
 def _verify_verified(
-    meta: dict[str, Any], ledger: dict[str, Any]
+    meta: dict[str, Any],
+    ledger: dict[str, Any],
+    allow_missing_ledger: bool = False,
 ) -> tuple[bool, str]:
     lk = meta.get("ledger_key")
     if not lk:
-        # Without a ledger key we can't disprove VERIFIED;
-        # accept but flag as un-evidenced.
-        return True, "no ledger_key registered (unverifiable, accepted)"
+        if allow_missing_ledger:
+            return True, "no ledger_key registered (accepted by --allow-missing-ledger)"
+        return False, "VERIFIED row missing ledger_key"
     e = ledger.get(lk)
     if e is None:
-        return True, f"ledger_key '{lk}' absent (accepted; pytest stage may not have populated yet)"
+        if allow_missing_ledger:
+            return True, f"ledger_key '{lk}' absent (accepted by --allow-missing-ledger)"
+        return False, f"ledger_key '{lk}' absent"
     if not e.get("passed", False):
         return False, f"ledger entry '{lk}' is not passing"
     return True, ""
@@ -141,6 +145,7 @@ def verify_component_status(
     meta: dict[str, Any],
     repo_root: Path,
     ledger: dict[str, Any] | None = None,
+    allow_missing_ledger: bool = False,
 ) -> AuditRow:
     status = meta.get("status", "PENDING")
     if status not in VALID_STATUSES:
@@ -157,7 +162,7 @@ def verify_component_status(
     if status == "PROVED":
         ok, note = _verify_proved(meta, repo_root)
     elif status == "VERIFIED":
-        ok, note = _verify_verified(meta, ledger)
+        ok, note = _verify_verified(meta, ledger, allow_missing_ledger=allow_missing_ledger)
     elif status in ("CALCULATED", "DEMONSTRATED"):
         ok, note = _verify_calculated_or_demonstrated(meta, repo_root)
     else:  # PENDING, METADATA
@@ -177,6 +182,7 @@ def export_status_matrix(
     repo_root: Path | None = None,
     registry_path: Path | None = None,
     ledger: dict[str, LedgerEntry] | dict[str, Any] | None = None,
+    allow_missing_ledger: bool = False,
 ) -> dict[str, dict[str, Any]]:
     """Return the per-component verification report."""
     repo_root = repo_root or REPO_ROOT_DEFAULT
@@ -197,7 +203,13 @@ def export_status_matrix(
 
     matrix: dict[str, dict[str, Any]] = {}
     for name, meta in components.items():
-        row = verify_component_status(name, meta, repo_root, ledger_dict)
+        row = verify_component_status(
+            name,
+            meta,
+            repo_root,
+            ledger_dict,
+            allow_missing_ledger=allow_missing_ledger,
+        )
         matrix[name] = {
             "status": row.status,
             "dependencies": row.dependencies,
@@ -230,9 +242,18 @@ def main(argv: list[str] | None = None) -> int:
                    default=REPO_ROOT_DEFAULT / "logs" / "status_matrix.json")
     p.add_argument("--strict", action="store_true",
                    help="Exit non-zero if any component fails verification.")
+    p.add_argument(
+        "--allow-missing-ledger",
+        action="store_true",
+        help="Accept VERIFIED rows with missing ledger keys/entries (local exploratory mode).",
+    )
     args = p.parse_args(argv)
 
-    matrix = export_status_matrix(args.root, args.registry)
+    matrix = export_status_matrix(
+        args.root,
+        args.registry,
+        allow_missing_ledger=args.allow_missing_ledger,
+    )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(matrix, indent=2), encoding="utf-8")
     print(f"wrote {args.out}")
