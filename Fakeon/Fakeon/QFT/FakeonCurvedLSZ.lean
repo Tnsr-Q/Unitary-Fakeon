@@ -92,13 +92,11 @@ theorem fakeon_ds_cutting (ψ : ℂ) :
 - `fakeon_ds_cutting` encodes the cosmological optical theorem; fakeons contribute
   only to Re[ψ_n], preserving dS perturbative consistency.
 - All axioms match standard pAQFT assumptions on globally hyperbolic backgrounds.
--/-
-  Fakeon/QFT/FakeonCurvedLSZ.lean
+- 'Legacy placeholder' Fakeon/QFT/FakeonCurvedLSZ.lean
 
-  Placeholder.  Curved-space extension of the fakeon LSZ reduction.
--/
+- Placeholder.  Curved-space extension of the fakeon LSZ reduction.
 
-namespace Fakeon.QFT.FakeonCurvedLSZ
--- TODO: formalise LSZ in curved backgrounds.
-end Fakeon.QFT.FakeonCurvedLSZ
--/
+- namespace Fakeon.QFT.FakeonCurvedLSZ
+- TODO: formalise LSZ in curved backgrounds.
+- end Fakeon.QFT.FakeonCurvedLSZ
+ 
