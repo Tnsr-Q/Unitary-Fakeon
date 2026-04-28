@@ -19,6 +19,7 @@ MODULES = [
     "fakeon_numeric.siegel_theta",
     "fakeon_numeric.schwarzschild_radial_solver",
     "fakeon_numeric.regime",
+    "fakeon_numeric.distributions",
 ]
 
 

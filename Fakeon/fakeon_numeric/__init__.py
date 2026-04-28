@@ -8,6 +8,7 @@ __all__ = [
     "siegel_theta",
     "schwarzschild_radial_solver",
     "regime",
+    "distributions",
 ]
 
 __version__ = "0.0.1"

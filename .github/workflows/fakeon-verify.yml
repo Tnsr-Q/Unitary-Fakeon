@@ -25,6 +25,8 @@ jobs:
         run: pytest Fakeon/tests/test_dispersive_reality.py -v
       - name: Sokhotski–Plemelj limit check
         run: pytest Fakeon/tests/test_distribution_limits.py -v
+      - name: Chen integration check
+        run: pytest Fakeon/tests/test_chen_integration.py -v
       - name: Wedge vanishing check
         run: pytest Fakeon/tests/test_wedge_vanishing.py -v
       - name: Flatness check

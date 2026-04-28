@@ -9,7 +9,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | File                                   | Status | Purpose                                       |
 |----------------------------------------|--------|-----------------------------------------------|
 | `Algebra/MassiveDE.lean`               | 🟡     | 6×6 matrices A1..A4, c5, PV reality scaffold  |
-| `Algebra/ChenCollapse.lean`            | 🟡     | Chen recursion + `c_n_real` wired via `Distributions` |
+| `Algebra/ChenCollapse.lean`            | 🟡     | Closed induction `chen_series_real`, c_vec via `DispersiveReality` |
 | `Analysis/Distributions.lean`          | 🟡     | `causalProp`, Sokhotski–Plemelj limit, dispersive reality |
 | `Analysis/DispersiveReality.lean`      | 🟡     | `im_eq_zero` from `ρ_GF = 0` (fakeon axiom)   |
 | `Geometry/FlatConnection.lean`         | 🟡     | 2D flat connection, `chen_pv_reality`         |
@@ -60,6 +60,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `siegel_theta.py`                       | ⬜     |
 | `schwarzschild_radial_solver.py`        | ⬜     |
 | `regime.py`                             | ✅ `Regime` enum + `classify(c, α)` |
+| `distributions.py`                      | ✅ `causal_propagator`, `evaluate_c_n`, `check_spectral_density_zero` |
 
 `fakeon_numeric.regime.classify` plays the role of the external
 `src/tolerance/regime_detector.py` referenced in the QFT-Engine spec.
@@ -72,9 +73,10 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `test_massive_flatness.py`             | ✅ 15 pair tests + summary, 1 skip for Chen coefficients |
 | `test_dispersive_reality.py`           | ✅ 7 tests (6 parametrised + axiom guard) |
 | `test_distribution_limits.py`          | ✅ 12 tests (SP convergence, closed-form match, monotone error, algebraic identity) |
+| `test_chen_integration.py`             | ✅ 10 tests (axiom guard, base-case c_n × 5, recursion reality × 4) |
 | `test_wedge_vanishing.py`              | ✅ 5 tests (1D certified, 2D rejected, widths sweep) |
 | `test_fakeon_pv.py`                    | ⬜ placeholder |
-| `test_numeric_imports.py`              | ✅ 8 import smoke tests (now includes `regime`) |
+| `test_numeric_imports.py`              | ✅ 9 import smoke tests (now includes `regime`, `distributions`) |
 
 ## Scripts (`scripts/`)
 
@@ -101,6 +103,11 @@ populated, 🟡 = authoritative content present but proofs pending,
 
 | Symbol            | Needed by                                    |
 |-------------------|----------------------------------------------|
+| `A5, A6`          | `FlatConnection.lean`, `test_massive_flatness.py` |
+| `c0..c4, c6, c7`  | `test_chen_coefficients_weight7`             |
+| real RG solver    | `test_wedge_vanishing.py` (currently synthetic) |
+| tree amplitude    | `g_tree_im_zero` axiom                       |
+-----------------------|
 | `A5, A6`          | `FlatConnection.lean`, `test_massive_flatness.py` |
 | `c0..c4, c6, c7`  | `test_chen_coefficients_weight7`             |
 | real RG solver    | `test_wedge_vanishing.py` (currently synthetic) |
