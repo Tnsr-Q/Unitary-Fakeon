@@ -1,7 +1,11 @@
 import Mathlib
 
+noncomputable section
+
 
 open Complex MeasureTheory Finset BigOperators
+
+namespace Fakeon.QFT.FakeonLSZ
 
 /-!
 # Perturbative LSZ Measure Extension for Fakeon Quantization
@@ -185,4 +189,6 @@ must satisfy to preserve unitarity with fakeons. The axioms match:
 All proofs are kernel-verified conditional on these standard perturbative axioms.
 -/
 
+end Fakeon.QFT.FakeonLSZ
 
+end

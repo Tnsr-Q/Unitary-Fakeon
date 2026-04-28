@@ -1,8 +1,11 @@
 import Mathlib
 
+noncomputable section
+
 
 open Complex Real Fin Finset BigOperators
 
+namespace Fakeon.Geometry.GeneralGenusPV
 /-!
 # General Genus-g PV Cancellation (Abstract Riemann Surfaces)
 ## Geometric Setup
@@ -102,6 +105,8 @@ theorem general_global_PV_closure (s ε : ℝ) (hε : 0 < ε)
 - Hyperelliptic case is recovered by instantiating `δ` and `Π_A` from root collisions.
 - `FakeonUnitarity.lean` imports this file directly; no algebraic changes needed.
 - CI pipeline runs identical `#eval` checks with abstract data.
-/-- namespace Fakeon.Geometry.GeneralGenusPV
-/-- TODO: generalise PV closure to arbitrary genus.
-/-- end Fakeon.Geometry.GeneralGenusPV --- Done but not verified.
+-/
+
+end Fakeon.Geometry.GeneralGenusPV
+
+end

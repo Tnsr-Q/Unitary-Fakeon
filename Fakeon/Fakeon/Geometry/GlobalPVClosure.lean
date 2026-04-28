@@ -1,8 +1,11 @@
 import Mathlib
 
+noncomputable section
+
 
 open Complex Real Fin Finset BigOperators
 
+namespace Fakeon.Geometry.GlobalPVClosure
 /-!
 # Global Geometric PV Closure for Genus-g Fakeon Amplitudes
 ## Geometric & Sp(2g,ℤ) Datum
@@ -133,6 +136,7 @@ Replace the abstract `hyperelliptic_PV_real` assumption with:
 The algebraic unitarity proof then inherits geometric global closure
 across all genus-g sectors, completing the mechanized shield.
 -/
-/-- depricated placeholder namespace Fakeon.Geometry.GlobalPVClosure
-/-- TODO: prove global monodromy closure of the PV projection. UNVERIFIed
-/-- end Fakeon.Geometry.GlobalPVClosure---- DONE BUT Not VERIFIED
+
+end Fakeon.Geometry.GlobalPVClosure
+
+end
