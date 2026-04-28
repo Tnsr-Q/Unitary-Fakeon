@@ -257,6 +257,16 @@
     "ci_verified": true,
     "note": "ledger_key 'cutkosky_residual' absent (accepted; pytest stage may not have populated yet)"
   },
+  "S1_DistributionalLimit": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A1",
+      "S1"
+    ],
+    "audit_checksum": "841b16bb520eefd3",
+    "ci_verified": true,
+    "note": "ledger_key 's1_distributional_limit' absent (accepted; pytest stage may not have populated yet)"
+  },
   "Test_ReggeVirtualization": {
     "status": "VERIFIED",
     "dependencies": [

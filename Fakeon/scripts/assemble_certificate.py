@@ -120,6 +120,30 @@ def _bootstrap_block() -> Dict[str, Any]:
     }
 
 
+def _s1_block() -> Dict[str, Any]:
+    """S.1 distributional-limit telemetry.
+
+    First-class numerical probe of the Sokhotski–Plemelj identity
+    `lim_{η→0⁺} ∫ exp(-s²) · Im[1/(s + iη)] ds = -π`.  A passing probe
+    is a necessary prerequisite for the iε prescription that underpins
+    the whole dispersive-reality programme (S.1).
+    """
+    from fakeon_numeric.cutkosky import sokhotski_plemelj_residual
+
+    probe = sokhotski_plemelj_residual()
+    return {
+        "probe": "gaussian",
+        "target": probe["target"],
+        "eta_ladder": probe["eta_ladder"],
+        "integrals": probe["integrals"],
+        "abs_residuals": probe["abs_residuals"],
+        "best_residual": probe["best_residual"],
+        "best_eta": probe["best_eta"],
+        "monotone": probe["monotone"],
+        "satisfied": probe["satisfied"],
+    }
+
+
 def _boundary_vectors_block() -> Dict[str, Any]:
     from fakeon_numeric.boundary_vectors import (
         is_from_hyperint,
@@ -160,6 +184,7 @@ def build_certificate(
     regge = _regge_block(M2_sq, t_max, n_points)
     pl = _pl_block()
     bootstrap = _bootstrap_block()
+    s1 = _s1_block()
     bv = _boundary_vectors_block()
 
     merkle = {
@@ -177,13 +202,15 @@ def build_certificate(
         "regge": regge,
         "pl": pl,
         "bootstrap_optical": bootstrap,
+        "s1_distributional_limit": s1,
         "boundary_vectors": bv,
         "merkle": merkle,
         "assumptions": assumptions,
         "basis": (
             "Lean formalisation + HyperInt PV boundary vectors + "
             "Chen-series flatness + inelastic dual bootstrap + "
-            "certified PL Hessian spectrum + Merkle-anchored status ledger"
+            "certified PL Hessian spectrum + Sokhotski–Plemelj S.1 probe + "
+            "Merkle-anchored status ledger"
         ),
     }
 
@@ -194,6 +221,7 @@ def build_certificate(
             regge["fakeon_virtualized"]
             and pl["pl_passed"]
             and bootstrap["optical_inequality_satisfied"]
+            and s1["satisfied"]
             and bv["weight7_pv_real"]
         )
         else "PENDING"

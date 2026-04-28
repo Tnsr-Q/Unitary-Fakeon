@@ -118,7 +118,10 @@ jobs:
             python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           c = json.load(open("logs/FakeonCertificate.json"))
-          r, p, b, bv = c["regge"], c["pl"], c["bootstrap_optical"], c["boundary_vectors"]
+          r, p, b, s1, bv = (
+              c["regge"], c["pl"], c["bootstrap_optical"],
+              c["s1_distributional_limit"], c["boundary_vectors"],
+          )
           print("## QÜFT Verification Suite")
           print()
           print("| Component | Status |")
@@ -127,6 +130,7 @@ jobs:
           print(f"| Regge virtualisation | Re α(M²) = {r['Re_alpha_M2']:+.4f}, virtualised = {r['fakeon_virtualized']} |")
           print(f"| PL certification | μ = {p['mu_lb']:.2e}, L = {p['L_ub']:.2e}, κ = {p['kappa']:.2f}, passed = {p['pl_passed']} |")
           print(f"| Bootstrap–optical | margin_min = {b['optical_margin_min']:.3e}, satisfied = {b['optical_inequality_satisfied']} |")
+          print(f"| S.1 distributional limit | best_residual = {s1['best_residual']:.3e} at η = {s1['best_eta']:.0e}, monotone = {s1['monotone']}, satisfied = {s1['satisfied']} |")
           print(f"| Boundary vectors | source = `{bv['source']}`, PV-real = {bv['weight7_pv_real']} |")
           print(f"| Merkle root | `{c['merkle']['merkle_root']}` ({c['merkle']['n_components']} components) |")
           print(f"| Signature | `{c['signature']}` |")

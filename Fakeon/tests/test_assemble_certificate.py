@@ -54,8 +54,8 @@ def test_build_certificate_shape(tmp_path):
     cert = ac.build_certificate(anchor_path=anchor, n_points=32)
 
     for k in ("schema_version", "regge", "pl", "bootstrap_optical",
-              "boundary_vectors", "merkle", "assumptions", "status",
-              "signature", "basis", "generated_at"):
+              "s1_distributional_limit", "boundary_vectors", "merkle",
+              "assumptions", "status", "signature", "basis", "generated_at"):
         assert k in cert, f"missing key: {k}"
 
     assert cert["merkle"]["merkle_root"] == "f" * 64
@@ -65,8 +65,23 @@ def test_build_certificate_shape(tmp_path):
     assert cert["regge"]["fakeon_virtualized"] is True
     assert cert["pl"]["pl_passed"] is True
     assert cert["bootstrap_optical"]["optical_inequality_satisfied"] is True
+    assert cert["s1_distributional_limit"]["satisfied"] is True
     assert cert["boundary_vectors"]["weight7_pv_real"] is True
     assert cert["status"] == "VERIFIED"
+
+
+def test_s1_block_content(tmp_path):
+    """The S.1 certificate block carries the probe's actual numerics."""
+    anchor = _prepare_repo(tmp_path)
+    cert = ac.build_certificate(anchor_path=anchor, n_points=32)
+    s1 = cert["s1_distributional_limit"]
+    import math
+    assert s1["probe"] == "gaussian"
+    assert s1["target"] == pytest.approx(-math.pi)
+    assert len(s1["eta_ladder"]) == len(s1["integrals"]) == len(s1["abs_residuals"])
+    assert s1["best_residual"] == min(s1["abs_residuals"])
+    assert s1["monotone"] is True
+    assert s1["satisfied"] is True
 
 
 def test_signature_is_deterministic_and_covers_payload(tmp_path):

@@ -96,6 +96,28 @@ def test_sokhotski_plemelj_limit(f, f0: float) -> None:
     assert errs[1] <= errs[0] + 1e-3
 
 
+def test_sokhotski_plemelj_probe_registers_ledger() -> None:
+    """The first-class S.1 probe converges and records a ledger entry.
+
+    This is the same probe consumed by ``scripts/assemble_certificate.py``
+    under the ``s1_distributional_limit`` certificate block.
+    """
+    from fakeon_numeric.cutkosky import sokhotski_plemelj_residual
+
+    probe = sokhotski_plemelj_residual()
+    assert probe["satisfied"] is True
+    assert probe["best_residual"] < 1e-2
+    assert probe["monotone"] is True
+    assert probe["target"] == pytest.approx(-math.pi)
+    # Record the best achieved residual so the S1_DistributionalLimit
+    # component carries a VERIFIED tag in the status matrix.
+    update_ledger(
+        "s1_distributional_limit",
+        probe["best_residual"],
+        probe["satisfied"],
+    )
+
+
 # ---------------------------------------------------------------------------
 # 4. Fakeon PV discontinuity: |disc| = O(η) and → 0
 # ---------------------------------------------------------------------------

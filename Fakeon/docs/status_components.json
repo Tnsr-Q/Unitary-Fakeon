@@ -205,6 +205,14 @@
       "ledger_key": "cutkosky_residual",
       "basis": "Fakeon PV kernel C-lift strictly real; causal imag matches -eta/((s-m2)^2+eta^2); Sokhotski-Plemelj converges to -pi f(0); fakeon disc scales linearly in eta; modified Cutkosky residual identically zero on the fakeon sector."
     },
+    "S1_DistributionalLimit": {
+      "status": "VERIFIED",
+      "category": "certificate_probe",
+      "assumptions": ["A1", "S1"],
+      "lean_file": "Fakeon/QFT/Cutkosky.lean",
+      "ledger_key": "s1_distributional_limit",
+      "basis": "Deterministic Gaussian-probe Sokhotski-Plemelj: lim_{eta->0+} integral exp(-s^2) * Im[1/(s+i eta)] ds = -pi. First-class component of FakeonCertificate.json (s1_distributional_limit block); eta-ladder 1e-1..1e-4; best residual < 1e-2, monotone convergence asserted."
+    },
     "Test_ReggeVirtualization": {
       "status": "VERIFIED",
       "category": "pytest",

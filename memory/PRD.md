@@ -32,7 +32,14 @@ ledger and a content-bearing audit trail.
   - `tests/test_assemble_certificate.py` (new, 5 tests): shape, deterministic signature covering the full payload, payload-change ⇒ signature-change, CLI exit code, missing-anchor handling.
 
 - **Pass 14**: Lean proof-patch referee review (4 patches, 0 merged — full analysis in `Fakeon/docs/LEAN_PROOF_REVIEW_2026-04-29.md`).
-- **Pass 15 (this)**: `Cutkosky.lean` scaffold — compilable, content-bearing.
+- **Pass 15**: `Cutkosky.lean` scaffold — compilable, content-bearing.
+- **Pass 16 (this)**: Sokhotski–Plemelj S.1 probe promoted to a first-class certificate component.
+  - `fakeon_numeric/cutkosky.py`: new `sokhotski_plemelj_residual(eta_ladder, …)` — deterministic Gaussian probe over η ∈ {10⁻¹, 10⁻², 10⁻³}, `scipy.integrate.quad` with explicit `points=[0.0]` subdivision hint at the Lorentzian spike; reports `integrals`, `abs_residuals`, `best_residual`, `best_eta`, `monotone`, `satisfied`.
+  - `scripts/assemble_certificate.py`: new `_s1_block()`; the certificate now carries a top-level `s1_distributional_limit` block, the overall `status=VERIFIED` gate additionally requires `s1.satisfied`, and the SHA-256 signature now covers the S.1 numerics.
+  - `tests/test_cutkosky.py`: new `test_sokhotski_plemelj_probe_registers_ledger` updates tolerance ledger key `s1_distributional_limit`.
+  - `tests/test_assemble_certificate.py`: key-presence + S.1 block content tests.
+  - `docs/status_components.json`: new `S1_DistributionalLimit` (VERIFIED · A1/S1 · ledger `s1_distributional_limit`).
+  - `.github/workflows/quft-verify.yml`: step summary renders the S.1 row.
   - Rejected user-proposed `Cutkosky.lean` verbatim (12+ static defects: `Tendsto.limit` non-existent, `ρ_GF^(1)` pseudocode, `S1_dispersive_flow` undefined, `Γ.restrict_to_physical` / `zero_of_disc_zero_real_sector` fabricated, `.DEMONSTRATED` vs. existing `.demonstrated`, free `Γ`/`N` in scope, pointwise `*` on `ℝ → ℂ` without setup, etc.).
   - Authored a **compilable** replacement in the existing tree style: real type signatures, real Mathlib imports, one genuinely provable algebraic lemma `fakeon_pv_im_zero` (closes with `Complex.ofReal_im`), `modified_cutkosky_rule` proven modulo declared axioms, zero new `sorry`s (everything that would be a `sorry` is declared as an explicit `axiom` with a documented promotion path).
   - `fakeon_numeric/cutkosky.py` (new): numeric companion — `fakeon_prop`, `fakeon_prop_complex`, `causal_imag`, `fakeon_disc`, `modified_cutkosky_residual`.  Ledger key `cutkosky_residual`.
@@ -40,10 +47,11 @@ ledger and a content-bearing audit trail.
   - Registered `Lean_Cutkosky` (DEMONSTRATED · A1/A3/S1/S2/S3) and `Test_Cutkosky` (VERIFIED · A1/A3/S1) in `docs/status_components.json`; re-exported via `FakeonQFT.lean`.
 
 ## Verification Status (live, 2026-04-29)
-- pytest: **196 passed, 1 skipped, 0 failed** (+41 from Pass 13 head count).
-- Status tracker / audit: **35 components** (up from 33).
-- Merkle root: **`9c549448984636efe3e6536c240ec87cc317086c85d4c85f930b43e5ebae146b`** — ANCHOR VERIFIED.
-- FakeonCertificate.status = **VERIFIED**.
+- pytest: **198 passed, 1 skipped, 0 failed**.
+- Status tracker / audit: **36 components**.
+- Merkle root: **`c0a090ceca9b8fbbad697cb92587f5794db34679d91b4c86cf32b2edee911272`** — ANCHOR VERIFIED.
+- FakeonCertificate.status = **VERIFIED** (Regge · PL · bootstrap-optical · **S.1 distributional limit** · PV-real c₇).
+  - S.1 probe: best_residual = **3.54×10⁻³** at η = 10⁻³, monotone convergence.
 - ruff: clean.
 - End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
 - `lake build`: opt-in via `workflow_dispatch` (deferred).

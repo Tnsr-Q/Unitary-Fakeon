@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-28T10:06:22+00:00",
+  "generated_at": "2026-04-28T10:36:47+00:00",
   "regge": {
     "Re_alpha_M2": -1.2988235294117647,
     "Im_alpha_M2": 0.05,
@@ -28,6 +28,29 @@
     "optical_margin_min": 0.0,
     "optical_inequality_satisfied": true
   },
+  "s1_distributional_limit": {
+    "probe": "gaussian",
+    "target": -3.141592653589793,
+    "eta_ladder": [
+      0.1,
+      0.01,
+      0.001
+    ],
+    "integrals": [
+      -2.816302662530301,
+      -3.106455388179195,
+      -3.1380508851189637
+    ],
+    "abs_residuals": [
+      0.32528999105949197,
+      0.03513726541059814,
+      0.0035417684708294317
+    ],
+    "best_residual": 0.0035417684708294317,
+    "best_eta": 0.001,
+    "monotone": true,
+    "satisfied": true
+  },
   "boundary_vectors": {
     "source": "analytic_fallback",
     "weight7_pv_real": true,
@@ -35,10 +58,10 @@
     "c5_linf": 33.18168816458784
   },
   "merkle": {
-    "merkle_root": "9c549448984636efe3e6536c240ec87cc317086c85d4c85f930b43e5ebae146b",
-    "n_components": 35,
-    "input_sha256": "3856669be5c804032833796a045c1437e87a7be30b0bc9237ec24a8342a0b644",
-    "generated_at": "2026-04-28T10:06:22+00:00"
+    "merkle_root": "c0a090ceca9b8fbbad697cb92587f5794db34679d91b4c86cf32b2edee911272",
+    "n_components": 36,
+    "input_sha256": "0a9ba605ef20c6c8527064d76066e2cf89afa1ea2dc768114d95bd6849fbc36f",
+    "generated_at": "2026-04-28T10:36:46+00:00"
   },
   "assumptions": [
     "A1",
@@ -56,7 +79,7 @@
     "S2",
     "S3"
   ],
-  "basis": "Lean formalisation + HyperInt PV boundary vectors + Chen-series flatness + inelastic dual bootstrap + certified PL Hessian spectrum + Merkle-anchored status ledger",
+  "basis": "Lean formalisation + HyperInt PV boundary vectors + Chen-series flatness + inelastic dual bootstrap + certified PL Hessian spectrum + Sokhotski\u2013Plemelj S.1 probe + Merkle-anchored status ledger",
   "status": "VERIFIED",
-  "signature": "4b66ed6d63a7a53fd8ba7c5c1f2c48f5c0b8eb954d568f2cd68cfffc4a91e9f0"
+  "signature": "f72d6e3ee866a9b73c33515b128c6128e435796ae33222f7a42e8d4448bfa5c1"
 }

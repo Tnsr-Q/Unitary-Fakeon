@@ -1,6 +1,6 @@
 # Fakeon Verification — Status
 
-_Generated 2026-04-28T10:06:22+00:00 from `/app/Fakeon`._
+_Generated 2026-04-28T10:36:46+00:00 from `/app/Fakeon`._
 _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows.
 
 ## Headline
@@ -8,7 +8,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 - **Content-bearing theorems / lemmas:** 26 / 29 (89.7 %)
 - **Open `sorry`s:** 4
 - **Open axioms:** 53
-- **pytest:** 196 passed · 0 failed · 1 skipped · 0 errors
+- **pytest:** 198 passed · 0 failed · 1 skipped · 0 errors
 
 ## Lean modules
 
@@ -41,7 +41,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 |------|------:|----:|------:|
 | `/app/Fakeon/fakeon_numeric/__init__.py` | 21 | 0 | 0 |
 | `/app/Fakeon/fakeon_numeric/boundary_vectors.py` | 115 | 4 | 0 |
-| `/app/Fakeon/fakeon_numeric/cutkosky.py` | 93 | 6 | 0 |
+| `/app/Fakeon/fakeon_numeric/cutkosky.py` | 175 | 7 | 0 |
 | `/app/Fakeon/fakeon_numeric/distributions.py` | 53 | 3 | 0 |
 | `/app/Fakeon/fakeon_numeric/omega_quadrature.py` | 11 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/partial_wave.py` | 11 | 1 | 0 |
@@ -55,7 +55,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `/app/Fakeon/fakeon_numeric/tolerance_ledger.py` | 80 | 7 | 2 |
 | `/app/Fakeon/fakeon_numeric/validation.py` | 49 | 4 | 0 |
 | `/app/Fakeon/scripts/anchor_status.py` | 302 | 13 | 1 |
-| `/app/Fakeon/scripts/assemble_certificate.py` | 245 | 9 | 0 |
+| `/app/Fakeon/scripts/assemble_certificate.py` | 273 | 10 | 0 |
 | `/app/Fakeon/scripts/audit_status.py` | 511 | 12 | 5 |
 | `/app/Fakeon/scripts/extract_cvec.py` | 187 | 7 | 0 |
 | `/app/Fakeon/scripts/fakeon_validation_ci.py` | 23 | 1 | 0 |
@@ -65,11 +65,11 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | File | collected |
 |------|----------:|
 | `tests/test_anchor_status.py` | 10 |
-| `tests/test_assemble_certificate.py` | 5 |
+| `tests/test_assemble_certificate.py` | 6 |
 | `tests/test_audit_status.py` | 5 |
 | `tests/test_bootstrap_optical.py` | 10 |
 | `tests/test_chen_integration.py` | 10 |
-| `tests/test_cutkosky.py` | 41 |
+| `tests/test_cutkosky.py` | 42 |
 | `tests/test_dispersive_reality.py` | 7 |
 | `tests/test_distribution_limits.py` | 8 |
 | `tests/test_extract_cvec.py` | 8 |
