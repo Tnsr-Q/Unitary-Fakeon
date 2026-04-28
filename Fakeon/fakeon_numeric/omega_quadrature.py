@@ -35,8 +35,8 @@ import warnings
 import time
 
 # Import previous modules (ensure they are in PYTHONPATH or same directory)
-from schwarzschild_radial_solver import SchwarzschildRadialSolver
-from partial_wave_accelerator import PartialWaveAccelerator
+from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
+from fakeon_numeric.partial_wave import PartialWaveAccelerator
 
 # =============================================================================
 # 1. OSCILLATORY ω-QUADRATURE WITH SEQUENCE ACCELERATION

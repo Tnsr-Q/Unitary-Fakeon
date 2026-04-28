@@ -10,6 +10,8 @@ jobs:
   python:
     name: Python numeric + symbolic checks
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: Fakeon
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

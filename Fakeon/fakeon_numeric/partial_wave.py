@@ -165,7 +165,7 @@ def accelerated_pv_partial_wave_sum(
     
     Returns: (accelerated_sum, rel_error, l_used)
     """
-    from schwarzschild_radial_solver import SchwarzschildRadialSolver
+    from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
     
     solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=0, dps=dps)  # l set dynamically below
     cos_gamma = mp.cos(mp.mpf(gamma))
@@ -214,9 +214,18 @@ if __name__ == "__main__":
     
     # Convergence diagnostic
     print("\n[DIAGNOSTIC] Asymptotic decay check (last 5 terms):")
-    acc = PartialWaveAccelerator(dps=50)
-    for l in range(l_used-5, l_used):
-        print(f"  a_{l} = {mp.nstr(acc.a[l], 5)}")
+    from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
+
+    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=0, dps=50)
+    cos_gamma = mp.cos(mp.mpf(gamma))
+    prefactor = mp.mpf('1') / (4 * mp.pi)
+    start_l = max(0, l_used - 5)
+    for l in range(start_l, l_used):
+        solver.l = l
+        psi = solver.get_mode(omega)
+        g_l = psi(r) * psi(rp)
+        a_l = prefactor * (2 * l + 1) * mp.legendre(l, cos_gamma) * g_l
+        print(f"  a_{l} = {mp.nstr(a_l, 5)}")
     
     if err < 1e-25 and S_acc.im == 0:
         print("\n✓ VALIDATION PASSED: Acceleration converged with strict PV reality.")
