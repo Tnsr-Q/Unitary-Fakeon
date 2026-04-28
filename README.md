@@ -1,13 +1,13 @@
-# Unitary-Fakeon Repository Guide (Development-Oriented)
+# Unitary-Fakeon Repository Guide (Development-Only)
 
-This repository is a **multi-part workspace** that combines:
+This repository contains multiple active codebases that evolve together during development:
 
-- a formalization-heavy **`Fakeon/` research and verification project** (Lean + Python + symbolic assets),
-- a separate **`frontend/` React UI codebase**,
-- a lightweight **`backend/` Python service stub**,
-- and top-level notes/artifacts used for planning and reporting.
+- `Fakeon/`: formal Lean proofs, numeric Python modules, symbolic assets, and verification tooling.
+- `frontend/`: React/Tailwind UI workspace.
+- `backend/`: lightweight Python service stub.
+- `memory/`: product and planning notes.
 
-The purpose of this README is to help contributors quickly understand **what is in the repo** and **how it is organized**.
+This README intentionally focuses on **development orientation**, not end-user installation.
 
 ---
 
@@ -15,144 +15,91 @@ The purpose of this README is to help contributors quickly understand **what is 
 
 ```text
 .
-├── README.md                 # This development-facing repo map
-├── memory/                   # Product/planning notes
-├── backend/                  # Python backend service stub
-├── frontend/                 # React/Tailwind frontend project
-├── Fakeon/                   # Main formal + numeric + symbolic project
-├── tests/                    # Top-level Python test package marker
-└── test_result.md            # Captured test/report artifact
-```
-
----
-
-## `Fakeon/` (Core Research + Verification Workspace)
-
-`Fakeon/` is the largest and most structured part of the repository. It mixes:
-
-1. **Formal Lean developments**,
-2. **Python numeric/validation modules**,
-3. **Symbolic computation inputs**,
-4. **Status dashboards and generated logs**,
-5. **Automation scripts and tests**.
-
-### `Fakeon/` high-level tree
-
-```text
-Fakeon/
 ├── README.md
-├── FAKEON-readme.md
-├── pytest.ini
-├── lean-toolchain
-├── lakefile.lean
-├── lake-manifest.json
-├── Fakeon/                  # Lean source tree
-├── fakeon_numeric/          # Python numeric library
-├── tests/                   # Python test suite
-├── scripts/                 # CI/status/certificate tooling
-├── docs/                    # Status docs, inventories, reviews
-├── logs/                    # Generated logs/certificates/matrices
-└── symbolic/                # Symbolic computation assets
-```
-
-### Lean source tree: `Fakeon/Fakeon/`
-
-The Lean modules are grouped by topic:
-
-- `Algebra/`
-- `Analysis/`
-- `Geometry/`
-- `QFT/`
-- `Optimization/`
-- `Experimental/`
-
-Entry/aggregation module:
-
-- `Fakeon/Fakeon/FakeonQFT.lean`
-
-### Python numeric library: `Fakeon/fakeon_numeric/`
-
-This package contains numerical routines and helpers, including:
-
-- quadrature and interpolation,
-- partial-wave and PL certification logic,
-- solver/status tracking modules,
-- distribution/cutkosky-related numerics,
-- optional Lightning callbacks under `lightning/`.
-
-### Tests: `Fakeon/tests/`
-
-The suite is composed of focused `pytest` modules that mirror theorem/numeric domains (unitarity closure, cutkosky, wedge vanishing, PL certification, status/audit checks, etc.).
-
-### Scripts: `Fakeon/scripts/`
-
-Automation and reporting scripts include:
-
-- status anchoring and auditing,
-- certificate assembly,
-- CI validation entrypoints,
-- utility extractors.
-
-### Docs and status assets: `Fakeon/docs/` + `Fakeon/logs/`
-
-- `docs/` holds inventories, source maps, status matrices, and review notes.
-- `logs/` holds machine-produced artifacts such as certificates and status outputs.
-
-### Symbolics: `Fakeon/symbolic/`
-
-Contains symbolic-analysis inputs and notes split by method families:
-
-- `hyperint/`
-- `diffexp/`
-
----
-
-## `frontend/` (UI Project)
-
-`frontend/` is a React application with Tailwind/PostCSS toolchain and component-heavy UI structure.
-
-```text
-frontend/
-├── package.json
-├── craco.config.js
-├── tailwind.config.js
-├── postcss.config.js
-├── components.json
-├── public/
-├── src/
-│   ├── App.js / App.css / index.js / index.css
-│   ├── components/ui/      # Large shadcn-style UI component set
-│   ├── hooks/              # Shared hooks (e.g., toast handling)
-│   └── lib/                # Utility helpers
-└── plugins/health-check/   # Health-check webpack plugin/helpers
+├── backend/
+├── frontend/
+├── Fakeon/
+├── memory/
+├── tests/
+└── test_result.md
 ```
 
 ---
 
-## `backend/` (Service Stub)
+## Development Guardrails
 
-`backend/` currently contains:
+When adding or refactoring runtime behavior, follow these repository rules:
 
-- `server.py` — backend entry module,
-- `requirements.txt` — Python dependency manifest for backend scope.
+- Do not add transport before policy/replay/run closure.
+- Do not publish plugin-originating events without PolicyEngine admission.
+- Do not write raw JSON strings where `serde_json::Value` is expected.
+- Do not manually format browser JSON.
+- Do not use non-cryptographic hashes for provenance.
+- Do not let station-kernel absorb reusable logic.
+- Do not make browser or GPUI projections authoritative.
+- Do not panic on expected runtime denials; emit evidence events.
+- Every new runtime decision should be replayable.
+- Every new crate needs unit tests.
+
+Future sidecars may use `local`, `wasm`, `subprocess`, `websocket`, `grpc`, `connectrpc`, `pyro5`, and `ffi`, but must always stay behind:
+`PluginRegistry`, `StationSupervisor`, `SchemaRegistry`, `PolicyEngine`, `JsonlReplayLog`, `ArtifactLedger`, and `RunManifest`.
 
 ---
 
-## Other Top-Level Artifacts
+## Repository Workstreams
 
-- `memory/PRD.md` — product/planning reference.
-- `tests/__init__.py` — top-level Python tests package marker.
-- `test_result.md` — stored test output/report artifact.
+### 1) `Fakeon/` (formal + numeric + symbolic + status)
+
+Key areas:
+
+- `Fakeon/Fakeon/`: Lean modules for algebra, analysis, geometry, QFT, optimization, and experiments.
+- `Fakeon/fakeon_numeric/`: Python numeric modules (distribution checks, cutkosky, regime detection, PL certification, status tracking, and optional lightning callbacks).
+- `Fakeon/tests/`: verification tests across symbolic, numeric, and status/CI workflows.
+- `Fakeon/scripts/`: automation (`audit_status.py`, `anchor_status.py`, certificate assembly, extractors, CI helpers).
+- `Fakeon/docs/`: status matrix, theorem/proof status, source maps, and review artifacts.
+- `Fakeon/logs/`: generated outputs (anchors, status JSON, certificates, junit report).
+
+Use `Fakeon/docs/INVENTORY.md` as the detailed development inventory.
+
+### 2) `frontend/` (UI)
+
+- React app with Tailwind/PostCSS and CRACO.
+- Health-check plugin under `frontend/plugins/health-check/`.
+- UI components and utilities under `frontend/src/`.
+
+### 3) `backend/` (service stub)
+
+- `backend/server.py`.
+- `backend/requirements.txt`.
+
+### 4) `memory/` (planning)
+
+- `memory/PRD.md` for planning/product notes.
 
 ---
 
-## Contributor Orientation Notes
+## Development Workflow (Quick Reference)
 
-When making development changes, treat this repository as **multiple adjacent projects** with different concerns:
+- Keep changes scoped to a single workstream whenever possible.
+- Prefer updating docs/status outputs when logic changes.
+- Run targeted tests first, then broader suites.
+- Treat generated artifacts in `Fakeon/logs/` and status docs as part of development evidence.
 
-- **Formal proof/code track** under `Fakeon/Fakeon/` (Lean),
-- **Numeric/test tooling track** under `Fakeon/fakeon_numeric/`, `Fakeon/tests/`, and `Fakeon/scripts/`,
-- **UI track** under `frontend/`,
-- **Backend service track** under `backend/`.
+Typical commands used during development:
 
-Favor keeping changes scoped to the relevant subtree and preserving the existing domain separation reflected in the directory structure.
+```bash
+# Python tests (Fakeon workspace)
+cd Fakeon && pytest
+
+# Status/doc refresh helpers
+cd Fakeon && python scripts/audit_status.py
+cd Fakeon && python scripts/anchor_status.py --verify
+```
+
+---
+
+## Where to Update Docs During Development
+
+- Repository map and cross-project orientation: `README.md` (this file).
+- Deep file/module inventory for Fakeon: `Fakeon/docs/INVENTORY.md`.
+- Verification and theorem state snapshots: `Fakeon/docs/STATUS.md`, `Fakeon/docs/THEOREM_STATUS.md`.
