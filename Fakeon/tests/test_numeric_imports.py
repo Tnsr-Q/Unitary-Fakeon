@@ -18,6 +18,7 @@ MODULES = [
     "fakeon_numeric.radial_interpolator",
     "fakeon_numeric.siegel_theta",
     "fakeon_numeric.schwarzschild_radial_solver",
+    "fakeon_numeric.regime",
 ]
 
 

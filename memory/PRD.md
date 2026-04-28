@@ -2,48 +2,58 @@
 
 ## Original Problem Statement
 Build and iteratively extend the environment + Lean files for the massive
-Fakeon canonical DE system (6×6, PV projection), now through O(ε³) /
-weight 7 over the full 2D alphabet {z, z-1, z+y, z-y-1, y, y+1}.
+Fakeon canonical DE system (6×6, PV projection, all-orders reality via
+dispersive + flat-connection arguments).
 
 ## Architecture
-- **Lean 4 + Mathlib** — Algebra / Geometry / QFT modules under `Fakeon/Fakeon/`.
+- **Lean 4 + Mathlib** — `Fakeon/Fakeon/{Algebra, Analysis, Geometry, QFT, Experimental}/`.
 - **Python (numpy, sympy, pytest)** — `fakeon_numeric/` + `tests/`.
-- **Maple / HyperInt + Mathematica / DiffExp** — `symbolic/`.
+- **Maple / Mathematica** — `symbolic/{hyperint, diffexp}/`.
+- **CI** — `.github/workflows/fakeon-verify.yml`.
 - Layout frozen to the user-provided tree.
 
 ## Implemented
-### Pass 1 (2026-01, weight 5)
-- Authoritative 6×6 matrices A1..A4 and ζ₅ boundary c5 in `Algebra/MassiveDE.lean`.
-- Structural + mock DE-consistency pytest (5 tests).
-- HyperInt config with 4-letter alphabet, PV rules.
-- Full scaffold of every layout file; lake project files.
+### Pass 1 — weight 5
+- Matrices A1..A4, boundary c5, HyperInt config, full layout scaffold.
 
-### Pass 2 (2026-01, weight 7 / O(ε³))
-- `Geometry/FlatConnection.lean`: 2D alphabet enum, `M : Fin 6 → Matrix`, `flat_connection` lemma, `chen_series`, `chen_pv_reality` theorem (stubs with strategy comments).
-- `Algebra/ChenCollapse.lean` upgraded: `chen_step`, `chen_series`, `chen_collapse` theorem.
-- `QFT/FakeonUnitarity.lean` wired to `chen_pv_reality`.
-- `FakeonQFT.lean` now re-exports `FlatConnection`.
-- `tests/test_massive_flatness.py`: 15 parametrised pairwise flatness tests (symbolic, sympy) + summary; weight-7 Chen coefficient cross-check auto-skips pending `c_k` data.
-- `symbolic/hyperint/crossedbox_massive_PV.maple`: 6-letter alphabet, PV rules for all z- and y-cuts, `order = 3`.
-- `docs/INVENTORY.md` refreshed with Lemma ↔ file map and data-dependency table.
+### Pass 2 — weight 7 / O(ε³)
+- `FlatConnection.lean` (2D alphabet, `flat_connection`, `chen_pv_reality`).
+- `ChenCollapse.lean` recursion + `chen_collapse` theorem.
+- Symbolic flatness pytest (15 parametrised pairs).
+- HyperInt bumped to 6 letters, `order = 3`.
+
+### Pass 3 — dispersive + wedge proofs
+- `Analysis/DispersiveReality.lean`: `im_eq_zero` theorem, axioms `fakeon_spectral_density_zero`, `g_tree_im_zero`, `causal_prop_im_proportional`, `g_disp`, `c_n`.
+- `Geometry/WedgeVanishing.lean`: `rg_flow_1d_reduction` axiom, `dlog_α` definition, `wedge_vanishes_on_rg_flow` lemma.
+- `FakeonQFT.lean` re-exports Analysis + Geometry.
+- `tests/test_dispersive_reality.py` — 7 tests, parametrised n=0..5 plus axiom guard.
+- `tests/test_wedge_vanishing.py` — 5 tests: synthetic 1D trajectory certified, genuinely 2D trajectory rejected, width sweep.
+- `fakeon_numeric/regime.py` — `Regime` enum and `classify(c, α)` mapping the two guardrails to `PERTURBATIVE` / `DISPERSIVE_BREAKDOWN` / `NON_PERTURBATIVE_BREAKDOWN`.
+- `.github/workflows/fakeon-verify.yml` — Python job (lint + full pytest) always on; Lean job on workflow_dispatch.
 
 ## Verification Status
-- pytest: **29 passed, 1 skipped** (`cd /app/Fakeon && pytest`).
+- pytest: **42 passed, 1 skipped** (`cd /app/Fakeon && pytest`).
 - ruff: clean.
-- `lake build`: deferred (Mathlib cache not fetched in preview).
+- `lake build`: still deferred (Mathlib cache).
 
-## Data Dependencies Not Yet Wired
-- `A5, A6` (y-evolution residue matrices) — currently zero stubs.
-- `c0, c1, c2, c3` (low-weight boundary vectors).
-- `c4, c6, c7` (needed by `test_chen_coefficients_weight7`).
+## Open Axioms
+- `fakeon_spectral_density_zero` → `QFT/FakeonUnitarity.lean`.
+- `g_tree_im_zero` → tree-amplitude catalogue.
+- `causal_prop_im_proportional` → future `Analysis/PrincipalValue.lean`.
+- `rg_flow_1d_reduction` → future `Geometry/FrobeniusReduction.lean`.
+
+## Data Dependencies
+- A5, A6 (y-evolution residue matrices).
+- c0..c4, c6, c7 (boundary vectors — unblocks the skipped weight-7 Chen test).
+- Real RG trajectory loader (replaces `_synthetic_trajectory` in `test_wedge_vanishing.py`).
 
 ## Prioritized Backlog
-- **P0** — Supply A5, A6 authoritative entries; upgrade `flat_connection` from stub to full statement over `ℝ²_{>0}`.
-- **P0** — Wire `fakeon_numeric.validation.load_boundary_vectors` + `load_c7` (parse HyperInt `massive_masters_w7.m`) → activate the skipped weight-7 test.
-- **P1** — Populate `Geometry/PicardLefschetzPV.lean`, `Geometry/GlobalPVClosure.lean`; promote `chen_pv_reality` to a non-trivial ℂ statement.
-- **P2** — `FakeonLSZ.lean`, `FakeonCurvedLSZ.lean`; experimental Siegel theta.
+- **P0** — Discharge `fakeon_spectral_density_zero` against `FakeonUnitarity.lean`; promote `flat_connection` from stub to full wedge statement.
+- **P0** — Wire `validation.load_boundary_vectors` + `load_c7` to flip the skipped Chen test to asserting real content.
+- **P1** — `Geometry/PicardLefschetzPV.lean`, `Geometry/GlobalPVClosure.lean`, `Analysis/PrincipalValue.lean`.
+- **P2** — `FakeonLSZ` (flat + curved), `SiegelThetaPV`, higher-genus closure.
 
 ## Next Tasks
-1. Receive A5, A6 and the c_k batch; drop into the existing slots.
-2. Run `lake exe cache get && lake build` locally.
-3. Begin the formal proof of `chen_collapse`.
+1. Plug real A5, A6, c_k data into the existing slots.
+2. Run `lake exe cache get && lake build` locally (or enable the CI Lean job).
+3. Begin formal discharge of the four open axioms in the order listed.

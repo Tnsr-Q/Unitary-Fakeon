@@ -7,6 +7,7 @@ __all__ = [
     "radial_interpolator",
     "siegel_theta",
     "schwarzschild_radial_solver",
+    "regime",
 ]
 
 __version__ = "0.0.1"

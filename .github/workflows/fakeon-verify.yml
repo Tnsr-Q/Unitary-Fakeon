@@ -1,0 +1,48 @@
+name: fakeon-verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python:
+    name: Python numeric + symbolic checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy sympy mpmath pytest ruff
+      - name: Lint
+        run: ruff check Fakeon/fakeon_numeric Fakeon/tests Fakeon/scripts
+      - name: Dispersive reality check
+        run: pytest Fakeon/tests/test_dispersive_reality.py -v
+      - name: Wedge vanishing check
+        run: pytest Fakeon/tests/test_wedge_vanishing.py -v
+      - name: Flatness check
+        run: pytest Fakeon/tests/test_massive_flatness.py -v
+      - name: Full regression
+        run: pytest Fakeon/tests -v
+
+  lean:
+    name: Lean proof verification
+    runs-on: ubuntu-latest
+    # Mathlib cache is heavy; keep opt-in until the proofs are promoted
+    # from scaffolds to real content.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: Fakeon
+      - name: Lake build
+        working-directory: Fakeon
+        run: |
+          lake exe cache get
+          lake build

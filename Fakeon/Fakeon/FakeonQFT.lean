@@ -1,13 +1,16 @@
 /-
   Fakeon/FakeonQFT.lean
 
-  Top-level entry point.  Re-exports the algebra / geometry / QFT modules
-  so that `import Fakeon.FakeonQFT` brings the whole stack into scope.
+  Top-level entry point.  Re-exports the algebra / analysis / geometry /
+  QFT modules so that `import Fakeon.FakeonQFT` brings the whole stack
+  into scope.
 -/
 
 import Fakeon.Algebra.MassiveDE
 import Fakeon.Algebra.ChenCollapse
+import Fakeon.Analysis.DispersiveReality
 import Fakeon.Geometry.FlatConnection
+import Fakeon.Geometry.WedgeVanishing
 import Fakeon.Geometry.PicardLefschetzPV
 import Fakeon.Geometry.HyperellipticPV
 import Fakeon.Geometry.GlobalPVClosure
