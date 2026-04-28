@@ -59,6 +59,6 @@ theorem PV_reality_limit
 
 end
 
-#### namespace Fakeon.Geometry.PicardLefschetzPV
--- TODO: formalise PV contour stability under PL monodromy.
-end Fakeon.Geometry.PicardLefschetzPV--DONE BUT NOT VERIFIED
+/-- depricated placeholder #### namespace Fakeon.Geometry.PicardLefschetzPV
+/-- TODO: formalise PV contour stability under PL monodromy.UNverified but implimented
+/-- end Fakeon.Geometry.PicardLefschetzPV--DONE BUT NOT VERIFIED
