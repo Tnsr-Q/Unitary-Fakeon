@@ -1,7 +1,11 @@
 import Mathlib
 
+noncomputable section
+
 
 open Complex MeasureTheory Finset BigOperators
+
+namespace Fakeon.QFT.FakeonCurvedLSZ
 
 /-!
 # Fakeon LSZ Extension to Curved Backgrounds
@@ -99,4 +103,7 @@ theorem fakeon_ds_cutting (ψ : ℂ) :
 - namespace Fakeon.QFT.FakeonCurvedLSZ
 - TODO: formalise LSZ in curved backgrounds.
 - end Fakeon.QFT.FakeonCurvedLSZ
- 
+
+end Fakeon.QFT.FakeonCurvedLSZ
+
+end

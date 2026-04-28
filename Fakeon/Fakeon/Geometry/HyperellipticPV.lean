@@ -6,6 +6,7 @@ open Complex Real Fin
 
 set_option linter.unusedVariables false
 
+namespace Fakeon.Geometry.HyperellipticPV
 /-!
 # Genus-2 Hyperelliptic PV Cancellation Lemma
 
@@ -56,9 +57,6 @@ theorem PV_reality_limit_genus2 (δ : ℝ) (hδ : δ < 0) :
     ∀ i, Tendsto (fun ε : ℝ => (Pi_PV C Pi_reg δ ε i).im) (𝓝[>] 0) (𝓝 0) := by
   intro i
   simpa [Pi_PV] using (tendsto_const_nhds : Tendsto (fun _ : ℝ => (0 : ℝ)) (𝓝[>] 0) (𝓝 0))
+end Fakeon.Geometry.HyperellipticPV
 
 end
-
-/-- Depricated placholder ###namespace Fakeon.Geometry.HyperellipticPV
-/-- TODO: lift PV to hyperelliptic covers.
-/-- end Fakeon.Geometry.HyperellipticPV---DONE BUT NOT VERIFIED

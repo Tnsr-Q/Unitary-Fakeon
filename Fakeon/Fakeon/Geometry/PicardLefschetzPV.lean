@@ -6,6 +6,7 @@ open Complex
 
 set_option linter.unusedVariables false
 
+namespace Fakeon.Geometry.PicardLefschetzPV
 /-!
 # Picard-Lefschetz PV Cancellation Lemma
 
@@ -56,9 +57,6 @@ theorem PV_reality_limit
     ∀ ε : ℝ, 0 < ε → (ω₂_PV n ω₁ reg δ ε).im = 0 := by
   intro ε hε
   exact picard_lefschetz_PV_cancellation n ω₁ reg δ ε hδ hε
+end Fakeon.Geometry.PicardLefschetzPV
 
 end
-
-/-- depricated placeholder #### namespace Fakeon.Geometry.PicardLefschetzPV
-/-- TODO: formalise PV contour stability under PL monodromy.UNverified but implimented
-/-- end Fakeon.Geometry.PicardLefschetzPV--DONE BUT NOT VERIFIED
