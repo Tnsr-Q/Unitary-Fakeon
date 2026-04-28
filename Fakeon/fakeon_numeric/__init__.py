@@ -9,6 +9,7 @@ __all__ = [
     "schwarzschild_radial_solver",
     "regime",
     "distributions",
+    "tolerance_ledger",
 ]
 
 __version__ = "0.0.1"

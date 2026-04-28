@@ -18,6 +18,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `Geometry/HyperellipticPV.lean`        | ⬜     | Hyperelliptic PV extension                    |
 | `Geometry/GlobalPVClosure.lean`        | ⬜     | Global monodromy closure                      |
 | `Geometry/GeneralGenusPV.lean`         | ⬜     | Arbitrary-genus closure                       |
+| `QFT/Assumptions.lean`                 | ✅     | A1..A5 + S.1..S.3 axioms + `VerificationStatus` + certificates |
 | `QFT/FakeonUnitarity.lean`             | 🟡     | `perturbative_unitarity_closure` (scaffold) + S.1/S.2 axioms |
 | `QFT/FakeonLSZ.lean`                   | ⬜     | Flat-space LSZ                                |
 | `QFT/FakeonCurvedLSZ.lean`             | ⬜     | Curved-space LSZ                              |
@@ -71,6 +72,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `schwarzschild_radial_solver.py`        | ⬜     |
 | `regime.py`                             | ✅ `Regime` enum + `classify(c, α)` |
 | `distributions.py`                      | ✅ `causal_propagator`, `evaluate_c_n`, `check_spectral_density_zero` |
+| `tolerance_ledger.py`                   | ✅ `update_ledger`, `check_tolerance`, `snapshot`, `dump` |
 
 `fakeon_numeric.regime.classify` plays the role of the external
 `src/tolerance/regime_detector.py` referenced in the QFT-Engine spec.
@@ -85,6 +87,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `test_distribution_limits.py`          | ✅ 12 tests (SP convergence, closed-form match, monotone error, algebraic identity) |
 | `test_chen_integration.py`             | ✅ 10 tests (axiom guard, base-case c_n × 5, recursion reality × 4) |
 | `test_unitarity_closure.py`            | ✅ 11 tests (projector, S unitary, closure × 6, partial-wave bound, fakeon block real, T Hermitian) |
+| `test_s_matrix_extension.py`           | ✅ 9 tests (S.1, S.2 inelasticity × 4, Froissart pass + violation, S.3, end-to-end pipeline) |
 | `test_wedge_vanishing.py`              | ✅ 5 tests (1D certified, 2D rejected, widths sweep) |
 | `test_fakeon_pv.py`                    | ⬜ placeholder |
 | `test_numeric_imports.py`              | ✅ 9 import smoke tests (now includes `regime`, `distributions`) |

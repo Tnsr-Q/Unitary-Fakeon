@@ -3,46 +3,54 @@
 ## Original Problem Statement
 Build and iteratively extend the environment + Lean files for the massive
 Fakeon canonical DE system, with a closed perturbative unitarity proof
-on the physical Hilbert space.
+on the physical Hilbert space and an explicit assumption / status ledger.
 
 ## Architecture
 - **Lean 4 + Mathlib** — `Fakeon/Fakeon/{Algebra, Analysis, Geometry, QFT, Experimental}/`.
-- **Python (numpy, scipy, sympy, mpmath, pytest)** — `fakeon_numeric/` + `tests/`.
+- **Python (numpy, scipy, sympy, mpmath, pyyaml, pytest)** — `fakeon_numeric/` + `tests/`.
 - **Maple / Mathematica** — `symbolic/{hyperint, diffexp}/`.
-- **CI** — `.github/workflows/fakeon-verify.yml` (5 named Python stages + opt-in Lean).
+- **CI** — `.github/workflows/fakeon-verify.yml`.
+- **Audit** — `scripts/audit_status.py` → `docs/STATUS.md` (auto-discovers everything).
 
 ## Implemented (cumulative)
-- **Pass 1**: matrices A1..A4, c5, weight-5 scaffold, layout frozen.
-- **Pass 2**: 2D flat connection, weight-7 / O(ε³).
+- **Pass 1**: A1..A4, c5, weight-5 scaffold.
+- **Pass 2**: 2D flat connection, weight-7.
 - **Pass 3**: dispersive reality + wedge vanishing.
-- **Pass 4**: distributional foundation (Sokhotski–Plemelj).
-- **Pass 5**: Chen-series induction closed end-to-end.
-- **Pass 6 (this)**: perturbative unitarity closure.
-  - `Fakeon/QFT/FakeonUnitarity.lean` rewritten with assumption-explicit structure: `P_phys_properties`, `T_matrix`, `S_matrix`, `fakeon_spectral_cut_zero` (S.1), `bootstrap_unitarity_bound` (S.2), `modified_cutkosky_physical_only`, `physical_optical_theorem`, `fakeon_amplitude_real`, `perturbative_unitarity_closure`. Scaffold-level (uses `T_matrix ≡ 0` placeholder so Lean closes), with explicit roadmap comments for each substantive step.
-  - `tests/test_unitarity_closure.py` — 11 tests: projector idempotency, S unitarity sanity, P S† S P = P closure parametrised across 5 random seeds, partial-wave bound, fakeon block reality, Hermiticity of T. Synthetic inputs in canonical basis with block-diagonal Hermitian H = block(H_phys, H_fak) and real-symmetric H_fak.
-  - CI workflow gains a dedicated `Unitarity closure check` stage.
-  - INVENTORY refreshed with the new lemma + axiom tables.
+- **Pass 4**: Sokhotski–Plemelj distributional foundation.
+- **Pass 5**: Chen-series induction closed.
+- **Pass 6**: perturbative unitarity closure.
+- **Pass 7**: audit script `scripts/audit_status.py` (auto-discovery, content-bearing ratio, JSON sidecar).
+- **Pass 8 (this)**: S-matrix extension assumption architecture.
+  - `Fakeon/QFT/Assumptions.lean`: A1..A5 + S.1..S.3 axioms with explicit docstrings, `VerificationStatus` enum (PROVED / VERIFIED / CALCULATED / DEMONSTRATED / PENDING), `SMatrixCertificate` struct, four pre-registered certificates (`smatrix_unitarity_cert`, `spectral_density_cert`, `froissart_cert`, `beta_closure_cert`).
+  - `fakeon_numeric/tolerance_ledger.py`: in-tree `update_ledger`, `check_tolerance`, `snapshot`, `dump`.
+  - `tests/test_s_matrix_extension.py`: 9 tests — S.1 spectral density, S.2 inelasticity profile (parametrised ℓ ∈ {0,1,2,3}), Froissart pass + Froissart violation correctly rejected, S.3 β-closure, end-to-end pipeline (drives all four hooks, fills ledger, asserts every entry passed).
+  - CI workflow: new `S-matrix extension validation (S.1–S.3)` stage and a final `Audit + status report` stage that runs the audit script and folds STATUS.md into the build log.
+  - `docs/THEOREM_STATUS.md`: cross-reference between physical claims, Lean homes, status tags, and Python hooks; includes a status promotion-rules table.
+  - `FakeonQFT.lean` re-exports `Assumptions`.
 
-## Verification Status
-- pytest: **72 passed, 1 skipped** (`cd /app/Fakeon && pytest`).
-- ruff: clean across the whole repo.
-- `lake build`: deferred.
+## Verification Status (live, from `audit_status.py`)
+- Content-bearing theorems / lemmas: **14 / 16 (87.5 %)**.
+- Open `sorry`s: **3** (2 in `Distributions.lean`, 1 in `FakeonUnitarity.lean::bootstrap_unitarity_bound`).
+- Open axioms: **27** (was 14 + 13 new from `Assumptions.lean` opaque types & A/S axioms).
+- pytest: **87 passed, 1 skipped, 0 failed**.
+- ruff: clean.
 
 ## Open Lean `sorry`s
-- `Distributions.lean`: `causalProp_im`, `imaginary_limit_delta`.
-- `FakeonUnitarity.lean`: `bootstrap_unitarity_bound` body (placeholder index — needs real partial-wave channel typing).
+- `Distributions.lean::causalProp_im`, `Distributions.lean::imaginary_limit_delta`.
+- `FakeonUnitarity.lean::bootstrap_unitarity_bound` (channel-index spot).
 
-## Open Axioms
-- `fakeon_spectral_density_zero`, `spectral_density_fakeon_zero`, `fakeon_spectral_cut_zero` (S.1 family).
-- `constraint_manifold_pv`, `g_tree_im_zero`, `causal_prop_im_proportional`, `rg_flow_1d_reduction`.
-- `bootstrap_unitarity_bound` (S.2).
-- `IsFakeonCut`, `discCut`, `P_phys_properties`.
+## Open Axioms (grouped)
+- Physics S.1–S.3 + A1–A5 (`QFT/Assumptions.lean`).
+- Cutkosky machinery: `IsFakeonCut`, `discCut`, `fakeon_spectral_cut_zero`.
+- Projector: `P_phys_properties`.
+- Distributional: `g_tree_im_zero`, `causal_prop_im_proportional`.
+- Geometric: `rg_flow_1d_reduction`, `constraint_manifold_pv`.
 
 ## Data Dependencies
-- A5, A6, c0..c4, c6, c7, real RG trajectory loader.
+- A5, A6 residue matrices, c0..c4, c6, c7 boundary vectors, real RG trajectory loader.
 
 ## Prioritized Backlog
-- **P0** — Close the two `Distributions.lean` `sorry`s; discharge S.1 axioms via `Cutkosky.lean`.
+- **P0** — Close the two `Distributions.lean` `sorry`s; introduce `Cutkosky.lean` and discharge `fakeon_spectral_cut_zero`.
 - **P0** — Wire boundary-vector loaders.
-- **P1** — `PicardLefschetzPV`, `GlobalPVClosure`, `Analysis/PrincipalValue.lean`, `QFT/Cutkosky.lean`.
-- **P2** — `FakeonLSZ` (flat + curved), `SiegelThetaPV`, higher-genus.
+- **P1** — `PicardLefschetzPV`, `GlobalPVClosure`, `Analysis/PrincipalValue.lean`.
+- **P2** — `FakeonLSZ`, `SiegelThetaPV`, higher-genus.

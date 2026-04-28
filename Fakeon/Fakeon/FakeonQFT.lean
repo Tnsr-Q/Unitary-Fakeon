@@ -16,6 +16,7 @@ import Fakeon.Geometry.PicardLefschetzPV
 import Fakeon.Geometry.HyperellipticPV
 import Fakeon.Geometry.GlobalPVClosure
 import Fakeon.Geometry.GeneralGenusPV
+import Fakeon.QFT.Assumptions
 import Fakeon.QFT.FakeonUnitarity
 import Fakeon.QFT.FakeonLSZ
 import Fakeon.QFT.FakeonCurvedLSZ

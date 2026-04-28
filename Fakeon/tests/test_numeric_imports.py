@@ -20,6 +20,7 @@ MODULES = [
     "fakeon_numeric.schwarzschild_radial_solver",
     "fakeon_numeric.regime",
     "fakeon_numeric.distributions",
+    "fakeon_numeric.tolerance_ledger",
 ]
 
 

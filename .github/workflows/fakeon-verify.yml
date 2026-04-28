@@ -29,12 +29,20 @@ jobs:
         run: pytest Fakeon/tests/test_chen_integration.py -v
       - name: Unitarity closure check
         run: pytest Fakeon/tests/test_unitarity_closure.py -v
+      - name: S-matrix extension validation (S.1–S.3)
+        run: pytest Fakeon/tests/test_s_matrix_extension.py -v
       - name: Wedge vanishing check
         run: pytest Fakeon/tests/test_wedge_vanishing.py -v
       - name: Flatness check
         run: pytest Fakeon/tests/test_massive_flatness.py -v
       - name: Full regression
         run: pytest Fakeon/tests -v
+      - name: Audit + status report
+        run: |
+          python Fakeon/scripts/audit_status.py --json
+          echo "::group::STATUS.md"
+          cat Fakeon/docs/STATUS.md
+          echo "::endgroup::"
 
   lean:
     name: Lean proof verification
