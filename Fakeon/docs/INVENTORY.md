@@ -94,6 +94,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | File                           | Status |
 |--------------------------------|--------|
 | `fakeon_validation_ci.py`      | ✅     |
+| `audit_status.py`              | ✅ auto-discovers Lean / Python / tests / CI; emits `docs/STATUS.md` |
 | `extract_cvec.py`              | ⬜     |
 
 ## Symbolic (`symbolic/`)
