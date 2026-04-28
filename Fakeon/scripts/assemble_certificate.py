@@ -215,17 +215,19 @@ def build_certificate(
     }
 
     # Overall gate: all independent checks must pass.
-    cert["status"] = (
-        "VERIFIED"
-        if (
-            regge["fakeon_virtualized"]
-            and pl["pl_passed"]
-            and bootstrap["optical_inequality_satisfied"]
-            and s1["satisfied"]
-            and bv["weight7_pv_real"]
-        )
-        else "PENDING"
+    core_pass = (
+        regge["fakeon_virtualized"]
+        and pl["pl_passed"]
+        and bootstrap["optical_inequality_satisfied"]
+        and s1["satisfied"]
+        and bv["weight7_pv_real"]
     )
+    if core_pass and bv["source"] == "hyperint":
+        cert["status"] = "VERIFIED"
+    elif core_pass:
+        cert["status"] = "DEMONSTRATED"
+    else:
+        cert["status"] = "PENDING"
 
     # Signature covers everything EXCEPT the signature field itself.
     canonical = json.dumps(cert, sort_keys=True, separators=(",", ":")).encode()

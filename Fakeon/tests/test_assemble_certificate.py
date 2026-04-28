@@ -67,7 +67,10 @@ def test_build_certificate_shape(tmp_path):
     assert cert["bootstrap_optical"]["optical_inequality_satisfied"] is True
     assert cert["s1_distributional_limit"]["satisfied"] is True
     assert cert["boundary_vectors"]["weight7_pv_real"] is True
-    assert cert["status"] == "VERIFIED"
+    if cert["boundary_vectors"]["source"] == "hyperint":
+        assert cert["status"] == "VERIFIED"
+    else:
+        assert cert["status"] == "DEMONSTRATED"
 
 
 def test_s1_block_content(tmp_path):
@@ -113,8 +116,20 @@ def test_cli_writes_file_and_exit_zero(tmp_path, monkeypatch):
     assert rc == 0
     assert out.exists()
     cert = json.loads(out.read_text())
-    assert cert["status"] == "VERIFIED"
+    assert cert["status"] in {"VERIFIED", "DEMONSTRATED"}
     assert len(cert["signature"]) == 64
+
+
+def test_demonstrated_when_boundary_vectors_are_fallback(tmp_path, monkeypatch):
+    anchor = _prepare_repo(tmp_path)
+    monkeypatch.setattr(ac, "_boundary_vectors_block", lambda: {
+        "source": "analytic_fallback",
+        "weight7_pv_real": True,
+        "c7_linf": 1.0,
+        "c5_linf": 1.0,
+    })
+    cert = ac.build_certificate(anchor_path=anchor, n_points=32)
+    assert cert["status"] == "DEMONSTRATED"
 
 
 def test_cli_require_verified_fails_when_missing_anchor(tmp_path):
