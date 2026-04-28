@@ -18,7 +18,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `Geometry/HyperellipticPV.lean`        | ⬜     | Hyperelliptic PV extension                    |
 | `Geometry/GlobalPVClosure.lean`        | ⬜     | Global monodromy closure                      |
 | `Geometry/GeneralGenusPV.lean`         | ⬜     | Arbitrary-genus closure                       |
-| `QFT/FakeonUnitarity.lean`             | 🟡     | Unitarity via `chen_pv_reality`               |
+| `QFT/FakeonUnitarity.lean`             | 🟡     | `perturbative_unitarity_closure` (scaffold) + S.1/S.2 axioms |
 | `QFT/FakeonLSZ.lean`                   | ⬜     | Flat-space LSZ                                |
 | `QFT/FakeonCurvedLSZ.lean`             | ⬜     | Curved-space LSZ                              |
 | `Experimental/SiegelThetaPV.lean`      | ⬜     | PV on Siegel theta                            |
@@ -39,12 +39,22 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `chen_collapse`              | `Algebra/ChenCollapse.lean`            | 🟡 statement only |
 | `massive_pv_reality`         | `Algebra/MassiveDE.lean`               | 🟡 trivial ℝ version |
 | `fakeon_unitarity`           | `QFT/FakeonUnitarity.lean`             | 🟡 reduces to `chen_pv_reality` |
+| `fakeon_amplitude_real`      | `QFT/FakeonUnitarity.lean`             | ✅ trivial under T = 0 placeholder |
+| `modified_cutkosky_physical_only` | `QFT/FakeonUnitarity.lean`        | 🟡 statement-level placeholder |
+| `physical_optical_theorem`   | `QFT/FakeonUnitarity.lean`             | 🟡 statement-level placeholder |
+| `perturbative_unitarity_closure` | `QFT/FakeonUnitarity.lean`         | 🟡 closes under T = 0 placeholder |
 
 ### Axioms (to be discharged by follow-ups)
 
 | Axiom                             | Home                                       | Discharged by |
 |-----------------------------------|--------------------------------------------|---------------|
 | `fakeon_spectral_density_zero`    | `Analysis/DispersiveReality.lean`          | `QFT/FakeonUnitarity.lean` (WIP) |
+| `spectral_density_fakeon_zero`    | `Algebra/ChenCollapse.lean`                | `QFT/FakeonUnitarity.lean` (WIP) |
+| `constraint_manifold_pv`          | `Algebra/ChenCollapse.lean`                | `Geometry/GlobalPVClosure.lean` (WIP) |
+| `fakeon_spectral_cut_zero`        | `QFT/FakeonUnitarity.lean`                 | future `QFT/Cutkosky.lean` |
+| `bootstrap_unitarity_bound`       | `QFT/FakeonUnitarity.lean`                 | bootstrap solver export |
+| `IsFakeonCut`, `discCut`          | `QFT/FakeonUnitarity.lean`                 | future `QFT/Cutkosky.lean` |
+| `P_phys_properties`               | `QFT/FakeonUnitarity.lean`                 | dispatch via `Mathlib.LinearAlgebra.Projection` (when available) |
 | `g_tree_im_zero`                  | `Analysis/DispersiveReality.lean`          | tree-level amplitude catalogue (TBD) |
 | `causal_prop_im_proportional`     | `Analysis/DispersiveReality.lean`          | future `Analysis/PrincipalValue.lean` |
 | `rg_flow_1d_reduction`            | `Geometry/WedgeVanishing.lean`             | future `Geometry/FrobeniusReduction.lean` |
@@ -74,6 +84,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `test_dispersive_reality.py`           | ✅ 7 tests (6 parametrised + axiom guard) |
 | `test_distribution_limits.py`          | ✅ 12 tests (SP convergence, closed-form match, monotone error, algebraic identity) |
 | `test_chen_integration.py`             | ✅ 10 tests (axiom guard, base-case c_n × 5, recursion reality × 4) |
+| `test_unitarity_closure.py`            | ✅ 11 tests (projector, S unitary, closure × 6, partial-wave bound, fakeon block real, T Hermitian) |
 | `test_wedge_vanishing.py`              | ✅ 5 tests (1D certified, 2D rejected, widths sweep) |
 | `test_fakeon_pv.py`                    | ⬜ placeholder |
 | `test_numeric_imports.py`              | ✅ 9 import smoke tests (now includes `regime`, `distributions`) |
