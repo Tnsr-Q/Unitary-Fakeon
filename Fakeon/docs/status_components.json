@@ -108,6 +108,14 @@
       "ledger_key": null,
       "basis": "perturbative_unitarity_closure under T_matrix placeholder."
     },
+    "Lean_InelasticBootstrap": {
+      "status": "DEMONSTRATED",
+      "category": "lean_module",
+      "assumptions": ["A2", "S2", "S3"],
+      "lean_file": "Fakeon/QFT/InelasticBootstrap.lean",
+      "ledger_key": "bootstrap_loss",
+      "basis": "Loss-zero implies |S_l| <= 1 on grid; optical inequality Im T >= |T|^2 from S = 1 + 2 i T."
+    },
     "Lean_Assumptions_Cert": {
       "status": "METADATA",
       "category": "lean_module",
@@ -156,6 +164,14 @@
       "lean_file": null,
       "ledger_key": "spectral_density",
       "basis": "S.1, S.2 (inelasticity, Froissart), S.3 hooks all green."
+    },
+    "Test_BootstrapOptical": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A2", "S2"],
+      "lean_file": null,
+      "ledger_key": "bootstrap_loss",
+      "basis": "Loss vanishing for |S|=eta inelastic ansatz; violation correctly flagged; optical Im T >= |T|^2 inequality holds pointwise."
     },
     "Test_MassiveFlatness": {
       "status": "VERIFIED",

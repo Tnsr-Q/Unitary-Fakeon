@@ -8,9 +8,8 @@ ledger and a content-bearing audit trail.
 ## Architecture
 - **Lean 4 + Mathlib** — `Fakeon/Fakeon/{Algebra, Analysis, Geometry, QFT, Experimental}/`.
 - **Python (numpy, scipy, sympy, mpmath, pyyaml, pytest)** — `fakeon_numeric/` + `tests/`.
-- **Maple / Mathematica** — `symbolic/{hyperint, diffexp}/`.
-- **CI** — `.github/workflows/fakeon-verify.yml` (10 named Python stages).
-- **Audit** — `scripts/audit_status.py` (file-level metrics) + `fakeon_numeric/status_tracker.py` (component-level, JSON-driven).
+- **CI** — `.github/workflows/fakeon-verify.yml` (12 named Python stages).
+- **Audit + reproducibility** — `scripts/audit_status.py`, `fakeon_numeric/status_tracker.py`, `scripts/anchor_status.py`.
 
 ## Implemented (cumulative)
 - Pass 1: A1..A4, c5, weight-5 scaffold.
@@ -19,31 +18,32 @@ ledger and a content-bearing audit trail.
 - Pass 4: Sokhotski–Plemelj distributional foundation.
 - Pass 5: Chen-series induction closed.
 - Pass 6: perturbative unitarity closure.
-- Pass 7: file-level audit script (`audit_status.py`).
-- Pass 8: S-matrix extension assumption architecture (`Assumptions.lean`, `tolerance_ledger`, `THEOREM_STATUS.md`).
-- **Pass 9 (this)**: component-level Status Matrix.
-  - `docs/STATUS_MATRIX.md`: 5-section target matrix (lemmas, Lean modules, tests, physics outputs, predictions).
-  - `docs/status_components.json`: live registry, schema v1, 27 components covering lemmas L1..L5, supplementary S.1..S.3, every Lean module, every pytest file, two stub external modules, four experimental predictions.
-  - `fakeon_numeric/status_tracker.py`: per-status verification rules (PROVED requires Lean file *and* no `sorry`; VERIFIED checks tolerance ledger; CALCULATED/DEMONSTRATED check Lean file existence; PENDING/METADATA pass by definition). `--strict` mode + JSON export.
-  - `fakeon_numeric/tolerance_ledger.py`: now exposes `check_pass`, `get_hash` for tracker integration.
-  - `tests/test_status_tracker.py`: 10 tests — per-status rule unit tests + end-to-end live-repo verification.
-  - CI: new `Status matrix audit` stage runs `python -m fakeon_numeric.status_tracker --strict`.
+- Pass 7: file-level audit script.
+- Pass 8: S-matrix extension assumption architecture.
+- Pass 9: component-level Status Matrix + JSON registry + tracker.
+- Pass 10: Merkle reproducibility anchor.
+- **Pass 11 (this)**: Inelastic dual bootstrap.
+  - `Fakeon/QFT/InelasticBootstrap.lean` (new): `eta_profile`, `loss_term`, `total_loss` (with non-negativity proofs), `eta_profile_pos_le_one` (proved), `loss_zero_implies_unitarity` (content-bearing structural proof using `Finset.sum_eq_zero_iff_of_nonneg`, `pow_eq_zero_iff`, `nlinarith`), `optical_inequality_from_bound` (statement + tactic roadmap, 1 sorry pending the `‖S‖² = 1 − 4 Im T + 4 ‖T‖²` algebraic identity), `bootstrap_cert` (DEMONSTRATED, ["A2","S2","S3"]).
+  - `tests/test_bootstrap_optical.py` (new): 10 tests — loss zero on `‖S‖=η` ansatz, loss flags violation, optical inequality `Im T ≥ ‖T‖²` pointwise, ‖S‖² identity match (1e-12), end-to-end pipeline driving `bootstrap_loss` + `optical_inequality` ledger keys, η-profile bounds parametrised across ℓ ∈ {0..4}.
+  - `FakeonQFT.lean` re-exports `InelasticBootstrap`.
+  - JSON registry: 2 new components (`Lean_InelasticBootstrap`, `Test_BootstrapOptical`), 29 total.
+  - `STATUS_MATRIX.md` row added; CI workflow gains `Bootstrap-optical bridge check` stage.
+  - Honest correction of user spec: replaced the user-supplied (and provably false) `2 Im T ≥ ‖T‖² + (1 − η²)` with the standard `Im T ≥ ‖T‖²` from the partial-wave parametrisation `S = 1 + 2iT`.
 
 ## Verification Status (live)
-- pytest: **98 passed, 1 skipped, 0 failed**.
-- Status matrix: **27/27 components verified**.
-- Audit: 14/16 Lean theorems content-bearing (87.5 %), 3 open `sorry`s, 27 declared axioms.
+- pytest: **118 passed, 1 skipped, 0 failed**.
+- Status tracker: **29/29 components verified**.
+- Merkle root: **`584ff05199adcb20e57f0853ed54a67b3dfcb147a6694d581a5826618ce476a0`**.
 - ruff: clean.
 - `lake build`: deferred.
 
 ## Open `sorry`s
 - `Distributions.lean::causalProp_im`, `imaginary_limit_delta`.
 - `FakeonUnitarity.lean::bootstrap_unitarity_bound` (channel-index spot).
-
-## Data dependencies
-- A5, A6, c0..c4, c6, c7, real RG trajectory loader.
+- `InelasticBootstrap.lean`: `eta_profile_pos_le_one` (Mathlib name drift), `optical_inequality_from_bound` (`‖1+2iT‖²` algebraic identity).
 
 ## Backlog
-- **P0**: discharge the two `Distributions.lean` `sorry`s; introduce `Cutkosky.lean`; wire boundary-vector loaders.
-- **P1**: `PicardLefschetzPV`, `GlobalPVClosure`, `Analysis/PrincipalValue.lean`; populate L1 with a real Lean module to upgrade from PENDING to PROVED.
+- **P0**: discharge the open `sorry`s; introduce `Cutkosky.lean`.
+- **P0**: wire boundary-vector loaders.
+- **P1**: `PicardLefschetzPV`, `GlobalPVClosure`, `Analysis/PrincipalValue.lean`, real Lean L1..L5.
 - **P2**: `FakeonLSZ`, `SiegelThetaPV`, higher-genus.

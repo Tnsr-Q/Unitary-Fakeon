@@ -50,6 +50,7 @@ fails the build whenever a row's claimed status cannot be reproduced
 | `Fakeon/Algebra/ChenCollapse.lean → chen_series_real` | `DEMONSTRATED` | Weight-n induction + PV kernels | A₁, A₄ | Rational M_k + real d ln \|α_k\| + real c_n |
 | `Fakeon/Geometry/WedgeVanishing.lean → wedge_vanishes_on_rg_flow` | `DEMONSTRATED` | 1D manifold reduction | A₄, A₅ | Non-commuting constraints ⇒ d ln α_i ∧ d ln α_j = 0 |
 | `Fakeon/QFT/FakeonUnitarity.lean → perturbative_unitarity_closure` | `DEMONSTRATED` | Modified Cutkosky + Chen reality | A₁–A₅, S.1, S.2 | P_phys S† S P_phys = P_phys (conditional on axioms) |
+| `Fakeon/QFT/InelasticBootstrap.lean → loss_zero_implies_unitarity` | `DEMONSTRATED` | Loss-zero ⇒ ‖S_ℓ‖ ≤ 1 + bridge to optical inequality | A₂, S.2, S.3 | Im T_ℓ ≥ ‖T_ℓ‖² from S = 1 + 2 i T |
 | `Fakeon/QFT/Assumptions.lean → smatrix_unitarity_cert` | `METADATA` | Axiom tagging + status bundle | — | Explicit dependency graph for downstream theorems |
 
 ---

@@ -129,6 +129,17 @@
     "ci_verified": true,
     "note": ""
   },
+  "Lean_InelasticBootstrap": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A2",
+      "S2",
+      "S3"
+    ],
+    "audit_checksum": "38028ebb6e96e4d8",
+    "ci_verified": true,
+    "note": ""
+  },
   "Lean_Assumptions_Cert": {
     "status": "METADATA",
     "dependencies": [],
@@ -190,6 +201,16 @@
     "audit_checksum": "c5ecd9a70d837eae",
     "ci_verified": true,
     "note": "ledger_key 'spectral_density' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_BootstrapOptical": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A2",
+      "S2"
+    ],
+    "audit_checksum": "8fc9d3b3afa7ecf9",
+    "ci_verified": true,
+    "note": "ledger_key 'bootstrap_loss' absent (accepted; pytest stage may not have populated yet)"
   },
   "Test_MassiveFlatness": {
     "status": "VERIFIED",

@@ -19,6 +19,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `Geometry/GlobalPVClosure.lean`        | ⬜     | Global monodromy closure                      |
 | `Geometry/GeneralGenusPV.lean`         | ⬜     | Arbitrary-genus closure                       |
 | `QFT/Assumptions.lean`                 | ✅     | A1..A5 + S.1..S.3 axioms + `VerificationStatus` + certificates |
+| `QFT/InelasticBootstrap.lean`          | 🟡     | Loss / `eta_profile` / `loss_zero_implies_unitarity` / optical bridge (2 sorrys) |
 | `QFT/FakeonUnitarity.lean`             | 🟡     | `perturbative_unitarity_closure` (scaffold) + S.1/S.2 axioms |
 | `QFT/FakeonLSZ.lean`                   | ⬜     | Flat-space LSZ                                |
 | `QFT/FakeonCurvedLSZ.lean`             | ⬜     | Curved-space LSZ                              |
@@ -88,6 +89,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `test_chen_integration.py`             | ✅ 10 tests (axiom guard, base-case c_n × 5, recursion reality × 4) |
 | `test_unitarity_closure.py`            | ✅ 11 tests (projector, S unitary, closure × 6, partial-wave bound, fakeon block real, T Hermitian) |
 | `test_s_matrix_extension.py`           | ✅ 9 tests (S.1, S.2 inelasticity × 4, Froissart pass + violation, S.3, end-to-end pipeline) |
+| `test_bootstrap_optical.py`            | ✅ 10 tests (loss zero ↔ unitarity, optical Im T ≥ ‖T‖² inequality, ‖S‖² identity, η-profile bounds × 5) |
 | `test_wedge_vanishing.py`              | ✅ 5 tests (1D certified, 2D rejected, widths sweep) |
 | `test_fakeon_pv.py`                    | ⬜ placeholder |
 | `test_numeric_imports.py`              | ✅ 9 import smoke tests (now includes `regime`, `distributions`) |
