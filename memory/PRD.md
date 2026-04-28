@@ -40,10 +40,13 @@ ledger and a content-bearing audit trail.
 - End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
 - `lake build`: opt-in via `workflow_dispatch` (deferred).
 
-## Open `sorry`s
-- `Distributions.lean::causalProp_im`, `imaginary_limit_delta`.
-- `FakeonUnitarity.lean::bootstrap_unitarity_bound` (channel-index spot).
-- `InelasticBootstrap.lean::optical_inequality_from_bound` (`‖1+2iT‖²` algebraic identity).
+## Open `sorry`s (unchanged after 2026-04-29 Lean proof-patch review)
+- `Distributions.lean::causalProp_im` — reviewed; patch plausible but unverified (no Lean), parked for activation when `lake build` runs.
+- `Distributions.lean::imaginary_limit_delta` — reviewed; proposed patch rejected (type error + fabricated Mathlib names).
+- `FakeonUnitarity.lean::bootstrap_unitarity_bound` — reviewed; proposed patch targets the wrong object (per-channel vs. matrix-level). The per-channel proof already exists in `InelasticBootstrap.loss_zero_implies_unitarity`.
+- `InelasticBootstrap.lean::optical_inequality_from_bound` (internal `hSq`) — reviewed; proposed patch rejected (sign error, coefficient error, adds axioms, re-introduces Pass-11 rejected identity). A 6-line candidate for the single open line is recorded in `docs/LEAN_PROOF_REVIEW_2026-04-29.md`.
+
+Full referee review: `Fakeon/docs/LEAN_PROOF_REVIEW_2026-04-29.md`.
 
 ## Backlog
 - **P0**: populate `A5 (α₅=y)` and `A6 (α₆=y+1)` residue matrices from the y-evolution derivation, then run HyperInt/DiffExp + `scripts/extract_cvec.py` to activate the weight-7 Chen recursion test.
