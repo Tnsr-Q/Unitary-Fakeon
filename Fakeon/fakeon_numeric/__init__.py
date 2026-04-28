@@ -10,6 +10,7 @@ __all__ = [
     "regime",
     "distributions",
     "tolerance_ledger",
+    "status_tracker",
 ]
 
 __version__ = "0.0.1"

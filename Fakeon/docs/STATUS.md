@@ -1,6 +1,6 @@
 # Fakeon Verification — Status
 
-_Generated 2026-04-28T06:01:37+00:00 from `/app/Fakeon`._
+_Generated 2026-04-28T06:09:02+00:00 from `/app/Fakeon`._
 _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows.
 
 ## Headline
@@ -8,7 +8,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 - **Content-bearing theorems / lemmas:** 14 / 16 (87.5 %)
 - **Open `sorry`s:** 3
 - **Open axioms:** 27
-- **pytest:** 87 passed · 0 failed · 1 skipped · 0 errors
+- **pytest:** 98 passed · 0 failed · 1 skipped · 0 errors
 
 ## Lean modules
 
@@ -35,7 +35,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 
 | File | lines | def | class |
 |------|------:|----:|------:|
-| `/app/Fakeon/fakeon_numeric/__init__.py` | 16 | 0 | 0 |
+| `/app/Fakeon/fakeon_numeric/__init__.py` | 17 | 0 | 0 |
 | `/app/Fakeon/fakeon_numeric/distributions.py` | 53 | 3 | 0 |
 | `/app/Fakeon/fakeon_numeric/omega_quadrature.py` | 11 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/partial_wave.py` | 11 | 1 | 0 |
@@ -43,7 +43,8 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `/app/Fakeon/fakeon_numeric/regime.py` | 47 | 1 | 1 |
 | `/app/Fakeon/fakeon_numeric/schwarzschild_radial_solver.py` | 13 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/siegel_theta.py` | 11 | 1 | 0 |
-| `/app/Fakeon/fakeon_numeric/tolerance_ledger.py` | 59 | 5 | 2 |
+| `/app/Fakeon/fakeon_numeric/status_tracker.py` | 255 | 10 | 1 |
+| `/app/Fakeon/fakeon_numeric/tolerance_ledger.py` | 80 | 7 | 2 |
 | `/app/Fakeon/fakeon_numeric/validation.py` | 14 | 1 | 0 |
 | `/app/Fakeon/scripts/audit_status.py` | 511 | 12 | 5 |
 | `/app/Fakeon/scripts/extract_cvec.py` | 20 | 1 | 0 |
@@ -60,8 +61,9 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `tests/test_fakeon_pv.py` | 1 |
 | `tests/test_massive_de_consistency.py` | 5 |
 | `tests/test_massive_flatness.py` | 17 |
-| `tests/test_numeric_imports.py` | 10 |
+| `tests/test_numeric_imports.py` | 11 |
 | `tests/test_s_matrix_extension.py` | 9 |
+| `tests/test_status_tracker.py` | 10 |
 | `tests/test_unitarity_closure.py` | 11 |
 | `tests/test_wedge_vanishing.py` | 5 |
 
@@ -76,6 +78,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `fakeon-verify.yml` | `python` | Chen integration check |
 | `fakeon-verify.yml` | `python` | Unitarity closure check |
 | `fakeon-verify.yml` | `python` | S-matrix extension validation (S.1–S.3) |
+| `fakeon-verify.yml` | `python` | Status matrix audit |
 | `fakeon-verify.yml` | `python` | Wedge vanishing check |
 | `fakeon-verify.yml` | `python` | Flatness check |
 | `fakeon-verify.yml` | `python` | Full regression |

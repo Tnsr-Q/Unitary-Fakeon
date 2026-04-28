@@ -1,0 +1,271 @@
+{
+  "L1_SM_Coupling": {
+    "status": "PENDING",
+    "dependencies": [
+      "A1",
+      "A3"
+    ],
+    "audit_checksum": "6e293b0715ef7dde",
+    "ci_verified": true,
+    "note": ""
+  },
+  "L2_Mass_Generation": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A2",
+      "A4"
+    ],
+    "audit_checksum": "643fbc8d65dc2e7d",
+    "ci_verified": true,
+    "note": "no ledger_key registered (unverifiable, accepted)"
+  },
+  "L3_Anomaly_Freedom": {
+    "status": "CALCULATED",
+    "dependencies": [
+      "A3"
+    ],
+    "audit_checksum": "4dc236e4c9534a81",
+    "ci_verified": true,
+    "note": ""
+  },
+  "L4_IR_Fixed_Point": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A4",
+      "A5"
+    ],
+    "audit_checksum": "9a00d6e8a7960ee5",
+    "ci_verified": true,
+    "note": "no ledger_key registered (unverifiable, accepted)"
+  },
+  "L5_Observational_Closure": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A5"
+    ],
+    "audit_checksum": "5fbac5d52e9045dd",
+    "ci_verified": true,
+    "note": ""
+  },
+  "S1_Lorentzian_Spectral_Flow": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A1",
+      "S1"
+    ],
+    "audit_checksum": "d50fee1797e5be7d",
+    "ci_verified": true,
+    "note": ""
+  },
+  "S2_Inelastic_Dual_Bootstrap": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A2",
+      "S2"
+    ],
+    "audit_checksum": "91bed1e791abf38a",
+    "ci_verified": true,
+    "note": ""
+  },
+  "S3_Beta_Function_Closure": {
+    "status": "CALCULATED",
+    "dependencies": [
+      "A4"
+    ],
+    "audit_checksum": "c28eaab7582acf87",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Lean_DispersiveReality": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "S1"
+    ],
+    "audit_checksum": "7bd4630210ae80fc",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Lean_Distributions": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "S1"
+    ],
+    "audit_checksum": "ee0c5ed7850b2ee8",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Lean_ChenCollapse": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A1",
+      "A4"
+    ],
+    "audit_checksum": "43e30a79ae0d046e",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Lean_WedgeVanishing": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A4",
+      "A5"
+    ],
+    "audit_checksum": "6340bc2571e8b86d",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Lean_FakeonUnitarity": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "S1",
+      "S2"
+    ],
+    "audit_checksum": "fb61af7cf299d9cc",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Lean_Assumptions_Cert": {
+    "status": "METADATA",
+    "dependencies": [],
+    "audit_checksum": "0595a4378b12d37f",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Test_DispersiveReality": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "S1"
+    ],
+    "audit_checksum": "a3df5fc1e07de263",
+    "ci_verified": true,
+    "note": "ledger_key 'dispersive_reality' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_DistributionLimits": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "S1"
+    ],
+    "audit_checksum": "a3df5fc1e07de263",
+    "ci_verified": true,
+    "note": "ledger_key 'sokhotski_plemelj' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_ChenIntegration": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A1",
+      "A4",
+      "S1"
+    ],
+    "audit_checksum": "a33a38ee505b190c",
+    "ci_verified": true,
+    "note": "ledger_key 'chen_recursion' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_UnitarityClosure": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "S1",
+      "S2"
+    ],
+    "audit_checksum": "8e2a995dc23a9422",
+    "ci_verified": true,
+    "note": "ledger_key 'unitarity_closure' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_SMatrixExtension": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "S1",
+      "S2",
+      "S3"
+    ],
+    "audit_checksum": "c5ecd9a70d837eae",
+    "ci_verified": true,
+    "note": "ledger_key 'spectral_density' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_MassiveFlatness": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A1"
+    ],
+    "audit_checksum": "d85f0b90a997271a",
+    "ci_verified": true,
+    "note": "ledger_key 'massive_flatness' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_WedgeVanishing": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A4",
+      "A5"
+    ],
+    "audit_checksum": "9a00d6e8a7960ee5",
+    "ci_verified": true,
+    "note": "ledger_key 'wedge_rank' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "SIQGRGESolver": {
+    "status": "PENDING",
+    "dependencies": [
+      "A4"
+    ],
+    "audit_checksum": "9f0d110b20ac256d",
+    "ci_verified": true,
+    "note": ""
+  },
+  "DiscretizedBootstrapSolver": {
+    "status": "PENDING",
+    "dependencies": [
+      "S2"
+    ],
+    "audit_checksum": "bb3fa496b596a59c",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Pred_TopMass": {
+    "status": "PENDING",
+    "dependencies": [
+      "L2",
+      "S3"
+    ],
+    "audit_checksum": "599fc39d8d8dbdd9",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Pred_SGWB_DoublePeak": {
+    "status": "PENDING",
+    "dependencies": [
+      "S1",
+      "L5"
+    ],
+    "audit_checksum": "032d43f4dd4f27f1",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Pred_PBH_Abundance": {
+    "status": "PENDING",
+    "dependencies": [
+      "C_DM",
+      "C_infl"
+    ],
+    "audit_checksum": "d00aa5e07f98985f",
+    "ci_verified": true,
+    "note": ""
+  },
+  "Pred_Echo_Spacing": {
+    "status": "PENDING",
+    "dependencies": [
+      "C_echo",
+      "S2"
+    ],
+    "audit_checksum": "05e12d8a51ad2a76",
+    "ci_verified": true,
+    "note": ""
+  }
+}

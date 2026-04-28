@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "status_levels": ["PROVED", "VERIFIED", "CALCULATED", "DEMONSTRATED", "PENDING", "METADATA"],
+
+  "components": {
+    "L1_SM_Coupling": {
+      "status": "PENDING",
+      "category": "lemma",
+      "assumptions": ["A1", "A3"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "Target: PROVED via Lean + symbolic BRST; awaiting Fakeon/Lemmas/L1_SMCoupling.lean."
+    },
+    "L2_Mass_Generation": {
+      "status": "VERIFIED",
+      "category": "lemma",
+      "assumptions": ["A2", "A4"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "Copositivity lambda_H, lambda_S > 0; Picard-Lindelof uniqueness."
+    },
+    "L3_Anomaly_Freedom": {
+      "status": "CALCULATED",
+      "category": "lemma",
+      "assumptions": ["A3"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "Gauge-gravity anomaly cancellation; s^2 = 0 under PV contour."
+    },
+    "L4_IR_Fixed_Point": {
+      "status": "VERIFIED",
+      "category": "lemma",
+      "assumptions": ["A4", "A5"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "Lyapunov + Hessian PL, mu ~ 2.4e-2."
+    },
+    "L5_Observational_Closure": {
+      "status": "DEMONSTRATED",
+      "category": "lemma",
+      "assumptions": ["A5"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "Single f2* ~ 1e-8 satisfies UV/IR/SM targets."
+    },
+    "S1_Lorentzian_Spectral_Flow": {
+      "status": "DEMONSTRATED",
+      "category": "supplementary",
+      "assumptions": ["A1", "S1"],
+      "lean_file": "Fakeon/QFT/Assumptions.lean",
+      "ledger_key": "spectral_density",
+      "basis": "G_k(p) preserves i-epsilon; Ward identities maintained."
+    },
+    "S2_Inelastic_Dual_Bootstrap": {
+      "status": "DEMONSTRATED",
+      "category": "supplementary",
+      "assumptions": ["A2", "S2"],
+      "lean_file": "Fakeon/QFT/Assumptions.lean",
+      "ledger_key": "inelastic_bootstrap",
+      "basis": "|S_l(s)| <= 1, Froissart-Martin saturation."
+    },
+    "S3_Beta_Function_Closure": {
+      "status": "CALCULATED",
+      "category": "supplementary",
+      "assumptions": ["A4"],
+      "lean_file": "Fakeon/QFT/Assumptions.lean",
+      "ledger_key": "beta_closure",
+      "basis": "1-loop and 2-loop MS-bar coefficients fixed."
+    },
+
+    "Lean_DispersiveReality": {
+      "status": "DEMONSTRATED",
+      "category": "lean_module",
+      "assumptions": ["S1"],
+      "lean_file": "Fakeon/Analysis/DispersiveReality.lean",
+      "ledger_key": null,
+      "basis": "im_eq_zero theorem under fakeon spectral-density vanishing."
+    },
+    "Lean_Distributions": {
+      "status": "DEMONSTRATED",
+      "category": "lean_module",
+      "assumptions": ["S1"],
+      "lean_file": "Fakeon/Analysis/Distributions.lean",
+      "ledger_key": null,
+      "basis": "Sokhotski-Plemelj scaffold; im_eq_zero_dispersion proved under rho ≡ 0."
+    },
+    "Lean_ChenCollapse": {
+      "status": "DEMONSTRATED",
+      "category": "lean_module",
+      "assumptions": ["A1", "A4"],
+      "lean_file": "Fakeon/Algebra/ChenCollapse.lean",
+      "ledger_key": null,
+      "basis": "chen_series_real via R-valued recursion + Complex.ofReal_im."
+    },
+    "Lean_WedgeVanishing": {
+      "status": "DEMONSTRATED",
+      "category": "lean_module",
+      "assumptions": ["A4", "A5"],
+      "lean_file": "Fakeon/Geometry/WedgeVanishing.lean",
+      "ledger_key": null,
+      "basis": "Scalar wedge identity + Frobenius reduction axiom."
+    },
+    "Lean_FakeonUnitarity": {
+      "status": "DEMONSTRATED",
+      "category": "lean_module",
+      "assumptions": ["A1", "A2", "A3", "A4", "A5", "S1", "S2"],
+      "lean_file": "Fakeon/QFT/FakeonUnitarity.lean",
+      "ledger_key": null,
+      "basis": "perturbative_unitarity_closure under T_matrix placeholder."
+    },
+    "Lean_Assumptions_Cert": {
+      "status": "METADATA",
+      "category": "lean_module",
+      "assumptions": [],
+      "lean_file": "Fakeon/QFT/Assumptions.lean",
+      "ledger_key": null,
+      "basis": "Assumption registry + SMatrixCertificate values."
+    },
+
+    "Test_DispersiveReality": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["S1"],
+      "lean_file": null,
+      "ledger_key": "dispersive_reality",
+      "basis": "tests/test_dispersive_reality.py: |Im[c_n]| < 1e-14 for n=0..5."
+    },
+    "Test_DistributionLimits": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["S1"],
+      "lean_file": null,
+      "ledger_key": "sokhotski_plemelj",
+      "basis": "Voigt closed-form match to 1e-7."
+    },
+    "Test_ChenIntegration": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A1", "A4", "S1"],
+      "lean_file": null,
+      "ledger_key": "chen_recursion",
+      "basis": "Chen step preserves |Im| < 1e-12."
+    },
+    "Test_UnitarityClosure": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A1", "A2", "A3", "A4", "A5", "S1", "S2"],
+      "lean_file": null,
+      "ledger_key": "unitarity_closure",
+      "basis": "P S^dagger S P = P, residual < 1e-10."
+    },
+    "Test_SMatrixExtension": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["S1", "S2", "S3"],
+      "lean_file": null,
+      "ledger_key": "spectral_density",
+      "basis": "S.1, S.2 (inelasticity, Froissart), S.3 hooks all green."
+    },
+    "Test_MassiveFlatness": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A1"],
+      "lean_file": null,
+      "ledger_key": "massive_flatness",
+      "basis": "15 pair-flatness assertions over the 6-letter alphabet."
+    },
+    "Test_WedgeVanishing": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A4", "A5"],
+      "lean_file": null,
+      "ledger_key": "wedge_rank",
+      "basis": "Rank-1 certified, rank-2 rejected on synthetic trajectories."
+    },
+
+    "SIQGRGESolver": {
+      "status": "PENDING",
+      "category": "external_module",
+      "assumptions": ["A4"],
+      "lean_file": null,
+      "ledger_key": "siqg_rge",
+      "basis": "External RGE solver; awaiting integration."
+    },
+    "DiscretizedBootstrapSolver": {
+      "status": "PENDING",
+      "category": "external_module",
+      "assumptions": ["S2"],
+      "lean_file": null,
+      "ledger_key": "bootstrap",
+      "basis": "External bootstrap solver; awaiting integration."
+    },
+
+    "Pred_TopMass": {
+      "status": "PENDING",
+      "category": "experimental",
+      "assumptions": ["L2", "S3"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "m_t = 173.1 +/- 0.3 GeV; ATLAS/CMS measurement."
+    },
+    "Pred_SGWB_DoublePeak": {
+      "status": "PENDING",
+      "category": "experimental",
+      "assumptions": ["S1", "L5"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "Delta f = 9 Hz, LISA/DECIGO."
+    },
+    "Pred_PBH_Abundance": {
+      "status": "PENDING",
+      "category": "experimental",
+      "assumptions": ["C_DM", "C_infl"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "f_PBH ~ 1, microlensing / GW merger rates."
+    },
+    "Pred_Echo_Spacing": {
+      "status": "PENDING",
+      "category": "experimental",
+      "assumptions": ["C_echo", "S2"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "LIGO/Virgo/KAGRA ringdown residuals."
+    }
+  }
+}

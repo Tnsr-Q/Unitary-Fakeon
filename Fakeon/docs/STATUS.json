@@ -1,0 +1,379 @@
+{
+  "generated_at": "2026-04-28T06:09:02+00:00",
+  "root": "/app/Fakeon",
+  "lean": [
+    {
+      "path": "/app/Fakeon/Fakeon/Algebra/ChenCollapse.lean",
+      "n_axiom": 2,
+      "n_theorem": 3,
+      "n_lemma": 1,
+      "n_def": 5,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Algebra/MassiveDE.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 1,
+      "n_def": 10,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Analysis/DispersiveReality.lean",
+      "n_axiom": 6,
+      "n_theorem": 1,
+      "n_lemma": 0,
+      "n_def": 2,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Analysis/Distributions.lean",
+      "n_axiom": 0,
+      "n_theorem": 2,
+      "n_lemma": 1,
+      "n_def": 3,
+      "n_sorry": 2,
+      "n_decls_with_sorry": 2
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Experimental/SiegelThetaPV.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/FakeonQFT.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Geometry/FlatConnection.lean",
+      "n_axiom": 0,
+      "n_theorem": 1,
+      "n_lemma": 1,
+      "n_def": 4,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Geometry/GeneralGenusPV.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Geometry/GlobalPVClosure.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Geometry/HyperellipticPV.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Geometry/PicardLefschetzPV.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/Geometry/WedgeVanishing.lean",
+      "n_axiom": 1,
+      "n_theorem": 0,
+      "n_lemma": 1,
+      "n_def": 1,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/QFT/Assumptions.lean",
+      "n_axiom": 13,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 4,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/QFT/FakeonCurvedLSZ.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/QFT/FakeonLSZ.lean",
+      "n_axiom": 0,
+      "n_theorem": 0,
+      "n_lemma": 0,
+      "n_def": 0,
+      "n_sorry": 0,
+      "n_decls_with_sorry": 0
+    },
+    {
+      "path": "/app/Fakeon/Fakeon/QFT/FakeonUnitarity.lean",
+      "n_axiom": 5,
+      "n_theorem": 1,
+      "n_lemma": 3,
+      "n_def": 2,
+      "n_sorry": 1,
+      "n_decls_with_sorry": 0
+    }
+  ],
+  "python": [
+    {
+      "path": "/app/Fakeon/fakeon_numeric/__init__.py",
+      "n_lines": 17,
+      "n_def": 0,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/distributions.py",
+      "n_lines": 53,
+      "n_def": 3,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/omega_quadrature.py",
+      "n_lines": 11,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/partial_wave.py",
+      "n_lines": 11,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/radial_interpolator.py",
+      "n_lines": 11,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/regime.py",
+      "n_lines": 47,
+      "n_def": 1,
+      "n_class": 1
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/schwarzschild_radial_solver.py",
+      "n_lines": 13,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/siegel_theta.py",
+      "n_lines": 11,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/status_tracker.py",
+      "n_lines": 255,
+      "n_def": 10,
+      "n_class": 1
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/tolerance_ledger.py",
+      "n_lines": 80,
+      "n_def": 7,
+      "n_class": 2
+    },
+    {
+      "path": "/app/Fakeon/fakeon_numeric/validation.py",
+      "n_lines": 14,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/scripts/audit_status.py",
+      "n_lines": 511,
+      "n_def": 12,
+      "n_class": 5
+    },
+    {
+      "path": "/app/Fakeon/scripts/extract_cvec.py",
+      "n_lines": 20,
+      "n_def": 1,
+      "n_class": 0
+    },
+    {
+      "path": "/app/Fakeon/scripts/fakeon_validation_ci.py",
+      "n_lines": 23,
+      "n_def": 1,
+      "n_class": 0
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/test_audit_status.py",
+      "n_collected": 5
+    },
+    {
+      "path": "tests/test_chen_integration.py",
+      "n_collected": 10
+    },
+    {
+      "path": "tests/test_dispersive_reality.py",
+      "n_collected": 7
+    },
+    {
+      "path": "tests/test_distribution_limits.py",
+      "n_collected": 8
+    },
+    {
+      "path": "tests/test_fakeon_pv.py",
+      "n_collected": 1
+    },
+    {
+      "path": "tests/test_massive_de_consistency.py",
+      "n_collected": 5
+    },
+    {
+      "path": "tests/test_massive_flatness.py",
+      "n_collected": 17
+    },
+    {
+      "path": "tests/test_numeric_imports.py",
+      "n_collected": 11
+    },
+    {
+      "path": "tests/test_s_matrix_extension.py",
+      "n_collected": 9
+    },
+    {
+      "path": "tests/test_status_tracker.py",
+      "n_collected": 10
+    },
+    {
+      "path": "tests/test_unitarity_closure.py",
+      "n_collected": 11
+    },
+    {
+      "path": "tests/test_wedge_vanishing.py",
+      "n_collected": 5
+    }
+  ],
+  "ci": [
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Install deps",
+      "runs": "python -m pip install --upgrade pip"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Lint",
+      "runs": "ruff check Fakeon/fakeon_numeric Fakeon/tests Fakeon/scripts"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Dispersive reality check",
+      "runs": "pytest Fakeon/tests/test_dispersive_reality.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Sokhotski\u2013Plemelj limit check",
+      "runs": "pytest Fakeon/tests/test_distribution_limits.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Chen integration check",
+      "runs": "pytest Fakeon/tests/test_chen_integration.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Unitarity closure check",
+      "runs": "pytest Fakeon/tests/test_unitarity_closure.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "S-matrix extension validation (S.1\u2013S.3)",
+      "runs": "pytest Fakeon/tests/test_s_matrix_extension.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Status matrix audit",
+      "runs": "python -m fakeon_numeric.status_tracker --root Fakeon --strict --out Fakeon/logs/status_matrix.json"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Wedge vanishing check",
+      "runs": "pytest Fakeon/tests/test_wedge_vanishing.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Flatness check",
+      "runs": "pytest Fakeon/tests/test_massive_flatness.py -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Full regression",
+      "runs": "pytest Fakeon/tests -v"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "python",
+      "step_name": "Audit + status report",
+      "runs": "python Fakeon/scripts/audit_status.py --json"
+    },
+    {
+      "workflow": "fakeon-verify.yml",
+      "job": "lean",
+      "step_name": "Lake build",
+      "runs": "lake exe cache get"
+    }
+  ],
+  "pytest_summary": {
+    "passed": 98,
+    "failed": 0,
+    "skipped": 1,
+    "errors": 0
+  },
+  "headline": {
+    "total_axioms": 27,
+    "total_sorrys": 3,
+    "total_provable": 16,
+    "total_content_bearing": 14,
+    "content_ratio": 0.875
+  }
+}

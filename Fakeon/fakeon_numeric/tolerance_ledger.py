@@ -43,6 +43,27 @@ def check_tolerance(name: str) -> bool:
     return bool(e and e.passed)
 
 
+def check_pass(name: str) -> bool:
+    """Alias of `check_tolerance` for the status-tracker API contract."""
+    return check_tolerance(name)
+
+
+def get_hash(name: str) -> str:
+    """Stable short hash of the entry for audit checksums.
+
+    Returns an empty string if the entry is absent so that callers can
+    fold it into a wider checksum without special-casing.
+    """
+    import hashlib
+    import json as _json
+    e = _LEDGER.entries.get(name)
+    if e is None:
+        return ""
+    return hashlib.sha256(
+        _json.dumps(asdict(e), sort_keys=True).encode("utf-8")
+    ).hexdigest()[:16]
+
+
 def reset_ledger() -> None:
     _LEDGER.entries.clear()
 

@@ -100,6 +100,15 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `audit_status.py`              | ✅ auto-discovers Lean / Python / tests / CI; emits `docs/STATUS.md` |
 | `extract_cvec.py`              | ⬜     |
 
+## Status matrix
+
+| Artefact                                | Status |
+|-----------------------------------------|--------|
+| `docs/STATUS_MATRIX.md`                 | ✅ target state, 5 sections, 27 rows |
+| `docs/status_components.json`           | ✅ live registry, schema_v1 |
+| `fakeon_numeric/status_tracker.py`      | ✅ verifier + matrix exporter, `--strict` mode |
+| `tests/test_status_tracker.py`          | ✅ 10 tests (per-status rules + live-repo end-to-end) |
+
 ## Symbolic (`symbolic/`)
 
 | File                                        | Status |

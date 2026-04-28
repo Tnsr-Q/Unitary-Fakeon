@@ -21,6 +21,7 @@ MODULES = [
     "fakeon_numeric.regime",
     "fakeon_numeric.distributions",
     "fakeon_numeric.tolerance_ledger",
+    "fakeon_numeric.status_tracker",
 ]
 
 
