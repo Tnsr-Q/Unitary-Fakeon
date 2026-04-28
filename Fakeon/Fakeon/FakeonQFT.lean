@@ -6,6 +6,7 @@
 
 import Fakeon.Algebra.MassiveDE
 import Fakeon.Algebra.ChenCollapse
+import Fakeon.Algebra.Pairing
 import Fakeon.Analysis.Distributions
 import Fakeon.Analysis.DispersiveReality
 import Fakeon.Geometry.FlatConnection
