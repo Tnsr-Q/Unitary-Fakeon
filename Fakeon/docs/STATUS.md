@@ -1,6 +1,6 @@
 # Fakeon Verification — Status
 
-_Generated 2026-04-28T08:47:47+00:00 from `/app/Fakeon`._
+_Generated 2026-04-28T09:16:13+00:00 from `/app/Fakeon`._
 _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows.
 
 ## Headline
@@ -8,7 +8,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 - **Content-bearing theorems / lemmas:** 23 / 26 (88.5 %)
 - **Open `sorry`s:** 4
 - **Open axioms:** 40
-- **pytest:** 150 passed · 0 failed · 1 skipped · 0 errors
+- **pytest:** 155 passed · 0 failed · 1 skipped · 0 errors
 
 ## Lean modules
 
@@ -53,6 +53,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `/app/Fakeon/fakeon_numeric/tolerance_ledger.py` | 80 | 7 | 2 |
 | `/app/Fakeon/fakeon_numeric/validation.py` | 49 | 4 | 0 |
 | `/app/Fakeon/scripts/anchor_status.py` | 302 | 13 | 1 |
+| `/app/Fakeon/scripts/assemble_certificate.py` | 245 | 9 | 0 |
 | `/app/Fakeon/scripts/audit_status.py` | 511 | 12 | 5 |
 | `/app/Fakeon/scripts/extract_cvec.py` | 187 | 7 | 0 |
 | `/app/Fakeon/scripts/fakeon_validation_ci.py` | 23 | 1 | 0 |
@@ -62,6 +63,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | File | collected |
 |------|----------:|
 | `tests/test_anchor_status.py` | 10 |
+| `tests/test_assemble_certificate.py` | 5 |
 | `tests/test_audit_status.py` | 5 |
 | `tests/test_bootstrap_optical.py` | 10 |
 | `tests/test_chen_integration.py` | 10 |
@@ -100,4 +102,17 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `fakeon-verify.yml` | `python` | Full regression |
 | `fakeon-verify.yml` | `python` | Audit + status report |
 | `fakeon-verify.yml` | `lean` | Lake build |
+| `quft-verify.yml` | `numeric` | Install Python dependencies |
+| `quft-verify.yml` | `numeric` | Ruff lint |
+| `quft-verify.yml` | `numeric` | HyperInt / DiffExp extraction (optional) |
+| `quft-verify.yml` | `numeric` | Boundary-vector reality gate |
+| `quft-verify.yml` | `numeric` | Pytest (full suite with JUnit XML) |
+| `quft-verify.yml` | `numeric` | Upload pytest artefacts |
+| `quft-verify.yml` | `numeric` | Status-matrix audit |
+| `quft-verify.yml` | `numeric` | Merkle reproducibility anchor |
+| `quft-verify.yml` | `numeric` | Assemble FakeonCertificate |
+| `quft-verify.yml` | `numeric` | Upload certification artefacts |
+| `quft-verify.yml` | `numeric` | Step summary |
+| `quft-verify.yml` | `lean` | lake exe cache get (Mathlib olean cache) |
+| `quft-verify.yml` | `lean` | lake build |
 

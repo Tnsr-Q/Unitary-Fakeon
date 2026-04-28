@@ -4,7 +4,6 @@ and for fakeon_numeric.boundary_vectors loader."""
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import numpy as np
 import pytest
@@ -27,7 +26,7 @@ def test_loader_analytic_fallback_shapes(tmp_path, monkeypatch):
         assert v.shape == (6,)
         assert np.isrealobj(v)
         assert np.all(np.isfinite(v))
-    assert not bv.is_from_hyperint() is True  # tautology; path missing
+    assert bv.is_from_hyperint() is False
     assert bv.pv_reality_residual(vecs) == 0.0
 
 
@@ -99,7 +98,6 @@ def test_parse_mathematica_dump_roundtrip(tmp_path):
         assert coeffs[w].shape == (6,)
 
     # Weight-5 vector should match the analytic fallback literals.
-    import math
     from mpmath import zeta as mpzeta
 
     z5 = float(mpzeta(5))
@@ -124,7 +122,6 @@ def test_end_to_end_save_and_load(tmp_path, monkeypatch):
     # Redirect loader to the produced file.
     monkeypatch.setattr(bv, "_JSON_PATH", out)
     vecs = bv.load_boundary_vectors()
-    import math
     from mpmath import zeta as mpzeta
 
     z5 = float(mpzeta(5))

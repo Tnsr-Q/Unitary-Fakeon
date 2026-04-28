@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-28T09:16:13+00:00",
+  "regge": {
+    "Re_alpha_M2": -1.2988235294117647,
+    "Im_alpha_M2": 0.05,
+    "fakeon_virtualized": true,
+    "trajectory_hash": "3e87b543dca8b763",
+    "t_grid_points": 256,
+    "t_max": 2.0,
+    "M2_sq": 1.0
+  },
+  "pl": {
+    "mu_lb": 0.024,
+    "L_ub": 0.53,
+    "kappa": 22.083333333333336,
+    "eta_opt": 1.8050541516245486,
+    "gamma": 0.08664259927797834,
+    "spectrum_lambda_min": 0.024,
+    "spectrum_lambda_max": 0.53,
+    "pl_passed": true,
+    "note": ""
+  },
+  "bootstrap_optical": {
+    "n_partial_waves": 5,
+    "eta_min": 0.01831563888873418,
+    "eta_max": 1.0,
+    "optical_margin_min": 0.0,
+    "optical_inequality_satisfied": true
+  },
+  "boundary_vectors": {
+    "source": "analytic_fallback",
+    "weight7_pv_real": true,
+    "c7_linf": 495.0945603343043,
+    "c5_linf": 33.18168816458784
+  },
+  "merkle": {
+    "merkle_root": "894d7778a1b8a43f42f77dff3ef96123f4a68e89cff77202a16207f40a09d1f5",
+    "n_components": 33,
+    "input_sha256": "f4d396de0a5e31ca81a92a79fc3b5759216e1ce7942ba9dc2ff1ae8e225fe591",
+    "generated_at": "2026-04-28T09:16:13+00:00"
+  },
+  "assumptions": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "C_DM",
+    "C_echo",
+    "C_infl",
+    "L2",
+    "L5",
+    "PL_mu_2.4e-2",
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "basis": "Lean formalisation + HyperInt PV boundary vectors + Chen-series flatness + inelastic dual bootstrap + certified PL Hessian spectrum + Merkle-anchored status ledger",
+  "status": "VERIFIED",
+  "signature": "2123a303d13c857e28fd48a89e68f1da33957122804798fb71b2b9216aa3b7fd"
+}

@@ -1,0 +1,154 @@
+name: QÜFT Verification Suite
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      require_verified:
+        description: "Fail the run if FakeonCertificate.status != VERIFIED"
+        required: false
+        default: "true"
+        type: boolean
+      hyperint_input:
+        description: "Path (in repo) of a HyperInt/DiffExp master dump to extract c_vectors.json from"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ───────────────────────────────────────────────────────────────
+  # 1. Lint + numeric tests + symbolic extraction (single job, fast)
+  # ───────────────────────────────────────────────────────────────
+  numeric:
+    name: Lint, numeric tests, symbolic extraction
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Fakeon
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy sympy mpmath pytest ruff pyyaml
+
+      - name: Ruff lint
+        run: ruff check fakeon_numeric tests scripts
+
+      - name: HyperInt / DiffExp extraction (optional)
+        if: ${{ inputs.hyperint_input != '' }}
+        run: python scripts/extract_cvec.py --input "${{ inputs.hyperint_input }}"
+
+      - name: Boundary-vector reality gate
+        run: |
+          python - <<'PY'
+          import numpy as np
+          from fakeon_numeric.boundary_vectors import (
+              is_from_hyperint,
+              load_boundary_vectors,
+              pv_reality_residual,
+          )
+          vecs = load_boundary_vectors()
+          assert pv_reality_residual(vecs) == 0.0, "PV reality broken"
+          for w in ("4", "5", "6", "7"):
+              v = vecs[w]
+              assert v.shape == (6,), f"c{w} shape {v.shape}"
+              assert np.all(np.isfinite(v)), f"c{w} has non-finite"
+          print("source =", "hyperint" if is_from_hyperint() else "analytic_fallback")
+          PY
+
+      - name: Pytest (full suite with JUnit XML)
+        run: |
+          mkdir -p logs
+          python -m pytest --junitxml=logs/pytest-junit.xml
+
+      - name: Upload pytest artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-junit
+          path: Fakeon/logs/pytest-junit.xml
+
+      - name: Status-matrix audit
+        run: |
+          python -m fakeon_numeric.status_tracker --root . --strict --out logs/status_matrix.json
+          python scripts/audit_status.py --out docs/STATUS.md
+
+      - name: Merkle reproducibility anchor
+        run: |
+          python scripts/anchor_status.py build
+          python scripts/anchor_status.py verify
+
+      - name: Assemble FakeonCertificate
+        run: |
+          python scripts/assemble_certificate.py \
+            ${{ (inputs.require_verified == 'true' || inputs.require_verified == '') && '--require-verified' || '' }}
+
+      - name: Upload certification artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: qft-certification
+          path: |
+            Fakeon/logs/status_matrix.json
+            Fakeon/logs/anchor.json
+            Fakeon/logs/FakeonCertificate.json
+            Fakeon/docs/STATUS.md
+            Fakeon/docs/STATUS_MATRIX.md
+
+      - name: Step summary
+        if: always()
+        run: |
+          if [ -f logs/FakeonCertificate.json ]; then
+            python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          c = json.load(open("logs/FakeonCertificate.json"))
+          r, p, b, bv = c["regge"], c["pl"], c["bootstrap_optical"], c["boundary_vectors"]
+          print("## QÜFT Verification Suite")
+          print()
+          print("| Component | Status |")
+          print("|-----------|--------|")
+          print(f"| Overall | **{c['status']}** |")
+          print(f"| Regge virtualisation | Re α(M²) = {r['Re_alpha_M2']:+.4f}, virtualised = {r['fakeon_virtualized']} |")
+          print(f"| PL certification | μ = {p['mu_lb']:.2e}, L = {p['L_ub']:.2e}, κ = {p['kappa']:.2f}, passed = {p['pl_passed']} |")
+          print(f"| Bootstrap–optical | margin_min = {b['optical_margin_min']:.3e}, satisfied = {b['optical_inequality_satisfied']} |")
+          print(f"| Boundary vectors | source = `{bv['source']}`, PV-real = {bv['weight7_pv_real']} |")
+          print(f"| Merkle root | `{c['merkle']['merkle_root']}` ({c['merkle']['n_components']} components) |")
+          print(f"| Signature | `{c['signature']}` |")
+          print(f"| Assumptions | {', '.join(c['assumptions'])} |")
+          PY
+          fi
+
+  # ───────────────────────────────────────────────────────────────
+  # 2. Lean proofs — opt-in (mathlib build is heavy)
+  # ───────────────────────────────────────────────────────────────
+  lean:
+    name: Lean / Mathlib4 proof verification
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: Fakeon
+      - name: lake exe cache get (Mathlib olean cache)
+        working-directory: Fakeon
+        run: lake exe cache get
+      - name: lake build
+        working-directory: Fakeon
+        run: lake build

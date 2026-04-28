@@ -35,6 +35,15 @@ import numpy as np
 import pytest
 import sympy as sp
 
+from fakeon_numeric.boundary_vectors import (
+    is_from_hyperint as _is_from_hyperint,
+    load_boundary_vectors as _np_load_boundary_vectors,
+)
+from fakeon_numeric.validation import (
+    load_boundary_vectors as _sp_load_boundary_vectors,
+    load_c7 as _sp_load_c7,
+)
+
 # ---------------------------------------------------------------------------
 # Residue matrices — must mirror Fakeon/Algebra/MassiveDE.lean and
 # Fakeon/Geometry/FlatConnection.lean exactly.
@@ -149,17 +158,6 @@ def test_flatness_summary() -> None:
 # point.  Activation is therefore gated on the presence of
 # ``fakeon_numeric/c_vectors.json``.
 # ---------------------------------------------------------------------------
-
-from pathlib import Path
-
-from fakeon_numeric.boundary_vectors import (
-    is_from_hyperint as _is_from_hyperint,
-    load_boundary_vectors as _np_load_boundary_vectors,
-)
-from fakeon_numeric.validation import (
-    load_boundary_vectors as _sp_load_boundary_vectors,
-    load_c7 as _sp_load_c7,
-)
 
 
 def test_boundary_vectors_loader_shapes() -> None:

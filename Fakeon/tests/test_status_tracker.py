@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 
 from fakeon_numeric.status_tracker import (
     VALID_STATUSES,

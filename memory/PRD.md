@@ -23,19 +23,22 @@ ledger and a content-bearing audit trail.
 - Pass 9: component-level Status Matrix + JSON registry + tracker.
 - Pass 10: Merkle reproducibility anchor.
 - Pass 11: Inelastic dual bootstrap.
-- **Pass 12 (this)**: HyperInt boundary-vector loader wired.
-  - `fakeon_numeric/boundary_vectors.py` (new): `load_boundary_vectors()` returns `{"4","5","6","7"}` of 6-D real arrays; JSON-first (`fakeon_numeric/c_vectors.json`), analytic ζ/π fallback, `is_from_hyperint()` signal, `pv_reality_residual()` hook.
-  - `fakeon_numeric/validation.py` (rewritten): legacy sympy bridge — `load_boundary_vectors() -> (c4, c5, c6)` and `load_c7() -> c7` as 6×1 sympy Matrices, backed by `boundary_vectors`.
-  - `scripts/extract_cvec.py` (rewritten from stub): parses Mathematica `Master[i] = … + coeff*eps^n + …` dumps (HyperInt/DiffExp), translates `Pi^n` / `Zeta[n]` via mpmath, emits `fakeon_numeric/c_vectors.json`; CLI `--input / --out / --format`.
-  - `tests/test_massive_flatness.py`: dropped import-based skip, added `test_boundary_vectors_loader_shapes` + `test_boundary_vectors_sympy_bridge` (both green today); weight-7 Chen recursion now gated on `c_vectors.json` presence with numerical tolerance `1e-9·‖c7‖`.
-  - `tests/test_extract_cvec.py` (new, 8 tests): loader fallback / JSON precedence / shape validation; Mathematica→Python translator; zeta/pi evaluation; parser round-trip on a synthetic 6-master dump; end-to-end `extract_cvec.py` CLI → JSON → loader; missing-input CLI returns non-zero.
+- Pass 12: HyperInt boundary-vector loader wired.
+- **Pass 13 (this)**: QÜFT certification pipeline (referee-reviewed).
+  - Authored a referee-grade review of the user-proposed `quft-verify.yml` — ~20 defects identified (Lean-3-style installer, placeholder `a1b2c3d4` Mathlib SHA, fictitious pytest flags `--tolerance-ledger/--freeze/--audit-verify`, wrong package paths `src.tolerance.*`, hardcoded-then-self-asserted certificate literals, colliding matrix cache keys, malformed `needs.*.outputs.*` expressions, etc.).
+  - `scripts/assemble_certificate.py` (new): derives `FakeonCertificate.json` from **real** outputs only — Regge solver end-point (`Re α(M²), Im α(M²)`), certified PL spectrum (`μ_lb, L_ub, κ`), bootstrap-optical margin, boundary-vector provenance (`hyperint` vs `analytic_fallback`), Merkle anchor (`merkle_root, n_components, input_sha256`), union of assumption tags across the ledger.  Signature = SHA-256 of canonical JSON excluding the signature field.
+  - `scripts/run_suite.sh` (new): local dry-run — ruff → optional HyperInt extraction → pytest → audit → Merkle anchor → certificate.  `--hyperint FILE` and `--require-verified` flags.
+  - `.github/workflows/quft-verify.yml` (new, additive to `fakeon-verify.yml`): corrected CI with real `leanprover/lean-action@v1` + `lake exe cache get` for the opt-in Lean job; `$GITHUB_STEP_SUMMARY` renders regge / PL / bootstrap / merkle / signature from the real certificate; `workflow_dispatch` inputs `require_verified` and `hyperint_input`.
+  - `tests/test_assemble_certificate.py` (new, 5 tests): shape, deterministic signature covering the full payload, payload-change ⇒ signature-change, CLI exit code, missing-anchor handling.
 
 ## Verification Status (live, 2026-04-29)
-- pytest: **150 passed, 1 skipped, 0 failed** (+10 from Pass 11).
-- Status tracker / audit: **33 components** auto-discovered (up from 29).
-- Merkle root: **`894d7778a1b8a43f42f77dff3ef96123f4a68e89cff77202a16207f40a09d1f5`** (ANCHOR VERIFIED).
+- pytest: **155 passed, 1 skipped, 0 failed** (+5 from Pass 12).
+- Status tracker / audit: **33 components**.
+- Merkle root: **`894d7778a1b8a43f42f77dff3ef96123f4a68e89cff77202a16207f40a09d1f5`** — ANCHOR VERIFIED.
+- FakeonCertificate.status = **VERIFIED** (regge virtualised · PL passed · optical margin ≥ 0 · PV-real c₇).
 - ruff: clean.
-- `lake build`: deferred.
+- End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
+- `lake build`: opt-in via `workflow_dispatch` (deferred).
 
 ## Open `sorry`s
 - `Distributions.lean::causalProp_im`, `imaginary_limit_delta`.
