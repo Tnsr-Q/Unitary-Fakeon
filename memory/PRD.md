@@ -46,14 +46,7 @@ ledger and a content-bearing audit trail.
   - `tests/test_cutkosky.py` (new, 41 tests): PV reality across (s, m²) grid; causal-kernel algebraic identity at 15 (η, δ) pairs; **Sokhotski–Plemelj distributional limit** numerically verified on 3 test functions (Gaussian, Lorentzian, damped cosine) to within 1 % at η = 10⁻³; disc scales linearly in η across 6 probes; fakeon sector identically invisible in the modified Cutkosky residual.
   - Registered `Lean_Cutkosky` (DEMONSTRATED · A1/A3/S1/S2/S3) and `Test_Cutkosky` (VERIFIED · A1/A3/S1) in `docs/status_components.json`; re-exported via `FakeonQFT.lean`.
 
-## Verification Status (live, 2026-04-29)
-- pytest: **198 passed, 2 skipped, 0 failed** (skips: HyperInt-gated weight-7 Chen test; torch-gated Lightning callback tests).
-- Status tracker / audit: **37 components**.
-- Merkle root: **`55bdc3749c48f82e29500a1b3fc328bc61998de274f89edf8eb6cbb3525ec1e1`** — ANCHOR VERIFIED.
-- FakeonCertificate.status = **VERIFIED** (Regge · PL · bootstrap-optical · S.1 distributional limit · PV-real c₇).
-- ruff: clean.
-- End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
-- `lake build`: opt-in via `workflow_dispatch` (deferred).
+## Verification Status — historical (Pass 17)
 
 ## Open `sorry`s (unchanged after 2026-04-29 Lean proof-patch review)
 - `Distributions.lean::causalProp_im` — reviewed; patch plausible but unverified (no Lean), parked for activation when `lake build` runs.
