@@ -213,6 +213,14 @@
       "ledger_key": "s1_distributional_limit",
       "basis": "Deterministic Gaussian-probe Sokhotski-Plemelj: lim_{eta->0+} integral exp(-s^2) * Im[1/(s+i eta)] ds = -pi. First-class component of FakeonCertificate.json (s1_distributional_limit block); eta-ladder 1e-1..1e-4; best residual < 1e-2, monotone convergence asserted."
     },
+    "Lightning_HessianPLCallback": {
+      "status": "DEMONSTRATED",
+      "category": "optional_runtime_callback",
+      "assumptions": ["A4", "A5"],
+      "lean_file": null,
+      "ledger_key": null,
+      "basis": "fakeon_numeric/lightning/hessian_pl_callback.HessianPLCallback enforces the certified PL constants (mu_lb, L_ub, kappa from pl_certification) at training time via stochastic Lanczos Hessian probes. Opt-in: torch + pytorch_lightning required. Tests gate on importorskip; core suite stays torch-free."
+    },
     "Test_ReggeVirtualization": {
       "status": "VERIFIED",
       "category": "pytest",

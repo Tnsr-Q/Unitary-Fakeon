@@ -1,6 +1,6 @@
 # Fakeon Verification — Status
 
-_Generated 2026-04-28T10:36:46+00:00 from `/app/Fakeon`._
+_Generated 2026-04-28T17:26:53+00:00 from `/app/Fakeon`._
 _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows.
 
 ## Headline
@@ -8,7 +8,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 - **Content-bearing theorems / lemmas:** 26 / 29 (89.7 %)
 - **Open `sorry`s:** 4
 - **Open axioms:** 53
-- **pytest:** 198 passed · 0 failed · 1 skipped · 0 errors
+- **pytest:** 198 passed · 0 failed · 2 skipped · 0 errors
 
 ## Lean modules
 
@@ -43,9 +43,11 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `/app/Fakeon/fakeon_numeric/boundary_vectors.py` | 115 | 4 | 0 |
 | `/app/Fakeon/fakeon_numeric/cutkosky.py` | 175 | 7 | 0 |
 | `/app/Fakeon/fakeon_numeric/distributions.py` | 53 | 3 | 0 |
+| `/app/Fakeon/fakeon_numeric/lightning/__init__.py` | 13 | 0 | 0 |
+| `/app/Fakeon/fakeon_numeric/lightning/hessian_pl_callback.py` | 309 | 1 | 1 |
 | `/app/Fakeon/fakeon_numeric/omega_quadrature.py` | 11 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/partial_wave.py` | 11 | 1 | 0 |
-| `/app/Fakeon/fakeon_numeric/pl_certification.py` | 150 | 5 | 2 |
+| `/app/Fakeon/fakeon_numeric/pl_certification.py` | 135 | 5 | 1 |
 | `/app/Fakeon/fakeon_numeric/radial_interpolator.py` | 11 | 1 | 0 |
 | `/app/Fakeon/fakeon_numeric/regge_solver.py` | 88 | 5 | 1 |
 | `/app/Fakeon/fakeon_numeric/regime.py` | 47 | 1 | 1 |
@@ -74,6 +76,7 @@ _Auto-discovered:_ Lean modules, Python modules, pytest files, .github/workflows
 | `tests/test_distribution_limits.py` | 8 |
 | `tests/test_extract_cvec.py` | 8 |
 | `tests/test_fakeon_pv.py` | 1 |
+| `tests/test_hessian_pl_callback.py` | 0 |
 | `tests/test_massive_de_consistency.py` | 5 |
 | `tests/test_massive_flatness.py` | 19 |
 | `tests/test_numeric_imports.py` | 13 |

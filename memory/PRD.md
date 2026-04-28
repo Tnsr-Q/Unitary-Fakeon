@@ -47,11 +47,29 @@ ledger and a content-bearing audit trail.
   - Registered `Lean_Cutkosky` (DEMONSTRATED · A1/A3/S1/S2/S3) and `Test_Cutkosky` (VERIFIED · A1/A3/S1) in `docs/status_components.json`; re-exported via `FakeonQFT.lean`.
 
 ## Verification Status (live, 2026-04-29)
-- pytest: **198 passed, 1 skipped, 0 failed**.
-- Status tracker / audit: **36 components**.
-- Merkle root: **`c0a090ceca9b8fbbad697cb92587f5794db34679d91b4c86cf32b2edee911272`** — ANCHOR VERIFIED.
-- FakeonCertificate.status = **VERIFIED** (Regge · PL · bootstrap-optical · **S.1 distributional limit** · PV-real c₇).
-  - S.1 probe: best_residual = **3.54×10⁻³** at η = 10⁻³, monotone convergence.
+- pytest: **198 passed, 2 skipped, 0 failed** (skips: HyperInt-gated weight-7 Chen test; torch-gated Lightning callback tests).
+- Status tracker / audit: **37 components**.
+- Merkle root: **`55bdc3749c48f82e29500a1b3fc328bc61998de274f89edf8eb6cbb3525ec1e1`** — ANCHOR VERIFIED.
+- FakeonCertificate.status = **VERIFIED** (Regge · PL · bootstrap-optical · S.1 distributional limit · PV-real c₇).
+- ruff: clean.
+- End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
+- `lake build`: opt-in via `workflow_dispatch` (deferred).
+
+## Open `sorry`s (unchanged after 2026-04-29 Lean proof-patch review)
+- `Distributions.lean::causalProp_im` — reviewed; patch plausible but unverified (no Lean), parked for activation when `lake build` runs.
+- `Distributions.lean::imaginary_limit_delta` — reviewed; proposed patch rejected (type error + fabricated Mathlib names).
+- `FakeonUnitarity.lean::bootstrap_unitarity_bound` — reviewed; proposed patch targets the wrong object (per-channel vs. matrix-level). The per-channel proof already exists in `InelasticBootstrap.loss_zero_implies_unitarity`.
+- `InelasticBootstrap.lean::optical_inequality_from_bound` (internal `hSq`) — reviewed; proposed patch rejected (sign error, coefficient error, adds axioms, re-introduces Pass-11 rejected identity). A 6-line candidate for the single open line is recorded in `docs/LEAN_PROOF_REVIEW_2026-04-29.md`.
+
+Full referee review: `Fakeon/docs/LEAN_PROOF_REVIEW_2026-04-29.md`.
+
+## Backlog
+- **P0**: populate `A5 (α₅=y)` and `A6 (α₆=y+1)` residue matrices from the y-evolution derivation, then run HyperInt/DiffExp + `scripts/extract_cvec.py` to activate the weight-7 Chen recursion test.
+- **P0**: discharge the remaining 4 open `sorry`s; introduce `Cutkosky.lean`.
+- **P1**: `PicardLefschetzPV`, `GlobalPVClosure`, `Analysis/PrincipalValue.lean`, real Lean L1..L5.
+- **P1**: reduce the 40 open axioms by converting Mathlib-backable ones to proved theorems.
+- **P2**: real PyTorch Lightning `CertifiedPLHessianCallback`; `FakeonLSZ`, `SiegelThetaPV`, higher-genus.
+est_residual = **3.54×10⁻³** at η = 10⁻³, monotone convergence.
 - ruff: clean.
 - End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
 - `lake build`: opt-in via `workflow_dispatch` (deferred).

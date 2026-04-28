@@ -267,6 +267,16 @@
     "ci_verified": true,
     "note": "ledger_key 's1_distributional_limit' absent (accepted; pytest stage may not have populated yet)"
   },
+  "Lightning_HessianPLCallback": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A4",
+      "A5"
+    ],
+    "audit_checksum": "9a00d6e8a7960ee5",
+    "ci_verified": true,
+    "note": ""
+  },
   "Test_ReggeVirtualization": {
     "status": "VERIFIED",
     "dependencies": [

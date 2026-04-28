@@ -122,28 +122,13 @@ def sample_pl_ratio_along_path(
 
 
 # ---------------------------------------------------------------------------
-# PyTorch Lightning recipe (kept as a sketch — Lightning not installed).
+# PyTorch Lightning recipe — see fakeon_numeric/lightning/hessian_pl_callback.py
+#
+# When `torch` and `pytorch_lightning` are available, the certified PL
+# constants above are enforced at runtime by the
+# `HessianPLCallback` class in
+# `fakeon_numeric.lightning.hessian_pl_callback`.  That module is opt-in:
+# importing it requires `torch` and `pytorch_lightning` to be installed.
+# The core verification stack stays torch-free; downstream users running
+# real training import the callback explicitly.
 # ---------------------------------------------------------------------------
-
-_LIGHTNING_RECIPE = r"""
-class CertifiedPLHessianCallback(pytorch_lightning.Callback):
-    \"\"\"Drop-in callback enforcing the certified PL constants at runtime.\"\"\"
-
-    MU_LB = 2.4e-2
-    L_UB  = 5.3e-1
-    ETA_OPT = 1.0 / (L_UB + MU_LB)
-
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, idx):
-        m = pl_module.metrics
-        passed, ratio = check_pl_inequality(m['grad_norm_sq'], m['loss_gap'])
-        kappa = m['lambda_max'] / max(m['lambda_min'], 1e-12)
-        eta = adaptive_step_size(m['lambda_max'])
-        for pg in pl_module.optimizer.param_groups:
-            pg['lr'] = eta
-        trainer.logger.log_metrics({
-            'pl_ratio': ratio, 'pl_passed': float(passed),
-            'kappa': kappa, 'eta_adaptive': eta,
-        })
-        if not passed:
-            trainer.print(f"PL VIOLATION: ratio={ratio:.3e} < {self.MU_LB:.3e}")
-"""
