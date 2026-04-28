@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-28T09:16:13+00:00",
+  "generated_at": "2026-04-28T10:06:22+00:00",
   "regge": {
     "Re_alpha_M2": -1.2988235294117647,
     "Im_alpha_M2": 0.05,
@@ -35,10 +35,10 @@
     "c5_linf": 33.18168816458784
   },
   "merkle": {
-    "merkle_root": "894d7778a1b8a43f42f77dff3ef96123f4a68e89cff77202a16207f40a09d1f5",
-    "n_components": 33,
-    "input_sha256": "f4d396de0a5e31ca81a92a79fc3b5759216e1ce7942ba9dc2ff1ae8e225fe591",
-    "generated_at": "2026-04-28T09:16:13+00:00"
+    "merkle_root": "9c549448984636efe3e6536c240ec87cc317086c85d4c85f930b43e5ebae146b",
+    "n_components": 35,
+    "input_sha256": "3856669be5c804032833796a045c1437e87a7be30b0bc9237ec24a8342a0b644",
+    "generated_at": "2026-04-28T10:06:22+00:00"
   },
   "assumptions": [
     "A1",
@@ -58,5 +58,5 @@
   ],
   "basis": "Lean formalisation + HyperInt PV boundary vectors + Chen-series flatness + inelastic dual bootstrap + certified PL Hessian spectrum + Merkle-anchored status ledger",
   "status": "VERIFIED",
-  "signature": "2123a303d13c857e28fd48a89e68f1da33957122804798fb71b2b9216aa3b7fd"
+  "signature": "4b66ed6d63a7a53fd8ba7c5c1f2c48f5c0b8eb954d568f2cd68cfffc4a91e9f0"
 }

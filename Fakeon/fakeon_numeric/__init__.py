@@ -14,6 +14,7 @@ __all__ = [
     "regge_solver",
     "pl_certification",
     "boundary_vectors",
+    "cutkosky",
 ]
 
 __version__ = "0.0.1"

@@ -140,6 +140,19 @@
     "ci_verified": true,
     "note": ""
   },
+  "Lean_Cutkosky": {
+    "status": "DEMONSTRATED",
+    "dependencies": [
+      "A1",
+      "A3",
+      "S1",
+      "S2",
+      "S3"
+    ],
+    "audit_checksum": "6804c8da19601d55",
+    "ci_verified": true,
+    "note": ""
+  },
   "Lean_ReggeVirtualization": {
     "status": "VERIFIED",
     "dependencies": [
@@ -232,6 +245,17 @@
     "audit_checksum": "8fc9d3b3afa7ecf9",
     "ci_verified": true,
     "note": "ledger_key 'bootstrap_loss' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_Cutkosky": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A1",
+      "A3",
+      "S1"
+    ],
+    "audit_checksum": "66e97d1d33fb5642",
+    "ci_verified": true,
+    "note": "ledger_key 'cutkosky_residual' absent (accepted; pytest stage may not have populated yet)"
   },
   "Test_ReggeVirtualization": {
     "status": "VERIFIED",

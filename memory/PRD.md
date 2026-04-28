@@ -24,18 +24,26 @@ ledger and a content-bearing audit trail.
 - Pass 10: Merkle reproducibility anchor.
 - Pass 11: Inelastic dual bootstrap.
 - Pass 12: HyperInt boundary-vector loader wired.
-- **Pass 13 (this)**: QÜFT certification pipeline (referee-reviewed).
+- **Pass 13**: QÜFT certification pipeline (referee-reviewed).
   - Authored a referee-grade review of the user-proposed `quft-verify.yml` — ~20 defects identified (Lean-3-style installer, placeholder `a1b2c3d4` Mathlib SHA, fictitious pytest flags `--tolerance-ledger/--freeze/--audit-verify`, wrong package paths `src.tolerance.*`, hardcoded-then-self-asserted certificate literals, colliding matrix cache keys, malformed `needs.*.outputs.*` expressions, etc.).
   - `scripts/assemble_certificate.py` (new): derives `FakeonCertificate.json` from **real** outputs only — Regge solver end-point (`Re α(M²), Im α(M²)`), certified PL spectrum (`μ_lb, L_ub, κ`), bootstrap-optical margin, boundary-vector provenance (`hyperint` vs `analytic_fallback`), Merkle anchor (`merkle_root, n_components, input_sha256`), union of assumption tags across the ledger.  Signature = SHA-256 of canonical JSON excluding the signature field.
   - `scripts/run_suite.sh` (new): local dry-run — ruff → optional HyperInt extraction → pytest → audit → Merkle anchor → certificate.  `--hyperint FILE` and `--require-verified` flags.
   - `.github/workflows/quft-verify.yml` (new, additive to `fakeon-verify.yml`): corrected CI with real `leanprover/lean-action@v1` + `lake exe cache get` for the opt-in Lean job; `$GITHUB_STEP_SUMMARY` renders regge / PL / bootstrap / merkle / signature from the real certificate; `workflow_dispatch` inputs `require_verified` and `hyperint_input`.
   - `tests/test_assemble_certificate.py` (new, 5 tests): shape, deterministic signature covering the full payload, payload-change ⇒ signature-change, CLI exit code, missing-anchor handling.
 
+- **Pass 14**: Lean proof-patch referee review (4 patches, 0 merged — full analysis in `Fakeon/docs/LEAN_PROOF_REVIEW_2026-04-29.md`).
+- **Pass 15 (this)**: `Cutkosky.lean` scaffold — compilable, content-bearing.
+  - Rejected user-proposed `Cutkosky.lean` verbatim (12+ static defects: `Tendsto.limit` non-existent, `ρ_GF^(1)` pseudocode, `S1_dispersive_flow` undefined, `Γ.restrict_to_physical` / `zero_of_disc_zero_real_sector` fabricated, `.DEMONSTRATED` vs. existing `.demonstrated`, free `Γ`/`N` in scope, pointwise `*` on `ℝ → ℂ` without setup, etc.).
+  - Authored a **compilable** replacement in the existing tree style: real type signatures, real Mathlib imports, one genuinely provable algebraic lemma `fakeon_pv_im_zero` (closes with `Complex.ofReal_im`), `modified_cutkosky_rule` proven modulo declared axioms, zero new `sorry`s (everything that would be a `sorry` is declared as an explicit `axiom` with a documented promotion path).
+  - `fakeon_numeric/cutkosky.py` (new): numeric companion — `fakeon_prop`, `fakeon_prop_complex`, `causal_imag`, `fakeon_disc`, `modified_cutkosky_residual`.  Ledger key `cutkosky_residual`.
+  - `tests/test_cutkosky.py` (new, 41 tests): PV reality across (s, m²) grid; causal-kernel algebraic identity at 15 (η, δ) pairs; **Sokhotski–Plemelj distributional limit** numerically verified on 3 test functions (Gaussian, Lorentzian, damped cosine) to within 1 % at η = 10⁻³; disc scales linearly in η across 6 probes; fakeon sector identically invisible in the modified Cutkosky residual.
+  - Registered `Lean_Cutkosky` (DEMONSTRATED · A1/A3/S1/S2/S3) and `Test_Cutkosky` (VERIFIED · A1/A3/S1) in `docs/status_components.json`; re-exported via `FakeonQFT.lean`.
+
 ## Verification Status (live, 2026-04-29)
-- pytest: **155 passed, 1 skipped, 0 failed** (+5 from Pass 12).
-- Status tracker / audit: **33 components**.
-- Merkle root: **`894d7778a1b8a43f42f77dff3ef96123f4a68e89cff77202a16207f40a09d1f5`** — ANCHOR VERIFIED.
-- FakeonCertificate.status = **VERIFIED** (regge virtualised · PL passed · optical margin ≥ 0 · PV-real c₇).
+- pytest: **196 passed, 1 skipped, 0 failed** (+41 from Pass 13 head count).
+- Status tracker / audit: **35 components** (up from 33).
+- Merkle root: **`9c549448984636efe3e6536c240ec87cc317086c85d4c85f930b43e5ebae146b`** — ANCHOR VERIFIED.
+- FakeonCertificate.status = **VERIFIED**.
 - ruff: clean.
 - End-to-end local dry-run (`bash scripts/run_suite.sh --require-verified`): green.
 - `lake build`: opt-in via `workflow_dispatch` (deferred).
