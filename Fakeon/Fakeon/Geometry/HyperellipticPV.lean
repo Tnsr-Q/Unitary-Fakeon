@@ -59,6 +59,6 @@ theorem PV_reality_limit_genus2 (δ : ℝ) (hδ : δ < 0) :
 
 end
 
-###namespace Fakeon.Geometry.HyperellipticPV
--- TODO: lift PV to hyperelliptic covers.
-end Fakeon.Geometry.HyperellipticPV---DONE BUT NOT VERIFIED
+/-- Depricated placholder ###namespace Fakeon.Geometry.HyperellipticPV
+/-- TODO: lift PV to hyperelliptic covers.
+/-- end Fakeon.Geometry.HyperellipticPV---DONE BUT NOT VERIFIED
