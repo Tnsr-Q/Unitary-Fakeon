@@ -7,6 +7,7 @@
 
 import Fakeon.Algebra.MassiveDE
 import Fakeon.Algebra.ChenCollapse
+import Fakeon.Geometry.FlatConnection
 import Fakeon.Geometry.PicardLefschetzPV
 import Fakeon.Geometry.HyperellipticPV
 import Fakeon.Geometry.GlobalPVClosure

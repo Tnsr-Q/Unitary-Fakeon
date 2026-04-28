@@ -2,45 +2,54 @@
 #  crossedbox_massive_PV.maple
 #
 #  HyperInt configuration for the 6-master massive Fakeon crossed-box system
-#  with Principal-Value (PV) projection rules.
+#  with Principal-Value (PV) projection.  O(ε³) / weight-7 expansion over
+#  the full 2D alphabet.
 #
-#  Alphabet:  A = { z, z - 1, z + y, z - y - 1 }
+#  Alphabet:  A = { z, z - 1, z + y, z - y - 1, y, y + 1 }
 #  Masters :  M1..M6  (see Fakeon/Algebra/MassiveDE.lean for canonical order)
-#  Boundary:  c5   (weight 5, ζ₅ sector)
+#  Boundary:  c_k   (weights 0..7, loaded from companion .m data file)
 # ---------------------------------------------------------------------------
 
-# --- Alphabet -------------------------------------------------------------
-letters := [z, z - 1, z + y, z - y - 1]:
+# --- Alphabet (full 2D) ---------------------------------------------------
+letters := [z, z - 1, z + y, z - y - 1, y, y + 1]:
 
 # --- PV Projection Rules --------------------------------------------------
-# Kill the imaginary parts coming from the physical cuts at z = 1 and
-# z = y + 1 by taking the real part with a small negative iε prescription.
+# Kill the imaginary parts coming from the physical cuts at
+#   z = 1,  z = y + 1,  z = -y,  y = -1
+# by taking the real part with a small negative iε prescription.
 PVRules := {
-    log(z - 1)                              = Re(log(z - 1 - I*1e-15)),
-    log(z - y - 1)                          = Re(log(z - y - 1 - I*1e-15)),
-    polylog(n, (z - 1) / (z))               = Re(polylog(n, (z - 1 - I*1e-15) / (z))),
-    polylog(n, (z - y - 1) / (z + y))       = Re(polylog(n, (z - y - 1 - I*1e-15) / (z + y)))
+    log(z - 1)                              = Re(log(z - 1       - I*1e-15)),
+    log(z - y - 1)                          = Re(log(z - y - 1   - I*1e-15)),
+    log(z + y)                              = Re(log(z + y       - I*1e-15)),
+    log(y + 1)                              = Re(log(y + 1       - I*1e-15)),
+    polylog(n, (z - 1) / (z))               = Re(polylog(n, (z - 1     - I*1e-15) / (z))),
+    polylog(n, (z - y - 1) / (z + y))       = Re(polylog(n, (z - y - 1 - I*1e-15) / (z + y))),
+    polylog(n, y / (y + 1))                 = Re(polylog(n, (y         - I*1e-15) / (y + 1)))
 }:
 
 # --- Integration Options --------------------------------------------------
+# order = 3  →  expand through O(ε³), reaching weight 7 from the weight-4
+#                boundary.
 opts := [ method          = hyperlog,
           regularization  = dimensional,
           epsilon         = eps,
-          order           = 1,
+          order           = 3,
           principalValue  = true,
           postProcessing  = PVRules ]:
 
 # --- Driver ---------------------------------------------------------------
-# The residue matrices A1..A4 and boundary vector c5 must be loaded from the
-# companion data file.  The Lean source of truth is
-#   Fakeon/Fakeon/Algebra/MassiveDE.lean.
+# Residue matrices A1..A6 and boundary vectors c_k (k = 0..7) must be loaded
+# from the companion data file.  Lean source of truth:
+#   Fakeon/Fakeon/Algebra/MassiveDE.lean
+#   Fakeon/Fakeon/Geometry/FlatConnection.lean
+#
 # Expected call:
 #
-#   read "matrices_massive.m":          # defines A1..A4, c5
+#   read "matrices_massive.m":              # A1..A6, c0..c7
 #   result := HyperIntSolve(
-#       system_matrix = [A1, A2, A3, A4],
-#       boundary      = c5,
+#       system_matrix = [A1, A2, A3, A4, A5, A6],
+#       boundary      = [c0, c1, c2, c3, c4, c5, c6, c7],
 #       vars          = [z, y],
 #       opts):
 #
-#   save result, "massive_masters_w5.m":
+#   save result, "massive_masters_w7.m":
