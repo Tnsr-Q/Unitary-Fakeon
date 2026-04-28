@@ -9,7 +9,8 @@ populated, 🟡 = authoritative content present but proofs pending,
 | File                                   | Status | Purpose                                       |
 |----------------------------------------|--------|-----------------------------------------------|
 | `Algebra/MassiveDE.lean`               | 🟡     | 6×6 matrices A1..A4, c5, PV reality scaffold  |
-| `Algebra/ChenCollapse.lean`            | 🟡     | Chen recursion + collapse theorem (stub)      |
+| `Algebra/ChenCollapse.lean`            | 🟡     | Chen recursion + `c_n_real` wired via `Distributions` |
+| `Analysis/Distributions.lean`          | 🟡     | `causalProp`, Sokhotski–Plemelj limit, dispersive reality |
 | `Analysis/DispersiveReality.lean`      | 🟡     | `im_eq_zero` from `ρ_GF = 0` (fakeon axiom)   |
 | `Geometry/FlatConnection.lean`         | 🟡     | 2D flat connection, `chen_pv_reality`         |
 | `Geometry/WedgeVanishing.lean`         | 🟡     | 1D RG flow ⇒ wedge vanishes                   |
@@ -27,7 +28,11 @@ populated, 🟡 = authoritative content present but proofs pending,
 
 | Lemma / theorem              | Home file                              | Status |
 |------------------------------|----------------------------------------|--------|
+| `causalProp_im`              | `Analysis/Distributions.lean`          | 🟡 algebraic, `sorry` pending |
+| `imaginary_limit_delta`      | `Analysis/Distributions.lean`          | 🟡 scaffold, DominatedConvergence roadmap |
+| `im_eq_zero_dispersion`      | `Analysis/Distributions.lean`          | ✅ proved in ρ ≡ 0 regime |
 | `im_eq_zero` (all n)         | `Analysis/DispersiveReality.lean`      | 🟡 scaffold, depends on fakeon axiom S.1 |
+| `c_n_real`                   | `Algebra/ChenCollapse.lean`            | ✅ by definition of `c_n : ℝ` |
 | `wedge_vanishes_on_rg_flow`  | `Geometry/WedgeVanishing.lean`         | ✅ scalar form proved, Frobenius reduction axiomatised |
 | `flat_connection`            | `Geometry/FlatConnection.lean`         | 🟡 stub, symbolic counterpart in pytest |
 | `chen_pv_reality` (all n)    | `Geometry/FlatConnection.lean`         | 🟡 scaffold |
@@ -66,6 +71,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 | `test_massive_de_consistency.py`       | ✅ 5 tests |
 | `test_massive_flatness.py`             | ✅ 15 pair tests + summary, 1 skip for Chen coefficients |
 | `test_dispersive_reality.py`           | ✅ 7 tests (6 parametrised + axiom guard) |
+| `test_distribution_limits.py`          | ✅ 12 tests (SP convergence, closed-form match, monotone error, algebraic identity) |
 | `test_wedge_vanishing.py`              | ✅ 5 tests (1D certified, 2D rejected, widths sweep) |
 | `test_fakeon_pv.py`                    | ⬜ placeholder |
 | `test_numeric_imports.py`              | ✅ 8 import smoke tests (now includes `regime`) |

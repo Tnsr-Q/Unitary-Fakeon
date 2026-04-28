@@ -18,11 +18,13 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install numpy sympy mpmath pytest ruff
+          pip install numpy scipy sympy mpmath pytest ruff
       - name: Lint
         run: ruff check Fakeon/fakeon_numeric Fakeon/tests Fakeon/scripts
       - name: Dispersive reality check
         run: pytest Fakeon/tests/test_dispersive_reality.py -v
+      - name: Sokhotski–Plemelj limit check
+        run: pytest Fakeon/tests/test_distribution_limits.py -v
       - name: Wedge vanishing check
         run: pytest Fakeon/tests/test_wedge_vanishing.py -v
       - name: Flatness check
