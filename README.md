@@ -54,6 +54,42 @@ Key areas:
 
 - `Fakeon/Fakeon/`: Lean modules for algebra, analysis, geometry, QFT, optimization, and experiments.
 - `Fakeon/fakeon_numeric/`: Python numeric modules (distribution checks, cutkosky, regime detection, PL certification, status tracking, and optional lightning callbacks).
+
+### Lightning Submodule Breakdown (`Fakeon/fakeon_numeric/lightning/`)
+
+The `lightning` folder is an opt-in training instrumentation package for PyTorch Lightning that layers Hessian-spectrum probing, PL-condition checking, and adaptive learning-rate control on top of distributed training pipelines.
+
+**Package-level structure**
+- `__init__.py`: exports callback variants and keeps this namespace opt-in so torch/lightning dependencies do not leak into the core verification stack.
+- `spectral/`: reusable spectral estimation primitives (robust Lanczos/power methods).
+- `Mesh/`: mesh/topology/scheme utilities for geometry-aware or discretization-aware experiments.
+- `Dicovery/`: theory-space discovery helpers (note: folder name appears intentionally/legacy-spelled as `Dicovery`).
+
+**Core callback families**
+- `hessian_pl_callback.py` (`HessianPLCallback`): baseline and most certification-aligned callback; uses stochastic Lanczos HVP estimation, PL ratio checks, and LR adaptation bounded by smoothness constraints and certified constants.
+- `distributed_hessian_pl.py` / `checkpointed_hessian_pl.py`: distributed + activation-checkpointed variants with optional persisted callback state and all-reduce/all-gather aggregation paths.
+- `zero3_hessian_pl.py`: ZeRO-3/FSDP parameter-gather-aware callback with robust spectral estimation and optional dynamic tolerance ledger coupling.
+- `zero3_compressed_hessian_pl.py`: communication/computation pressure reduction variant (compressed state paths) for ZeRO-3 workloads.
+- `fp8_zero3_hessian_pl.py`: FP8-aware ZeRO-3 pathway that attempts lower-precision acceleration where hardware/runtime supports it.
+- `zeroinfinity_fp8_hessian_pl.py`: ZeRO-Infinity + FP8 monitoring path that also tracks NVMe I/O side effects.
+- `zeroinfinity_cpu_fallback_pl.py`: resilience-oriented ZeRO-Infinity branch that can shift execution toward CPU fallback when storage/runtime health gates fail.
+
+**Shared technical themes across callbacks**
+- Hessian-vector product construction with double-backprop for curvature monitoring.
+- Lanczos tridiagonal spectrum approximations to estimate `(mu, L)` and condition number.
+- PL-condition checking via `0.5*||grad||^2 / (loss-loss*)` style ratios.
+- Adaptive LR updates based on spectral bounds, clipped by stability envelopes.
+- Distributed reductions (`all_reduce`, `all_gather`, `broadcast`, optional barriers) to keep optimizer decisions synchronized.
+- Optional activation checkpointing to reduce memory at the cost of extra recomputation.
+
+**Runtime adaptation helpers**
+- `precision_controller.py`: runtime precision negotiation utility (FP8/BF16/FP32 fallbacks), telemetry emission, and quantize/dequantize error tracking for mixed-precision observability.
+- `spectral/robust_estimator.py`: safety-factored and EMA-smoothed global spectral estimator plus bounded LR heuristic (`compute_adaptive_lr`).
+
+**Operational notes for maintainers**
+- This folder contains multiple evolutionary callback implementations that overlap in scope; some are targeted to specific infra profiles (plain DDP vs ZeRO-3 vs ZeRO-Infinity).
+- Several modules import from `src.*` paths (e.g., orbax/spectral/tolerance helpers), so portability depends on the expected runtime package layout.
+- Because this package is explicitly opt-in, breakages here should not block the torch-free verification core, but callback-level tests are still recommended whenever these files change.
 - `Fakeon/tests/`: verification tests across symbolic, numeric, and status/CI workflows.
 - `Fakeon/scripts/`: automation (`audit_status.py`, `anchor_status.py`, certificate assembly, extractors, CI helpers).
 - `Fakeon/docs/`: status matrix, theorem/proof status, source maps, and review artifacts.
