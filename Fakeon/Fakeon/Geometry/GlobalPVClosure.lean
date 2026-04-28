@@ -133,6 +133,6 @@ Replace the abstract `hyperelliptic_PV_real` assumption with:
 The algebraic unitarity proof then inherits geometric global closure
 across all genus-g sectors, completing the mechanized shield.
 -/
-namespace Fakeon.Geometry.GlobalPVClosure
--- TODO: prove global monodromy closure of the PV projection.
-end Fakeon.Geometry.GlobalPVClosure---- DONE BUT Not VERIFIED
+/-- depricated placeholder namespace Fakeon.Geometry.GlobalPVClosure
+/-- TODO: prove global monodromy closure of the PV projection. UNVERIFIed
+/-- end Fakeon.Geometry.GlobalPVClosure---- DONE BUT Not VERIFIED
