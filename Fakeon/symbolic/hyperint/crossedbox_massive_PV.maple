@@ -1,0 +1,46 @@
+# ---------------------------------------------------------------------------
+#  crossedbox_massive_PV.maple
+#
+#  HyperInt configuration for the 6-master massive Fakeon crossed-box system
+#  with Principal-Value (PV) projection rules.
+#
+#  Alphabet:  A = { z, z - 1, z + y, z - y - 1 }
+#  Masters :  M1..M6  (see Fakeon/Algebra/MassiveDE.lean for canonical order)
+#  Boundary:  c5   (weight 5, ζ₅ sector)
+# ---------------------------------------------------------------------------
+
+# --- Alphabet -------------------------------------------------------------
+letters := [z, z - 1, z + y, z - y - 1]:
+
+# --- PV Projection Rules --------------------------------------------------
+# Kill the imaginary parts coming from the physical cuts at z = 1 and
+# z = y + 1 by taking the real part with a small negative iε prescription.
+PVRules := {
+    log(z - 1)                              = Re(log(z - 1 - I*1e-15)),
+    log(z - y - 1)                          = Re(log(z - y - 1 - I*1e-15)),
+    polylog(n, (z - 1) / (z))               = Re(polylog(n, (z - 1 - I*1e-15) / (z))),
+    polylog(n, (z - y - 1) / (z + y))       = Re(polylog(n, (z - y - 1 - I*1e-15) / (z + y)))
+}:
+
+# --- Integration Options --------------------------------------------------
+opts := [ method          = hyperlog,
+          regularization  = dimensional,
+          epsilon         = eps,
+          order           = 1,
+          principalValue  = true,
+          postProcessing  = PVRules ]:
+
+# --- Driver ---------------------------------------------------------------
+# The residue matrices A1..A4 and boundary vector c5 must be loaded from the
+# companion data file.  The Lean source of truth is
+#   Fakeon/Fakeon/Algebra/MassiveDE.lean.
+# Expected call:
+#
+#   read "matrices_massive.m":          # defines A1..A4, c5
+#   result := HyperIntSolve(
+#       system_matrix = [A1, A2, A3, A4],
+#       boundary      = c5,
+#       vars          = [z, y],
+#       opts):
+#
+#   save result, "massive_masters_w5.m":

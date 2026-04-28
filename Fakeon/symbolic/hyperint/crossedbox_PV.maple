@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------
+#  crossedbox_PV.maple
+#
+#  HyperInt configuration for the *massless* crossed-box PV system.
+#  Placeholder — see crossedbox_massive_PV.maple for the massive extension.
+# ---------------------------------------------------------------------------
+
+letters := [z, z - 1]:
+
+PVRules := {
+    log(z - 1) = Re(log(z - 1 - I*1e-15))
+}:
+
+opts := [ method         = hyperlog,
+          regularization = dimensional,
+          epsilon        = eps,
+          order          = 1,
+          principalValue = true,
+          postProcessing = PVRules ]:
+
+# TODO: load massless residue matrices and call HyperIntSolve.
