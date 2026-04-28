@@ -140,6 +140,27 @@
     "ci_verified": true,
     "note": ""
   },
+  "Lean_ReggeVirtualization": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A4",
+      "S2",
+      "PL_mu_2.4e-2"
+    ],
+    "audit_checksum": "fdc51a1c897f0c75",
+    "ci_verified": true,
+    "note": "ledger_key 'regge_certificate' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Lean_PLCertification": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A4",
+      "A5"
+    ],
+    "audit_checksum": "eda4048b7473a802",
+    "ci_verified": true,
+    "note": "ledger_key 'hessian_spectrum' absent (accepted; pytest stage may not have populated yet)"
+  },
   "Lean_Assumptions_Cert": {
     "status": "METADATA",
     "dependencies": [],
@@ -211,6 +232,26 @@
     "audit_checksum": "8fc9d3b3afa7ecf9",
     "ci_verified": true,
     "note": "ledger_key 'bootstrap_loss' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_ReggeVirtualization": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A4",
+      "S2"
+    ],
+    "audit_checksum": "235187dde532c916",
+    "ci_verified": true,
+    "note": "ledger_key 'regge_certificate' absent (accepted; pytest stage may not have populated yet)"
+  },
+  "Test_PLCertification": {
+    "status": "VERIFIED",
+    "dependencies": [
+      "A4",
+      "A5"
+    ],
+    "audit_checksum": "9a00d6e8a7960ee5",
+    "ci_verified": true,
+    "note": "ledger_key 'hessian_spectrum' absent (accepted; pytest stage may not have populated yet)"
   },
   "Test_MassiveFlatness": {
     "status": "VERIFIED",

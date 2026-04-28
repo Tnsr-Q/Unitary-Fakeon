@@ -16,9 +16,11 @@ import Fakeon.Geometry.GlobalPVClosure
 import Fakeon.Geometry.GeneralGenusPV
 import Fakeon.QFT.Assumptions
 import Fakeon.QFT.InelasticBootstrap
+import Fakeon.QFT.ReggeVirtualization
 import Fakeon.QFT.FakeonUnitarity
 import Fakeon.QFT.FakeonLSZ
 import Fakeon.QFT.FakeonCurvedLSZ
+import Fakeon.Optimization.PLCertification
 import Fakeon.Experimental.SiegelThetaPV
 
 namespace Fakeon

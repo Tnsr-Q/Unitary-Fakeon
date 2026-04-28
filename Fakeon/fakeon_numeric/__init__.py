@@ -11,6 +11,8 @@ __all__ = [
     "distributions",
     "tolerance_ledger",
     "status_tracker",
+    "regge_solver",
+    "pl_certification",
 ]
 
 __version__ = "0.0.1"

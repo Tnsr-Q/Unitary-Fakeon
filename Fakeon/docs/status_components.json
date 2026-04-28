@@ -116,6 +116,22 @@
       "ledger_key": "bootstrap_loss",
       "basis": "Loss-zero implies |S_l| <= 1 on grid; optical inequality Im T >= |T|^2 from S = 1 + 2 i T."
     },
+    "Lean_ReggeVirtualization": {
+      "status": "VERIFIED",
+      "category": "lean_module",
+      "assumptions": ["A4", "S2", "PL_mu_2.4e-2"],
+      "lean_file": "Fakeon/QFT/ReggeVirtualization.lean",
+      "ledger_key": "regge_certificate",
+      "basis": "Newton-Raphson on analytically continued bootstrap converges to unique root with Re alpha < 0 at M2^2."
+    },
+    "Lean_PLCertification": {
+      "status": "VERIFIED",
+      "category": "lean_module",
+      "assumptions": ["A4", "A5"],
+      "lean_file": "Fakeon/Optimization/PLCertification.lean",
+      "ledger_key": "hessian_spectrum",
+      "basis": "Certified spectral constants mu_lb=2.4e-2, L_ub=5.3e-1, kappa~22, eta_opt~1.79, gamma~0.088."
+    },
     "Lean_Assumptions_Cert": {
       "status": "METADATA",
       "category": "lean_module",
@@ -172,6 +188,22 @@
       "lean_file": null,
       "ledger_key": "bootstrap_loss",
       "basis": "Loss vanishing for |S|=eta inelastic ansatz; violation correctly flagged; optical Im T >= |T|^2 inequality holds pointwise."
+    },
+    "Test_ReggeVirtualization": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A4", "S2"],
+      "lean_file": null,
+      "ledger_key": "regge_certificate",
+      "basis": "Newton convergence + Re alpha(M2^2) < 0 + deterministic certificate hash."
+    },
+    "Test_PLCertification": {
+      "status": "VERIFIED",
+      "category": "pytest",
+      "assumptions": ["A4", "A5"],
+      "lean_file": null,
+      "ledger_key": "hessian_spectrum",
+      "basis": "Hessian spectrum verifier accepts mu_lb..L_ub window; flags PL and smoothness violations; PL ratio sampler on quadratic landscape."
     },
     "Test_MassiveFlatness": {
       "status": "VERIFIED",

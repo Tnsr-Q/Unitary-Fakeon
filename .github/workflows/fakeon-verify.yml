@@ -33,6 +33,10 @@ jobs:
         run: pytest Fakeon/tests/test_s_matrix_extension.py -v
       - name: Bootstrap-optical bridge check
         run: pytest Fakeon/tests/test_bootstrap_optical.py -v
+      - name: Regge virtualization certificate
+        run: pytest Fakeon/tests/test_regge_virtualization.py -v
+      - name: PL certification (Hessian spectrum)
+        run: pytest Fakeon/tests/test_pl_certification.py -v
       - name: Status matrix audit
         run: |
           python -m fakeon_numeric.status_tracker --root Fakeon --strict --out Fakeon/logs/status_matrix.json
