@@ -98,6 +98,7 @@ populated, 🟡 = authoritative content present but proofs pending,
 |--------------------------------|--------|
 | `fakeon_validation_ci.py`      | ✅     |
 | `audit_status.py`              | ✅ auto-discovers Lean / Python / tests / CI; emits `docs/STATUS.md` |
+| `anchor_status.py`             | ✅ deterministic SHA-256 Merkle anchor over the status matrix (build / verify / inclusion-proof) |
 | `extract_cvec.py`              | ⬜     |
 
 ## Status matrix

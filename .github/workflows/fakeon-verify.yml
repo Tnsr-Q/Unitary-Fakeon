@@ -34,6 +34,14 @@ jobs:
       - name: Status matrix audit
         run: |
           python -m fakeon_numeric.status_tracker --root Fakeon --strict --out Fakeon/logs/status_matrix.json
+      - name: Reproducibility anchor
+        run: |
+          python Fakeon/scripts/anchor_status.py build \
+            --input Fakeon/logs/status_matrix.json \
+            --out   Fakeon/logs/anchor.json
+          python Fakeon/scripts/anchor_status.py verify \
+            --anchor Fakeon/logs/anchor.json \
+            --input  Fakeon/logs/status_matrix.json
       - name: Wedge vanishing check
         run: pytest Fakeon/tests/test_wedge_vanishing.py -v
       - name: Flatness check
