@@ -1,13 +1,3 @@
-/-- /-
-  Fakeon/Experimental/SiegelThetaPV.lean
-
-  Placeholder.  Experimental: PV projection on Siegel theta functions for
-  higher-genus master integrals.
-/-- -/
-
-/-- namespace Fakeon.Experimental.SiegelThetaPV
-/-- TODO: PV projection on Siegel theta functions.
-/-- end Fakeon.Experimental.SiegelThetaPV
 import Mathlib
 
 open Complex Matrix
@@ -45,3 +35,14 @@ theorem theta_pv_modular_covariance (M : Sp2gZ g) (s : Fin k → ℝ) :
 /-- Theorem 3 placeholder: kinematic reconstruction is represented by an admitted identity. -/
 theorem kinematic_metric_reconstruction : True := by
   trivial
+
+/-- /-
+/-- Fakeon/Experimental/SiegelThetaPV.lean
+
+/-- Placeholder.  Experimental: PV projection on Siegel theta functions for
+/-- higher-genus master integrals.
+/-- -/
+
+/-- namespace Fakeon.Experimental.SiegelThetaPV
+/-- TODO: PV projection on Siegel theta functions.
+/-- end Fakeon.Experimental.SiegelThetaPV
