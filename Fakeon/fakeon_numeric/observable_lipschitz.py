@@ -58,13 +58,14 @@ def _default_rhs_jax(t: float, y: np.ndarray, params: Optional[np.ndarray]) -> n
     """Placeholder 9-coupling RGE (matches the original theorem signature).
     Replace this with your real beta functions when the full SIQG model is wired.
     """
+    import jax.numpy as jnp
     # Simple stable mock that produces realistic running for testing
     f2, xi, lam = y[:3] if len(y) >= 3 else (y[0], 1e5, 1e-30)
     # Fakeon-like behavior + SM-like running
     dlam = 0.01 * lam**2 - 0.005 * f2 * lam
     df2 = -0.1 * f2**3
     dxi = 0.0  # placeholder
-    return np.array([dlam, df2, dxi] + [0.0] * (len(y) - 3))
+    return jnp.array([dlam, df2, dxi] + [0.0] * (len(y) - 3))
 
 
 # Global solver instance (user can override)

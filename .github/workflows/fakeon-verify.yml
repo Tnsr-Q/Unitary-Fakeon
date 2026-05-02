@@ -20,7 +20,7 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install numpy scipy sympy mpmath pytest ruff
+          pip install numpy scipy sympy mpmath pytest ruff "jax[cpu]"
       - name: Lint
         run: ruff check Fakeon/fakeon_numeric Fakeon/tests Fakeon/scripts
       - name: Dispersive reality check
