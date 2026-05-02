@@ -67,7 +67,8 @@ class SiegelThetaPV_Upgraded:
                 # Quadratic form: n^T Y n = ||L^T n||^2
                 Ln = L.T * n
                 quad = sum(Ln[i]**2 for i in range(self.g))
-                if quad > R**2 + 1: continue
+                if quad > R**2 + 1:
+                    continue
                 
                 # Linear phase: 2π n^T (X n / 2 + z)
                 phase = mp.pi * (n.T * X * n)[0,0] + 2*mp.pi * (n.T * z)[0,0]
@@ -78,7 +79,8 @@ class SiegelThetaPV_Upgraded:
     def metric_hessian(self, s_vec: List[mp.mpf], Omega: Callable, z_pv: Callable, 
                        h: mp.mpf = None) -> mp.matrix:
         """Compute g_ij^PV = ∂_i ∂_j log Θ^PV via complex-step differentiation."""
-        if h is None: h = mp.mpf('1e-8')
+        if h is None:
+            h = mp.mpf('1e-8')
         k = len(s_vec)
         H = mp.matrix(k, k)
         log_th0 = mp.log(self.eval(s_vec, Omega, z_pv))
@@ -87,9 +89,13 @@ class SiegelThetaPV_Upgraded:
             for j in range(i, k):
                 # Complex-step second derivative: f'' ≈ 2/h² (f(x) - Re[f(x+ih)])
                 # Mixed: ∂_i∂_j f ≈ (Re[f(x+ih_i+ih_j)] - Re[f(x+ih_i)] - Re[f(x+ih_j)] + f(x)) / h²
-                s_pp = s_vec.copy(); s_pp[i] += h*1j; s_pp[j] += h*1j
-                s_p0 = s_vec.copy(); s_p0[i] += h*1j
-                s_0p = s_vec.copy(); s_0p[j] += h*1j
+                s_pp = s_vec.copy()
+                s_pp[i] += h*1j
+                s_pp[j] += h*1j
+                s_p0 = s_vec.copy()
+                s_p0[i] += h*1j
+                s_0p = s_vec.copy()
+                s_0p[j] += h*1j
                 
                 th_pp = mp.re(mp.log(self.eval(s_pp, Omega, z_pv)))
                 th_p0 = mp.re(mp.log(self.eval(s_p0, Omega, z_pv)))

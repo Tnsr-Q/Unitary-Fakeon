@@ -135,18 +135,18 @@ class PartialWaveAccelerator:
         Returns: (accelerated_sum, estimated_relative_error, terms_used)
         """
         with mp.workdps(self.dps):
-            for l in range(self.max_terms):
-                term = term_generator(l)
+            for ell in range(self.max_terms):
+                term = term_generator(ell)
                 self.add_term(term)
                 
-                if l >= 3:  # Need at least 4 terms for stable transformation
-                    acc_val = self._compute_weniger_delta(l)
+                if ell >= 3:  # Need at least 4 terms for stable transformation
+                    acc_val = self._compute_weniger_delta(ell)
                     if acc_val is not None:
                         self.acc_history.append(acc_val)
                         if len(self.acc_history) >= 2:
                             rel_err = mp.fabs(self.acc_history[-1] - self.acc_history[-2]) / mp.fabs(self.acc_history[-1])
                             if rel_err < self.tol:
-                                return acc_val, rel_err, l + 1
+                                return acc_val, rel_err, ell + 1
             
             warnings.warn(f"Max terms ({self.max_terms}) reached. Final rel err: {rel_err:.2e}")
             return self.acc_history[-1], rel_err, len(self.a)
@@ -167,22 +167,22 @@ def accelerated_pv_partial_wave_sum(
     """
     from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
     
-    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=0, dps=dps)  # l set dynamically below
+    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, ang_mom=0, dps=dps)  # l set dynamically below
     cos_gamma = mp.cos(mp.mpf(gamma))
     prefactor = mp.mpf('1') / (4 * mp.pi)
     
     # Cache radial modes to avoid recomputation
     radial_cache = {}
     
-    def term_generator(l: int) -> mp.mpf:
-        solver.l = l
-        if l not in radial_cache:
+    def term_generator(ell: int) -> mp.mpf:
+        solver.l = ell
+        if ell not in radial_cache:
             psi = solver.get_mode(omega)
-            radial_cache[l] = psi(r) * psi(rp)
+            radial_cache[ell] = psi(r) * psi(rp)
         
-        g_l = radial_cache[l]  # Δt factor can be multiplied externally
-        P_l = mp.legendre(l, cos_gamma)
-        return prefactor * (2*l + 1) * P_l * g_l
+        g_l = radial_cache[ell]  # Δt factor can be multiplied externally
+        P_l = mp.legendre(ell, cos_gamma)
+        return prefactor * (2*ell + 1) * P_l * g_l
 
     acc = PartialWaveAccelerator(tol=tol, max_terms=l_max, dps=dps)
     return acc.run(term_generator)
@@ -216,16 +216,16 @@ if __name__ == "__main__":
     print("\n[DIAGNOSTIC] Asymptotic decay check (last 5 terms):")
     from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
 
-    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=0, dps=50)
+    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, ang_mom=0, dps=50)
     cos_gamma = mp.cos(mp.mpf(gamma))
     prefactor = mp.mpf('1') / (4 * mp.pi)
     start_l = max(0, l_used - 5)
-    for l in range(start_l, l_used):
-        solver.l = l
+    for ell in range(start_l, l_used):
+        solver.l = ell
         psi = solver.get_mode(omega)
         g_l = psi(r) * psi(rp)
-        a_l = prefactor * (2 * l + 1) * mp.legendre(l, cos_gamma) * g_l
-        print(f"  a_{l} = {mp.nstr(a_l, 5)}")
+        a_l = prefactor * (2 * ell + 1) * mp.legendre(ell, cos_gamma) * g_l
+        print(f"  a_{ell} = {mp.nstr(a_l, 5)}")
     
     if err < 1e-25 and S_acc.im == 0:
         print("\n✓ VALIDATION PASSED: Acceleration converged with strict PV reality.")

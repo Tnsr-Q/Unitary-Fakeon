@@ -10,7 +10,6 @@ who run real training opt in by installing the deps.
 """
 
 from __future__ import annotations
-"""Training callbacks."""
 
 from .distributed_hessian_pl import DistributedHessianPLCallback
 from .hessian_pl_callback import HessianPLCallback

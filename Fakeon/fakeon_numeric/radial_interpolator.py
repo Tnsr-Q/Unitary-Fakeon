@@ -33,10 +33,9 @@ Usage:
 """
 
 import mpmath as mp
-from typing import List, Tuple, Optional, Callable
+from typing import List, Tuple
 import bisect
 import warnings
-import time
 
 class RadialModeInterpolator:
     """
@@ -125,7 +124,8 @@ class RadialModeInterpolator:
             # Start with 5 Chebyshev-like nodes in [0, omega_max]
             coarse = [self.omega_max * (1 - mp.cos(k*mp.pi/4))/2 for k in range(5)]
             for w in coarse:
-                if w < 0: w = mp.mpf('0')
+                if w < 0:
+                    w = mp.mpf('0')
                 psi, dpsi = self._compute_psi_and_deriv(w)
                 self.nodes.append((w, psi, dpsi))
             self.nodes.sort(key=lambda x: x[0])
@@ -177,10 +177,10 @@ class RadialModeCache:
         self.omega_max = omega_max
         self.cache = {}  # (l, r) -> RadialModeInterpolator
         
-    def get_psi(self, l: int, r: float, omega: float) -> mp.mpf:
-        key = (l, mp.mpf(r))
+    def get_psi(self, ang_mom: int, r: float, omega: float) -> mp.mpf:
+        key = (ang_mom, mp.mpf(r))
         if key not in self.cache:
-            self.solver.l = l
+            self.solver.l = ang_mom
             self.cache[key] = RadialModeInterpolator(
                 self.solver, r=r, tol=self.tol, dps=self.dps, omega_max=self.omega_max
             )
@@ -207,41 +207,43 @@ def accelerated_pv_with_interpolation(
     Drop-in replacement for compute_schwarzschild_pv_propagator.
     """
     from schwarzschild_pv_double_accelerator import OscillatoryOmegaQuadrature, PartialWaveAccelerator
+    from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
     import time
     
     t0 = time.time()
     with mp.workdps(dps):
-        solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=0, dps=dps)
+        solver = SchwarzschildRadialSolver(M=M, m_f=m_f, ang_mom=0, dps=dps)
         cache = RadialModeCache(solver, tol=tol*10, dps=dps, omega_max=80.0)
         
         cos_gamma = mp.cos(mp.mpf(gamma))
         prefactor = mp.mpf('1') / (4 * mp.pi)
         l_acc = PartialWaveAccelerator(tol=tol, max_terms=l_max, dps=dps)
         
-        for l in range(l_max):
+        for ell in range(l_max):
             # Amplitude using interpolated modes
             def f_amp(omega):
-                if omega < mp.mpf('1e-12'): return mp.mpf('0')
-                psi_r = cache.get_psi(l, r, omega)
-                psi_rp = cache.get_psi(l, rp, omega)
+                if omega < mp.mpf('1e-12'):
+                    return mp.mpf('0')
+                psi_r = cache.get_psi(ell, r, omega)
+                psi_rp = cache.get_psi(ell, rp, omega)
                 return psi_r * psi_rp / (2 * omega)
             
             omega_quad = OscillatoryOmegaQuadrature(dt=dt, tol=tol*10, max_intervals=omega_intervals, dps=dps)
             I_l, err_omega, n_int = omega_quad.integrate(f_amp)
             
-            P_l = mp.legendre(l, cos_gamma)
-            a_l = prefactor * (2*l + 1) * P_l * I_l
+            P_l = mp.legendre(ell, cos_gamma)
+            a_l = prefactor * (2*ell + 1) * P_l * I_l
             l_acc.add_term(a_l)
             
-            if l >= 3:
-                acc_l = l_acc._compute_weniger_delta(l)
+            if ell >= 3:
+                acc_l = l_acc._compute_weniger_delta(ell)
                 if acc_l is not None:
                     l_acc.acc_history.append(acc_l)
                     if len(l_acc.acc_history) >= 2:
                         rel_err_l = mp.fabs(l_acc.acc_history[-1] - l_acc.acc_history[-2]) / mp.fabs(l_acc.acc_history[-1] + mp.mpf('1e-50'))
                         if rel_err_l < tol:
                             return acc_l, {
-                                'G_PV': acc_l, 'rel_err_l': rel_err_l, 'l_used': l+1,
+                                'G_PV': acc_l, 'rel_err_l': rel_err_l, 'l_used': ell+1,
                                 'cache_nodes': cache.total_nodes(), 'elapsed_sec': time.time()-t0,
                                 'reality_check': acc_l.im
                             }
@@ -258,11 +260,12 @@ def accelerated_pv_with_interpolation(
 # VALIDATION & CI DRIVER
 # =============================================================================
 if __name__ == "__main__":
+    from fakeon_numeric.schwarzschild_radial_solver import SchwarzschildRadialSolver
     mp.dps = 50
     print("[INFO] Validating Radial Mode Interpolation vs Exact ODE Solves...")
     
-    M, m_f, l, r = 1.0, 2.5, 3, 12.0
-    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=l, dps=50)
+    M, m_f, ang_mom, r = 1.0, 2.5, 3, 12.0
+    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, ang_mom=ang_mom, dps=50)
     interp = RadialModeInterpolator(solver, r=r, tol=1e-35, dps=50, omega_max=60.0)
     
     # Test at 20 random ω points
