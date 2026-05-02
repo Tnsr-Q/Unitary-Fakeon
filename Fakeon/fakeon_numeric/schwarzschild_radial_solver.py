@@ -35,15 +35,14 @@ Usage:
 """
 
 import mpmath as mp
-from typing import Callable, Tuple
-import warnings
+from typing import Callable
 
 class SchwarzschildRadialSolver:
-    def __init__(self, M: float, m_f: float, l: int, dps: int = 50):
+    def __init__(self, M: float, m_f: float, ang_mom: int, dps: int = 50):
         """Initialize solver with black hole mass, fakeon mass, and angular momentum."""
         self.M = mp.mpf(M)
         self.m_f = mp.mpf(m_f)
-        self.l = l
+        self.l = ang_mom
         self.dps = dps
         self.r_h = 2 * self.M
         self._cache = {}
@@ -82,7 +81,8 @@ class SchwarzschildRadialSolver:
             dpsi0 = -omega * mp.sin(omega * rs_start) / f_start
             
             # Integrate outward
-            f_ode = lambda r, y: self._ode_system(r, y, omega)
+            def f_ode(r, y):
+                return self._ode_system(r, y, omega)
             sol = mp.odefun(f_ode, r_start, [psi0, dpsi0], tol=mp.mpf(10)**(-self.dps+2), degree=12)
             
             # Asymptotic matching at large r
@@ -124,7 +124,8 @@ class SchwarzschildRadialSolver:
             # Phase integral Θ(r*) = ∫_{r*0}^{r*} p(u) du
             # Map integration to r-coordinate: dr* = dr/f(r)
             def phase_integral(r):
-                f_int = lambda rr: p_rs(rr) / (1 - self.r_h/rr)
+                def f_int(rr):
+                    return p_rs(rr) / (1 - self.r_h/rr)
                 # Integrate from r_match (where WKB becomes valid) to r
                 r_match = self.r_h * mp.mpf('3.5')  # Outside potential peak
                 if r <= r_match:
@@ -189,8 +190,6 @@ class SchwarzschildRadialSolver:
         
         # Wronskian of ψ with its phase-shifted partner should be constant
         # For real standing wave, check d/dr*(ψ² + (ψ'/k)²) ≈ 0 asymptotically
-        rs1 = self._tortoise(mp.mpf(r1))
-        rs2 = self._tortoise(mp.mpf(r2))
         k = mp.sqrt(omega**2 - self.m_f**2)
         
         amp1 = psi(r1)**2 + (f1*dpsi1/k)**2
@@ -200,16 +199,17 @@ class SchwarzschildRadialSolver:
 # =============================================================================
 # PV MODE-SUM INTEGRATION WRAPPER
 # =============================================================================
-def pv_radial_integrand(omega, dt, r, rp, l, M, m_f, dps=50):
+def pv_radial_integrand(omega, dt, r, rp, ang_mom, M, m_f, dps=50):
     """Integrand for PV mode-sum: cos(ωΔt)/(2ω) ψ_{ωl}(r) ψ_{ωl}(r')"""
-    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=l, dps=dps)
+    solver = SchwarzschildRadialSolver(M=M, m_f=m_f, ang_mom=ang_mom, dps=dps)
     psi = solver.get_mode(omega)
     return mp.cos(omega * dt) / (2 * omega) * psi(r) * psi(rp)
 
-def G_PV_Schw_mode_sum(dt, r, rp, l, M, m_f, omega_max=100, n_omega=800, dps=50):
+def G_PV_Schw_mode_sum(dt, r, rp, ang_mom, M, m_f, omega_max=100, n_omega=800, dps=50):
     """Compute single-l sector of Schwarzschild PV propagator via mode-sum"""
     with mp.workdps(dps):
-        integrand = lambda w: pv_radial_integrand(w, dt, r, rp, l, M, m_f, dps)
+        def integrand(w):
+            return pv_radial_integrand(w, dt, r, rp, ang_mom, M, m_f, dps)
         # Split integration to handle oscillatory convergence
         return mp.quad(integrand, [0, omega_max]) / (2 * mp.pi)
 
@@ -219,7 +219,7 @@ def G_PV_Schw_mode_sum(dt, r, rp, l, M, m_f, omega_max=100, n_omega=800, dps=50)
 if __name__ == "__main__":
     mp.dps = 40
     print("[INFO] Initializing Schwarzschild radial solver...")
-    solver = SchwarzschildRadialSolver(M=1.0, m_f=2.5, l=2, dps=40)
+    solver = SchwarzschildRadialSolver(M=1.0, m_f=2.5, ang_mom=2, dps=40)
     
     omega_test = 8.0
     print(f"[INFO] Computing ψ_ωl for ω={omega_test} (auto regime)...")
@@ -235,6 +235,6 @@ if __name__ == "__main__":
     print(f"  Relative amplitude drift = {mp.nstr(err, 3)} {'✓ PASS' if err < 1e-10 else '✗ FAIL'}")
     
     print("\n[INFO] Computing PV mode-sum contribution (l=2 sector)...")
-    G_val = G_PV_Schw_mode_sum(dt=2.0, r=10.0, rp=12.0, l=2, M=1.0, m_f=2.5, omega_max=60, n_omega=400, dps=40)
+    G_val = G_PV_Schw_mode_sum(dt=2.0, r=10.0, rp=12.0, ang_mom=2, M=1.0, m_f=2.5, omega_max=60, n_omega=400, dps=40)
     print(f"  G_PV^(l=2) = {mp.nstr(G_val, 15)}")
     print(f"  Im[G] = {mp.nstr(G_val.im, 3)} {'✓ REAL' if G_val.im == 0 else '✗ COMPLEX'}")

@@ -61,7 +61,8 @@ class OscillatoryOmegaQuadrature:
         if self.dt == 0:
             return mp.quad(f_amp, [w_start, w_end])
         # Integrand with explicit cosine
-        integrand = lambda w: f_amp(w) * mp.cos(w * self.dt)
+        def integrand(w):
+            return f_amp(w) * mp.cos(w * self.dt)
         return mp.quad(integrand, [w_start, w_end], error=False)
 
     def integrate(self, f_amp: Callable) -> Tuple[mp.mpf, mp.mpf, int]:
@@ -124,12 +125,12 @@ def compute_schwarzschild_pv_propagator(
         
         # Initialize l-sum accelerator
         l_acc = PartialWaveAccelerator(tol=tol, max_terms=l_max, dps=dps)
-        solver = SchwarzschildRadialSolver(M=M, m_f=m_f, l=0, dps=dps)
+        solver = SchwarzschildRadialSolver(M=M, m_f=m_f, ang_mom=0, dps=dps)
         
         omega_diag = []
         
-        for l in range(l_max):
-            solver.l = l
+        for ell in range(l_max):
+            solver.l = ell
             
             # Define amplitude for ω-quadrature: ψ_{ωl}(r)ψ_{ωl}(r')/(2ω)
             def f_amp(omega):
@@ -143,15 +144,15 @@ def compute_schwarzschild_pv_propagator(
             I_l, err_omega, n_int = omega_quad.integrate(f_amp)
             
             # Partial wave term
-            P_l = mp.legendre(l, cos_gamma)
-            a_l = prefactor * (2*l + 1) * P_l * I_l
+            P_l = mp.legendre(ell, cos_gamma)
+            a_l = prefactor * (2*ell + 1) * P_l * I_l
             l_acc.add_term(a_l)
             
-            omega_diag.append({'l': l, 'I_l': I_l, 'err_omega': err_omega, 'intervals': n_int})
+            omega_diag.append({'l': ell, 'I_l': I_l, 'err_omega': err_omega, 'intervals': n_int})
             
             # Check l-sum convergence
-            if l >= 3:
-                acc_l = l_acc._compute_weniger_delta(l)
+            if ell >= 3:
+                acc_l = l_acc._compute_weniger_delta(ell)
                 if acc_l is not None:
                     l_acc.acc_history.append(acc_l)
                     if len(l_acc.acc_history) >= 2:
@@ -161,7 +162,7 @@ def compute_schwarzschild_pv_propagator(
                             return acc_l, {
                                 'G_PV': acc_l,
                                 'rel_err_l': rel_err_l,
-                                'l_used': l + 1,
+                                'l_used': ell + 1,
                                 'omega_diag': omega_diag,
                                 'elapsed_sec': elapsed,
                                 'reality_check': acc_l.im
